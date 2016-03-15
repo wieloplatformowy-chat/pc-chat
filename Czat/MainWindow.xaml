@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
 
         <TextBox x:Name="MsgView" Grid.Row="0" Grid.ColumnSpan="2" TextWrapping="Wrap" IsReadOnly="True" />
-        <TextBox x:Name="TextOfMsg" Grid.Row="1" Grid.Column="0" VerticalContentAlignment="Center" />
+        <TextBox x:Name="TextOfMsg" Grid.Row="1" Grid.Column="0" VerticalContentAlignment="Center" KeyDown="OnKeyDownHandler" />
         <Button x:Name="SendMsg" Grid.Row="1" Grid.Column="1" Content="Wyślij" Click="SendMsg_Click" Height="30" VerticalAlignment="Bottom" />
     </Grid>
 </Window>

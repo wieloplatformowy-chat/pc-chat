@@ -25,6 +25,14 @@ namespace Czat
             InitializeComponent();
         }
 
+        private void OnKeyDownHandler(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                SendMsg.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            }
+        }
+
         private void SendMsg_Click(object sender, RoutedEventArgs e)
         {
             if ((TextOfMsg.Text != null) && (TextOfMsg.Text.ToString() != ""))
