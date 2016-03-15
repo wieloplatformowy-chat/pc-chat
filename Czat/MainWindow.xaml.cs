@@ -27,17 +27,22 @@ namespace Czat
 
         private void SendMsg_Click(object sender, RoutedEventArgs e)
         {
-            DateTime DateNow = DateTime.Now;
+            if ((TextOfMsg.Text != null) && (TextOfMsg.Text.ToString() != ""))
+            {
+                DateTime DateNow = DateTime.Now;
 
-            MsgView.Text += DateNow.ToString();
+                MsgView.Text += DateNow.ToString();
 
-            MsgView.AppendText(Environment.NewLine);
+                MsgView.AppendText(Environment.NewLine);
 
-            MsgView.Text += TextOfMsg.Text;
+                MsgView.Text += TextOfMsg.Text;
 
-            MsgView.AppendText(Environment.NewLine);
+                MsgView.AppendText(Environment.NewLine);
 
-            TextOfMsg.Text = null;
+                TextOfMsg.Text = null; 
+            }
+
+            
         }
     }
 }
