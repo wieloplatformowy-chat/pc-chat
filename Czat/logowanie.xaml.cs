@@ -17,30 +17,30 @@ namespace Czat
     /// <summary>
     /// Interaction logic for logowanie.xaml
     /// </summary>
-    public partial class logowanie : Window
+    public partial class Logowanie : Window
     {
-        public logowanie()
+        public Logowanie()
         {
             InitializeComponent();
         }
 
-        private void LoginOn_Click(object sender, RoutedEventArgs e)
+        private void LoginOn_Click(object sender, RoutedEventArgs e)    //obsluga guzika loguj
         {
-            MainWindow MW = new MainWindow();
-            MW.Show();
+            MainWindow MainWindow = new MainWindow();
+            MainWindow.Show();
             this.Close();
         }
 
-        private void Register_Click(object sender, RoutedEventArgs e)
+        private void Register_Click(object sender, RoutedEventArgs e)   //obsluga guzika rejestracja
         {
-            Rejestracja rej = new Rejestracja();
-            rej.Show();
+            Rejestracja Register = new Rejestracja();
+            Register.Show();
             this.Close();
         }
 
         
 
-        private void Login_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void Login_PreviewKeyDown(object sender, KeyEventArgs e)    //wykrywanie wpisywania w polu login
         {
             if (Login.Text == "Login")
             {
@@ -48,7 +48,7 @@ namespace Czat
             }
         }
 
-        private void Password_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void Password_PreviewKeyDown(object sender, KeyEventArgs e) //wykrywanie wpisywania w polu haslo
         {
             if (Password.Text == "Hasło")
             {

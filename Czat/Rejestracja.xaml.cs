@@ -26,32 +26,32 @@ namespace Czat
             InitializeComponent();
         }
 
-        private void LoginOn_Click(object sender, RoutedEventArgs e)
+        private void LoginOn_Click(object sender, RoutedEventArgs e)    //obsluga guzika do logowania
         {
-            logowanie log = new logowanie();
+            Logowanie log = new Logowanie();
             log.Show();
             this.Close();
         }        
 
-        private void Rejestracja_Click(object sender, RoutedEventArgs e)
+        private void Rejestracja_Click(object sender, RoutedEventArgs e) //rejestracja guzik
         {
-            bool czyOK = false;
+            bool IsEmailIsValid = false;
             try
             {
-                MailAddress MA = new MailAddress(Email.Text);
-                czyOK = true;
+                MailAddress UserMailAdress = new MailAddress(Email.Text);   //sprawdzanie poprawnosci emaila
+                IsEmailIsValid = true;
             }
             catch (FormatException)
             {
 
-                czyOK = false;
+                IsEmailIsValid = false;
             }
             
 
-            if (Login.Text.Length<=32 && Hasło.Text.Length<=32 && czyOK==true  &&Hasło.Text==HasłoRep.Text)
+            if (Login.Text.Length<=32 && Pass.Text.Length<=32 && IsEmailIsValid==true  &&Pass.Text==PassRep.Text)    //prosta walidacja oraz przejscie miedzy oknami
             {
                 MessageBox.Show("Zarejestrowano!");
-                logowanie log = new logowanie();
+                Logowanie log = new Logowanie();
                 log.Show();
                 this.Close();
             }
@@ -60,11 +60,11 @@ namespace Czat
 
 
 
-        private void Hasło_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void Pass_PreviewKeyDown(object sender, KeyEventArgs e) //czyszczenie textboxow
         {
-            if (Hasło.Text == "Hasło")
+            if (Pass.Text == "Hasło")
             {
-                Hasło.Text = "";
+                Pass.Text = "";
             }
         }
 
@@ -76,11 +76,11 @@ namespace Czat
             }
         }
 
-        private void HasłoRep_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void PassRep_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (HasłoRep.Text=="Powtórz Hasło")
+            if (PassRep.Text=="Powtórz Hasło")
             {
-                HasłoRep.Text = "";
+                PassRep.Text = "";
             }
         }
 
