@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Net.Mail;
+
 
 namespace Czat
 {
@@ -29,13 +31,67 @@ namespace Czat
             logowanie log = new logowanie();
             log.Show();
             this.Close();
-        }
+        }        
 
         private void Rejestracja_Click(object sender, RoutedEventArgs e)
         {
-            logowanie log = new logowanie();
-            log.Show();
-            this.Close();
+            bool czyOK = false;
+            try
+            {
+                MailAddress MA = new MailAddress(Email.Text);
+                czyOK = true;
+            }
+            catch (FormatException)
+            {
+
+                czyOK = false;
+            }
+            
+
+            if (Login.Text.Length<=32 && Hasło.Text.Length<=32 && czyOK==true  &&Hasło.Text==HasłoRep.Text)
+            {
+                MessageBox.Show("Zarejestrowano!");
+                logowanie log = new logowanie();
+                log.Show();
+                this.Close();
+            }
+            
+        }       
+
+
+
+        private void Hasło_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (Hasło.Text == "Hasło")
+            {
+                Hasło.Text = "";
+            }
         }
+
+        private void Email_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (Email.Text == "E-Mail")
+            {
+                Email.Text = "";
+            }
+        }
+
+        private void HasłoRep_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (HasłoRep.Text=="Powtórz Hasło")
+            {
+                HasłoRep.Text = "";
+            }
+        }
+
+        private void Login_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (Login.Text == "Login")
+            {
+                Login.Text = "";
+            }
+        }
+
+        
     }
 }

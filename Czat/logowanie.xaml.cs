@@ -37,5 +37,25 @@ namespace Czat
             rej.Show();
             this.Close();
         }
+
+        
+
+        private void Login_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (Login.Text == "Login")
+            {
+                Login.Text = "";
+            }
+        }
+
+        private void Password_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (Password.Text == "Hasło")
+            {
+                Password.Text = "";
+            }
+        }     
+
+        
     }
 }
