@@ -31,7 +31,7 @@ namespace Czat
             Logowanie log = new Logowanie();
             log.Show();
             this.Close();
-        }        
+        }
 
         private void Rejestracja_Click(object sender, RoutedEventArgs e) //rejestracja guzik
         {
@@ -46,52 +46,15 @@ namespace Czat
 
                 IsEmailIsValid = false;
             }
-            
 
-            if (Login.Text.Length<=32 && Pass.Text.Length<=32 && IsEmailIsValid==true  &&Pass.Text==PassRep.Text)    //prosta walidacja oraz przejscie miedzy oknami
+            if (Login.Text.Length <= 32 && Pass.Text.Length <= 32 && IsEmailIsValid == true && Pass.Text == PassRep.Text)    //prosta walidacja oraz przejscie miedzy oknami
             {
                 MessageBox.Show("Zarejestrowano!");
                 Logowanie log = new Logowanie();
                 log.Show();
                 this.Close();
             }
-            
-        }       
 
-
-
-        private void Pass_PreviewKeyDown(object sender, KeyEventArgs e) //czyszczenie textboxow
-        {
-            if (Pass.Text == "Hasło")
-            {
-                Pass.Text = "";
-            }
         }
-
-        private void Email_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (Email.Text == "E-Mail")
-            {
-                Email.Text = "";
-            }
-        }
-
-        private void PassRep_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (PassRep.Text=="Powtórz Hasło")
-            {
-                PassRep.Text = "";
-            }
-        }
-
-        private void Login_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (Login.Text == "Login")
-            {
-                Login.Text = "";
-            }
-        }
-
-        
     }
 }

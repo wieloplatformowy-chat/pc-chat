@@ -37,25 +37,5 @@ namespace Czat
             Register.Show();
             this.Close();
         }
-
-        
-
-        private void Login_PreviewKeyDown(object sender, KeyEventArgs e)    //wykrywanie wpisywania w polu login
-        {
-            if (Login.Text == "Login")
-            {
-                Login.Text = "";
-            }
-        }
-
-        private void Password_PreviewKeyDown(object sender, KeyEventArgs e) //wykrywanie wpisywania w polu haslo
-        {
-            if (Password.Text == "Hasło")
-            {
-                Password.Text = "";
-            }
-        }     
-
-        
     }
 }

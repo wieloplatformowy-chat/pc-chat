@@ -14,10 +14,12 @@
             <ColumnDefinition Width="197"/>
         </Grid.ColumnDefinitions>
 
-        <TextBox x:Name="Login" Height="23" Margin="10,62,10,0" TextWrapping="Wrap" Text="Login" VerticalAlignment="Top" Grid.ColumnSpan="2" FontWeight="Bold" PreviewKeyDown="Login_PreviewKeyDown"/>
-        <TextBox x:Name="Password" Height="23" Margin="10,123,10,0" TextWrapping="Wrap" Text="Hasło" VerticalAlignment="Top" Grid.ColumnSpan="2" FontWeight="Bold" PreviewKeyDown="Password_PreviewKeyDown"/>
+        <TextBox x:Name="Login" Height="23" Margin="10,62,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2" FontWeight="Bold"/>
+        <TextBox x:Name="Password" Height="23" Margin="10,123,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2" FontWeight="Bold"/>
         <Button x:Name="LoginOn" Content="Zaloguj" HorizontalAlignment="Left" VerticalAlignment="Top"  Width="186" Click="LoginOn_Click" Height="20" Margin="1,0,0,0" Grid.Column="1" Grid.Row="1" FontWeight="Bold" Background="#FF009688" Foreground="White" Grid.RowSpan="2"/>
         <Button x:Name="Register" Content="Rejestruj" HorizontalAlignment="Left" VerticalAlignment="Top"  Width="186" Click="Register_Click" Height="20" Grid.Column="1" FontWeight="Bold" Background="#FF727272" Foreground="White" Margin="1,0,0,0" Grid.Row="3"/>
+        <TextBlock x:Name="TextBlockPassowrd" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="22" Margin="10,101,0,0" TextWrapping="Wrap" Text="Hasło" VerticalAlignment="Top" Width="128" FontWeight="Bold" FontSize="16"/>
+        <TextBlock x:Name="TextBoxLogin" HorizontalAlignment="Left" Height="22" Margin="10,40,0,0" TextWrapping="Wrap" Text="Login" VerticalAlignment="Top" Width="75" FontWeight="Bold" FontSize="16"/>
 
     </Grid>
 </Window>

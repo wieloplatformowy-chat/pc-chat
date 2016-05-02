@@ -14,12 +14,16 @@
             <ColumnDefinition Width="197"/>
         </Grid.ColumnDefinitions>
 
-        <TextBox x:Name="Login" Height="23" Margin="10,30,10,0" TextWrapping="Wrap" Text="Login" VerticalAlignment="Top" Grid.ColumnSpan="2" FontWeight="Bold" PreviewKeyDown="Login_PreviewKeyDown"/>
-        <TextBox x:Name="Email" Height="23" Margin="10,68,10,0" TextWrapping="Wrap" Text="E-Mail" VerticalAlignment="Top" Grid.ColumnSpan="2" FontWeight="Bold" PreviewKeyDown="Email_PreviewKeyDown"/>
+        <TextBox x:Name="Login" Height="23" Margin="10,30,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2" FontWeight="Bold"/>
+        <TextBox x:Name="Email" Height="23" Margin="9,73,11,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2" FontWeight="Bold"/>
         <Button x:Name="LoginOn" Content="Zaloguj" HorizontalAlignment="Left" VerticalAlignment="Top"  Width="186" Click="LoginOn_Click" Height="20" Margin="1,0,0,0" Grid.Column="1" Grid.Row="3" FontWeight="Bold" Background="#FF727272" Foreground="White"/>
         <Button x:Name="Register" Content="Rejestruj" HorizontalAlignment="Left" VerticalAlignment="Top"  Width="186" Click="Rejestracja_Click" Height="20" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" FontWeight="Bold" Background="#FF009688" Foreground="White"/>
-        <TextBox x:Name="Pass" Height="23" Margin="9,106,11,0" TextWrapping="Wrap" Text="Hasło" VerticalAlignment="Top" Grid.ColumnSpan="2" FontWeight="Bold" PreviewKeyDown="Pass_PreviewKeyDown"/>
-        <TextBox x:Name="PassRep" Height="23" Margin="9,144,11,0" TextWrapping="Wrap" Text="Powtórz Hasło" VerticalAlignment="Top" Grid.ColumnSpan="2" FontWeight="Bold" PreviewKeyDown="PassRep_PreviewKeyDown"/>
+        <TextBox x:Name="Pass" Height="23" Margin="10,116,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2" FontWeight="Bold"/>
+        <TextBox x:Name="PassRep" Height="23" Margin="9,159,11,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2" FontWeight="Bold"/>
+        <TextBlock x:Name="LoginTextBlock" HorizontalAlignment="Left" Height="20" Margin="10,10,0,0" TextWrapping="Wrap" Text="Login" VerticalAlignment="Top" Width="76" FontWeight="Bold"/>
+        <TextBlock x:Name="EmailTextBlock" HorizontalAlignment="Left" Height="20" Margin="9,53,0,0" TextWrapping="Wrap" Text="E-Mail" VerticalAlignment="Top" Width="76" FontWeight="Bold"/>
+        <TextBlock x:Name="PasswordTextBlock" HorizontalAlignment="Left" Height="20" Margin="10,96,0,0" TextWrapping="Wrap" Text="Hasło" VerticalAlignment="Top" Width="76" FontWeight="Bold"/>
+        <TextBlock x:Name="PassRepTextBlock" HorizontalAlignment="Left" Height="20" Margin="10,139,0,0" TextWrapping="Wrap" Text="Powtórz Hasło" VerticalAlignment="Top" Width="132" FontWeight="Bold" Grid.ColumnSpan="2"/>
 
     </Grid>
 </Window>
