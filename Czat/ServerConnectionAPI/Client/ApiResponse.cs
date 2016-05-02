@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ServerConnection.Client
+namespace Czat.ServerConnectionAPI.Client
 {
     /// <summary>
     /// API Response

@@ -4,110 +4,142 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using RestSharp;
-using ServerConnection.Client;
-using ServerConnection.Model;
+using Czat.ServerConnectionAPI.Client;
+using Czat.ServerConnectionAPI.Model;
 
-namespace ServerConnection.Api
+namespace Czat.ServerConnectionAPI.Swagger.Api
 {
     
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public interface IUserRestControllerApi
+    public interface ITokenRestControllerApi
     {
         #region Synchronous Operations
         
         /// <summary>
-        /// login
+        /// checkToken
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
         /// <exception cref="ServerConnection.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="userDto">userDto</param>
         /// <returns>DataResponsestring</returns>
-        DataResponsestring LoginUsingPOST (UserDto userDto);
+        DataResponsestring CheckTokenUsingGET ();
   
         /// <summary>
-        /// login
+        /// checkToken
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
         /// <exception cref="ServerConnection.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="userDto">userDto</param>
         /// <returns>ApiResponse of DataResponsestring</returns>
-        ApiResponse<DataResponsestring> LoginUsingPOSTWithHttpInfo (UserDto userDto);
+        ApiResponse<DataResponsestring> CheckTokenUsingGETWithHttpInfo ();
         
         /// <summary>
-        /// register
+        /// version
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
         /// <exception cref="ServerConnection.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="userDto">userDto</param>
-        /// <returns>BaseResponse</returns>
-        BaseResponse RegisterUsingPOST (UserDto userDto);
+        /// <returns>string</returns>
+        string VersionUsingPATCH ();
   
         /// <summary>
-        /// register
+        /// version
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
         /// <exception cref="ServerConnection.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="userDto">userDto</param>
-        /// <returns>ApiResponse of BaseResponse</returns>
-        ApiResponse<BaseResponse> RegisterUsingPOSTWithHttpInfo (UserDto userDto);
+        /// <returns>ApiResponse of string</returns>
+        ApiResponse<string> VersionUsingPATCHWithHttpInfo ();
+        
+        /// <summary>
+        /// whoAmI
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="ServerConnection.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>DataResponseUserEntity</returns>
+        DataResponseUserEntity WhoAmIUsingGET ();
+  
+        /// <summary>
+        /// whoAmI
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="ServerConnection.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>ApiResponse of DataResponseUserEntity</returns>
+        ApiResponse<DataResponseUserEntity> WhoAmIUsingGETWithHttpInfo ();
         
         #endregion Synchronous Operations
         
         #region Asynchronous Operations
         
         /// <summary>
-        /// login
+        /// checkToken
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
         /// <exception cref="ServerConnection.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="userDto">userDto</param>
         /// <returns>Task of DataResponsestring</returns>
-        System.Threading.Tasks.Task<DataResponsestring> LoginUsingPOSTAsync (UserDto userDto);
+        System.Threading.Tasks.Task<DataResponsestring> CheckTokenUsingGETAsync ();
 
         /// <summary>
-        /// login
+        /// checkToken
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
         /// <exception cref="ServerConnection.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="userDto">userDto</param>
         /// <returns>Task of ApiResponse (DataResponsestring)</returns>
-        System.Threading.Tasks.Task<ApiResponse<DataResponsestring>> LoginUsingPOSTAsyncWithHttpInfo (UserDto userDto);
+        System.Threading.Tasks.Task<ApiResponse<DataResponsestring>> CheckTokenUsingGETAsyncWithHttpInfo ();
         
         /// <summary>
-        /// register
+        /// version
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
         /// <exception cref="ServerConnection.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="userDto">userDto</param>
-        /// <returns>Task of BaseResponse</returns>
-        System.Threading.Tasks.Task<BaseResponse> RegisterUsingPOSTAsync (UserDto userDto);
+        /// <returns>Task of string</returns>
+        System.Threading.Tasks.Task<string> VersionUsingPATCHAsync ();
 
         /// <summary>
-        /// register
+        /// version
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
         /// <exception cref="ServerConnection.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="userDto">userDto</param>
-        /// <returns>Task of ApiResponse (BaseResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<BaseResponse>> RegisterUsingPOSTAsyncWithHttpInfo (UserDto userDto);
+        /// <returns>Task of ApiResponse (string)</returns>
+        System.Threading.Tasks.Task<ApiResponse<string>> VersionUsingPATCHAsyncWithHttpInfo ();
+        
+        /// <summary>
+        /// whoAmI
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="ServerConnection.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>Task of DataResponseUserEntity</returns>
+        System.Threading.Tasks.Task<DataResponseUserEntity> WhoAmIUsingGETAsync ();
+
+        /// <summary>
+        /// whoAmI
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="ServerConnection.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>Task of ApiResponse (DataResponseUserEntity)</returns>
+        System.Threading.Tasks.Task<ApiResponse<DataResponseUserEntity>> WhoAmIUsingGETAsyncWithHttpInfo ();
         
         #endregion Asynchronous Operations
         
@@ -116,13 +148,13 @@ namespace ServerConnection.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public class UserRestControllerApi : IUserRestControllerApi
+    public class TokenRestControllerApi : ITokenRestControllerApi
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserRestControllerApi"/> class.
+        /// Initializes a new instance of the <see cref="TokenRestControllerApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public UserRestControllerApi(String basePath)
+        public TokenRestControllerApi(String basePath)
         {
             this.Configuration = new Configuration(new ApiClient(basePath));
 
@@ -134,12 +166,12 @@ namespace ServerConnection.Api
         }
     
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserRestControllerApi"/> class
+        /// Initializes a new instance of the <see cref="TokenRestControllerApi"/> class
         /// using Configuration object
         /// </summary>
         /// <param name="configuration">An instance of Configuration</param>
         /// <returns></returns>
-        public UserRestControllerApi(Configuration configuration = null)
+        public TokenRestControllerApi(Configuration configuration = null)
         {
             if (configuration == null) // use the default one in Configuration
                 this.Configuration = Configuration.Default; 
@@ -202,32 +234,26 @@ namespace ServerConnection.Api
    
         
         /// <summary>
-        /// login 
+        /// checkToken 
         /// </summary>
         /// <exception cref="ServerConnection.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="userDto">userDto</param> 
         /// <returns>DataResponsestring</returns>
-        public DataResponsestring LoginUsingPOST (UserDto userDto)
+        public DataResponsestring CheckTokenUsingGET ()
         {
-             ApiResponse<DataResponsestring> localVarResponse = LoginUsingPOSTWithHttpInfo(userDto);
+             ApiResponse<DataResponsestring> localVarResponse = CheckTokenUsingGETWithHttpInfo();
              return localVarResponse.Data;
         }
 
         /// <summary>
-        /// login 
+        /// checkToken 
         /// </summary>
         /// <exception cref="ServerConnection.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="userDto">userDto</param> 
         /// <returns>ApiResponse of DataResponsestring</returns>
-        public ApiResponse< DataResponsestring > LoginUsingPOSTWithHttpInfo (UserDto userDto)
+        public ApiResponse< DataResponsestring > CheckTokenUsingGETWithHttpInfo ()
         {
             
-            // verify the required parameter 'userDto' is set
-            if (userDto == null)
-                throw new ApiException(400, "Missing required parameter 'userDto' when calling UserrestcontrollerApi->LoginUsingPOST");
-            
     
-            var localVarPath = "/user/login";
+            var localVarPath = "/token/check";
     
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
@@ -257,28 +283,21 @@ namespace ServerConnection.Api
             
             
             
-            if (userDto.GetType() != typeof(byte[]))
-            {
-                localVarPostBody = Configuration.ApiClient.Serialize(userDto); // http body (model) parameter
-            }
-            else
-            {
-                localVarPostBody = userDto; // byte array
-            }
+            
 
             
     
             // make the HTTP request
             IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, 
-                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
     
             if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling LoginUsingPOST: " + localVarResponse.Content, localVarResponse.Content);
+                throw new ApiException (localVarStatusCode, "Error calling CheckTokenUsingGET: " + localVarResponse.Content, localVarResponse.Content);
             else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling LoginUsingPOST: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+                throw new ApiException (localVarStatusCode, "Error calling CheckTokenUsingGET: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
     
             return new ApiResponse<DataResponsestring>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
@@ -288,31 +307,27 @@ namespace ServerConnection.Api
 
         
         /// <summary>
-        /// login 
+        /// checkToken 
         /// </summary>
         /// <exception cref="ServerConnection.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="userDto">userDto</param>
         /// <returns>Task of DataResponsestring</returns>
-        public async System.Threading.Tasks.Task<DataResponsestring> LoginUsingPOSTAsync (UserDto userDto)
+        public async System.Threading.Tasks.Task<DataResponsestring> CheckTokenUsingGETAsync ()
         {
-             ApiResponse<DataResponsestring> localVarResponse = await LoginUsingPOSTAsyncWithHttpInfo(userDto);
+             ApiResponse<DataResponsestring> localVarResponse = await CheckTokenUsingGETAsyncWithHttpInfo();
              return localVarResponse.Data;
 
         }
 
         /// <summary>
-        /// login 
+        /// checkToken 
         /// </summary>
         /// <exception cref="ServerConnection.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="userDto">userDto</param>
         /// <returns>Task of ApiResponse (DataResponsestring)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<DataResponsestring>> LoginUsingPOSTAsyncWithHttpInfo (UserDto userDto)
+        public async System.Threading.Tasks.Task<ApiResponse<DataResponsestring>> CheckTokenUsingGETAsyncWithHttpInfo ()
         {
-            // verify the required parameter 'userDto' is set
-            if (userDto == null) throw new ApiException(400, "Missing required parameter 'userDto' when calling LoginUsingPOST");
             
     
-            var localVarPath = "/user/login";
+            var localVarPath = "/token/check";
     
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
@@ -342,28 +357,21 @@ namespace ServerConnection.Api
             
             
             
-            if (userDto.GetType() != typeof(byte[]))
-            {
-                localVarPostBody = Configuration.ApiClient.Serialize(userDto); // http body (model) parameter
-            }
-            else
-            {
-                localVarPostBody = userDto; // byte array
-            }
+            
 
             
 
             // make the HTTP request
             IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, 
-                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, 
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, 
                 localVarPathParams, localVarHttpContentType);
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
  
             if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling LoginUsingPOST: " + localVarResponse.Content, localVarResponse.Content);
+                throw new ApiException (localVarStatusCode, "Error calling CheckTokenUsingGET: " + localVarResponse.Content, localVarResponse.Content);
             else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling LoginUsingPOST: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+                throw new ApiException (localVarStatusCode, "Error calling CheckTokenUsingGET: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
 
             return new ApiResponse<DataResponsestring>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
@@ -372,32 +380,26 @@ namespace ServerConnection.Api
         }
         
         /// <summary>
-        /// register 
+        /// version 
         /// </summary>
         /// <exception cref="ServerConnection.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="userDto">userDto</param> 
-        /// <returns>BaseResponse</returns>
-        public BaseResponse RegisterUsingPOST (UserDto userDto)
+        /// <returns>string</returns>
+        public string VersionUsingPATCH ()
         {
-             ApiResponse<BaseResponse> localVarResponse = RegisterUsingPOSTWithHttpInfo(userDto);
+             ApiResponse<string> localVarResponse = VersionUsingPATCHWithHttpInfo();
              return localVarResponse.Data;
         }
 
         /// <summary>
-        /// register 
+        /// version 
         /// </summary>
         /// <exception cref="ServerConnection.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="userDto">userDto</param> 
-        /// <returns>ApiResponse of BaseResponse</returns>
-        public ApiResponse< BaseResponse > RegisterUsingPOSTWithHttpInfo (UserDto userDto)
+        /// <returns>ApiResponse of string</returns>
+        public ApiResponse< string > VersionUsingPATCHWithHttpInfo ()
         {
             
-            // verify the required parameter 'userDto' is set
-            if (userDto == null)
-                throw new ApiException(400, "Missing required parameter 'userDto' when calling UserrestcontrollerApi->RegisterUsingPOST");
-            
     
-            var localVarPath = "/user/register";
+            var localVarPath = "/token/version";
     
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
@@ -427,62 +429,51 @@ namespace ServerConnection.Api
             
             
             
-            if (userDto.GetType() != typeof(byte[]))
-            {
-                localVarPostBody = Configuration.ApiClient.Serialize(userDto); // http body (model) parameter
-            }
-            else
-            {
-                localVarPostBody = userDto; // byte array
-            }
+            
 
             
     
             // make the HTTP request
             IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, 
-                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                Method.PATCH, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
     
             if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling RegisterUsingPOST: " + localVarResponse.Content, localVarResponse.Content);
+                throw new ApiException (localVarStatusCode, "Error calling VersionUsingPATCH: " + localVarResponse.Content, localVarResponse.Content);
             else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling RegisterUsingPOST: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+                throw new ApiException (localVarStatusCode, "Error calling VersionUsingPATCH: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
     
-            return new ApiResponse<BaseResponse>(localVarStatusCode,
+            return new ApiResponse<string>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
-                (BaseResponse) Configuration.ApiClient.Deserialize(localVarResponse, typeof(BaseResponse)));
+                (string) Configuration.ApiClient.Deserialize(localVarResponse, typeof(string)));
             
         }
 
         
         /// <summary>
-        /// register 
+        /// version 
         /// </summary>
         /// <exception cref="ServerConnection.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="userDto">userDto</param>
-        /// <returns>Task of BaseResponse</returns>
-        public async System.Threading.Tasks.Task<BaseResponse> RegisterUsingPOSTAsync (UserDto userDto)
+        /// <returns>Task of string</returns>
+        public async System.Threading.Tasks.Task<string> VersionUsingPATCHAsync ()
         {
-             ApiResponse<BaseResponse> localVarResponse = await RegisterUsingPOSTAsyncWithHttpInfo(userDto);
+             ApiResponse<string> localVarResponse = await VersionUsingPATCHAsyncWithHttpInfo();
              return localVarResponse.Data;
 
         }
 
         /// <summary>
-        /// register 
+        /// version 
         /// </summary>
         /// <exception cref="ServerConnection.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="userDto">userDto</param>
-        /// <returns>Task of ApiResponse (BaseResponse)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<BaseResponse>> RegisterUsingPOSTAsyncWithHttpInfo (UserDto userDto)
+        /// <returns>Task of ApiResponse (string)</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<string>> VersionUsingPATCHAsyncWithHttpInfo ()
         {
-            // verify the required parameter 'userDto' is set
-            if (userDto == null) throw new ApiException(400, "Missing required parameter 'userDto' when calling RegisterUsingPOST");
             
     
-            var localVarPath = "/user/register";
+            var localVarPath = "/token/version";
     
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
@@ -512,32 +503,171 @@ namespace ServerConnection.Api
             
             
             
-            if (userDto.GetType() != typeof(byte[]))
-            {
-                localVarPostBody = Configuration.ApiClient.Serialize(userDto); // http body (model) parameter
-            }
-            else
-            {
-                localVarPostBody = userDto; // byte array
-            }
+            
 
             
 
             // make the HTTP request
             IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, 
-                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, 
+                Method.PATCH, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, 
                 localVarPathParams, localVarHttpContentType);
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
  
             if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling RegisterUsingPOST: " + localVarResponse.Content, localVarResponse.Content);
+                throw new ApiException (localVarStatusCode, "Error calling VersionUsingPATCH: " + localVarResponse.Content, localVarResponse.Content);
             else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling RegisterUsingPOST: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+                throw new ApiException (localVarStatusCode, "Error calling VersionUsingPATCH: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
 
-            return new ApiResponse<BaseResponse>(localVarStatusCode,
+            return new ApiResponse<string>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
-                (BaseResponse) Configuration.ApiClient.Deserialize(localVarResponse, typeof(BaseResponse)));
+                (string) Configuration.ApiClient.Deserialize(localVarResponse, typeof(string)));
+            
+        }
+        
+        /// <summary>
+        /// whoAmI 
+        /// </summary>
+        /// <exception cref="ServerConnection.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>DataResponseUserEntity</returns>
+        public DataResponseUserEntity WhoAmIUsingGET ()
+        {
+             ApiResponse<DataResponseUserEntity> localVarResponse = WhoAmIUsingGETWithHttpInfo();
+             return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// whoAmI 
+        /// </summary>
+        /// <exception cref="ServerConnection.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>ApiResponse of DataResponseUserEntity</returns>
+        public ApiResponse< DataResponseUserEntity > WhoAmIUsingGETWithHttpInfo ()
+        {
+            
+    
+            var localVarPath = "/token/whoami";
+    
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                "application/json"
+            };
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json"
+            };
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
+            localVarPathParams.Add("format", "json");
+            
+            
+            
+            
+            
+
+            
+    
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, 
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+    
+            if (localVarStatusCode >= 400)
+                throw new ApiException (localVarStatusCode, "Error calling WhoAmIUsingGET: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException (localVarStatusCode, "Error calling WhoAmIUsingGET: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+    
+            return new ApiResponse<DataResponseUserEntity>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (DataResponseUserEntity) Configuration.ApiClient.Deserialize(localVarResponse, typeof(DataResponseUserEntity)));
+            
+        }
+
+        
+        /// <summary>
+        /// whoAmI 
+        /// </summary>
+        /// <exception cref="ServerConnection.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>Task of DataResponseUserEntity</returns>
+        public async System.Threading.Tasks.Task<DataResponseUserEntity> WhoAmIUsingGETAsync ()
+        {
+             ApiResponse<DataResponseUserEntity> localVarResponse = await WhoAmIUsingGETAsyncWithHttpInfo();
+             return localVarResponse.Data;
+
+        }
+
+        /// <summary>
+        /// whoAmI 
+        /// </summary>
+        /// <exception cref="ServerConnection.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>Task of ApiResponse (DataResponseUserEntity)</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<DataResponseUserEntity>> WhoAmIUsingGETAsyncWithHttpInfo ()
+        {
+            
+    
+            var localVarPath = "/token/whoami";
+    
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                "application/json"
+            };
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json"
+            };
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
+            localVarPathParams.Add("format", "json");
+            
+            
+            
+            
+            
+
+            
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, 
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, 
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+ 
+            if (localVarStatusCode >= 400)
+                throw new ApiException (localVarStatusCode, "Error calling WhoAmIUsingGET: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException (localVarStatusCode, "Error calling WhoAmIUsingGET: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+
+            return new ApiResponse<DataResponseUserEntity>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (DataResponseUserEntity) Configuration.ApiClient.Deserialize(localVarResponse, typeof(DataResponseUserEntity)));
             
         }
         

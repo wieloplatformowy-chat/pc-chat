@@ -9,41 +9,40 @@ using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace ServerConnection.Model
+namespace Czat.ServerConnectionAPI.Model
 {
     /// <summary>
     /// 
     /// </summary>
     [DataContract]
-    public partial class UserDto :  IEquatable<UserDto>
+    public partial class BaseResponse :  IEquatable<BaseResponse>
     { 
     
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserDto" /> class.
-        /// Initializes a new instance of the <see cref="UserDto" />class.
+        /// Initializes a new instance of the <see cref="BaseResponse" /> class.
+        /// Initializes a new instance of the <see cref="BaseResponse" />class.
         /// </summary>
-        /// <param name="Name">Name.</param>
-        /// <param name="Password">Password.</param>
+        /// <param name="Error">Error.</param>
+        /// <param name="Success">Success.</param>
 
-        public UserDto(string Name = null, string Password = null)
+        public BaseResponse(ResponseError Error = null, bool? Success = null)
         {
-            this.Name = Name;
-            this.Password = Password;
+            this.Error = Error;
+            this.Success = Success;
             
-        }
-        
+        }     
     
         /// <summary>
-        /// Gets or Sets Name
+        /// Gets or Sets Error
         /// </summary>
-        [DataMember(Name="name", EmitDefaultValue=false)]
-        public string Name { get; set; }
+        [DataMember(Name="error", EmitDefaultValue=false)]
+        public ResponseError Error { get; set; }
     
         /// <summary>
-        /// Gets or Sets Password
+        /// Gets or Sets Success
         /// </summary>
-        [DataMember(Name="password", EmitDefaultValue=false)]
-        public string Password { get; set; }
+        [DataMember(Name="success", EmitDefaultValue=false)]
+        public bool? Success { get; set; }
     
         /// <summary>
         /// Returns the string presentation of the object
@@ -52,9 +51,9 @@ namespace ServerConnection.Model
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class UserDto {\n");
-            sb.Append("  Name: ").Append(Name).Append("\n");
-            sb.Append("  Password: ").Append(Password).Append("\n");
+            sb.Append("class BaseResponse {\n");
+            sb.Append("  Error: ").Append(Error).Append("\n");
+            sb.Append("  Success: ").Append(Success).Append("\n");
             
             sb.Append("}\n");
             return sb.ToString();
@@ -77,15 +76,15 @@ namespace ServerConnection.Model
         public override bool Equals(object obj)
         {
             // credit: http://stackoverflow.com/a/10454552/677735
-            return this.Equals(obj as UserDto);
+            return this.Equals(obj as BaseResponse);
         }
 
         /// <summary>
-        /// Returns true if UserDto instances are equal
+        /// Returns true if BaseResponse instances are equal
         /// </summary>
-        /// <param name="other">Instance of UserDto to be compared</param>
+        /// <param name="other">Instance of BaseResponse to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(UserDto other)
+        public bool Equals(BaseResponse other)
         {
             // credit: http://stackoverflow.com/a/10454552/677735
             if (other == null)
@@ -93,14 +92,14 @@ namespace ServerConnection.Model
 
             return 
                 (
-                    this.Name == other.Name ||
-                    this.Name != null &&
-                    this.Name.Equals(other.Name)
+                    this.Error == other.Error ||
+                    this.Error != null &&
+                    this.Error.Equals(other.Error)
                 ) && 
                 (
-                    this.Password == other.Password ||
-                    this.Password != null &&
-                    this.Password.Equals(other.Password)
+                    this.Success == other.Success ||
+                    this.Success != null &&
+                    this.Success.Equals(other.Success)
                 );
         }
 
@@ -116,11 +115,11 @@ namespace ServerConnection.Model
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
                 
-                if (this.Name != null)
-                    hash = hash * 59 + this.Name.GetHashCode();
+                if (this.Error != null)
+                    hash = hash * 59 + this.Error.GetHashCode();
                 
-                if (this.Password != null)
-                    hash = hash * 59 + this.Password.GetHashCode();
+                if (this.Success != null)
+                    hash = hash * 59 + this.Success.GetHashCode();
                 
                 return hash;
             }

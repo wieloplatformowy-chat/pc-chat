@@ -9,49 +9,49 @@ using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace ServerConnection.Model
+namespace Czat.ServerConnectionAPI.Model
 {
     /// <summary>
     /// 
     /// </summary>
     [DataContract]
-    public partial class DataResponseUserEntity :  IEquatable<DataResponseUserEntity>
+    public partial class UserEntity :  IEquatable<UserEntity>
     { 
     
         /// <summary>
-        /// Initializes a new instance of the <see cref="DataResponseUserEntity" /> class.
-        /// Initializes a new instance of the <see cref="DataResponseUserEntity" />class.
+        /// Initializes a new instance of the <see cref="UserEntity" /> class.
+        /// Initializes a new instance of the <see cref="UserEntity" />class.
         /// </summary>
-        /// <param name="Data">Data.</param>
-        /// <param name="Error">Error.</param>
-        /// <param name="Success">Success.</param>
+        /// <param name="Id">Id.</param>
+        /// <param name="Name">Name.</param>
+        /// <param name="Password">Password.</param>
 
-        public DataResponseUserEntity(UserEntity Data = null, ResponseError Error = null, bool? Success = null)
+        public UserEntity(long? Id = null, string Name = null, string Password = null)
         {
-            this.Data = Data;
-            this.Error = Error;
-            this.Success = Success;
+            this.Id = Id;
+            this.Name = Name;
+            this.Password = Password;
             
         }
         
     
         /// <summary>
-        /// Gets or Sets Data
+        /// Gets or Sets Id
         /// </summary>
-        [DataMember(Name="data", EmitDefaultValue=false)]
-        public UserEntity Data { get; set; }
+        [DataMember(Name="id", EmitDefaultValue=false)]
+        public long? Id { get; set; }
     
         /// <summary>
-        /// Gets or Sets Error
+        /// Gets or Sets Name
         /// </summary>
-        [DataMember(Name="error", EmitDefaultValue=false)]
-        public ResponseError Error { get; set; }
+        [DataMember(Name="name", EmitDefaultValue=false)]
+        public string Name { get; set; }
     
         /// <summary>
-        /// Gets or Sets Success
+        /// Gets or Sets Password
         /// </summary>
-        [DataMember(Name="success", EmitDefaultValue=false)]
-        public bool? Success { get; set; }
+        [DataMember(Name="password", EmitDefaultValue=false)]
+        public string Password { get; set; }
     
         /// <summary>
         /// Returns the string presentation of the object
@@ -60,10 +60,10 @@ namespace ServerConnection.Model
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class DataResponseUserEntity {\n");
-            sb.Append("  Data: ").Append(Data).Append("\n");
-            sb.Append("  Error: ").Append(Error).Append("\n");
-            sb.Append("  Success: ").Append(Success).Append("\n");
+            sb.Append("class UserEntity {\n");
+            sb.Append("  Id: ").Append(Id).Append("\n");
+            sb.Append("  Name: ").Append(Name).Append("\n");
+            sb.Append("  Password: ").Append(Password).Append("\n");
             
             sb.Append("}\n");
             return sb.ToString();
@@ -86,15 +86,15 @@ namespace ServerConnection.Model
         public override bool Equals(object obj)
         {
             // credit: http://stackoverflow.com/a/10454552/677735
-            return this.Equals(obj as DataResponseUserEntity);
+            return this.Equals(obj as UserEntity);
         }
 
         /// <summary>
-        /// Returns true if DataResponseUserEntity instances are equal
+        /// Returns true if UserEntity instances are equal
         /// </summary>
-        /// <param name="other">Instance of DataResponseUserEntity to be compared</param>
+        /// <param name="other">Instance of UserEntity to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(DataResponseUserEntity other)
+        public bool Equals(UserEntity other)
         {
             // credit: http://stackoverflow.com/a/10454552/677735
             if (other == null)
@@ -102,19 +102,19 @@ namespace ServerConnection.Model
 
             return 
                 (
-                    this.Data == other.Data ||
-                    this.Data != null &&
-                    this.Data.Equals(other.Data)
+                    this.Id == other.Id ||
+                    this.Id != null &&
+                    this.Id.Equals(other.Id)
                 ) && 
                 (
-                    this.Error == other.Error ||
-                    this.Error != null &&
-                    this.Error.Equals(other.Error)
+                    this.Name == other.Name ||
+                    this.Name != null &&
+                    this.Name.Equals(other.Name)
                 ) && 
                 (
-                    this.Success == other.Success ||
-                    this.Success != null &&
-                    this.Success.Equals(other.Success)
+                    this.Password == other.Password ||
+                    this.Password != null &&
+                    this.Password.Equals(other.Password)
                 );
         }
 
@@ -130,14 +130,14 @@ namespace ServerConnection.Model
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
                 
-                if (this.Data != null)
-                    hash = hash * 59 + this.Data.GetHashCode();
+                if (this.Id != null)
+                    hash = hash * 59 + this.Id.GetHashCode();
                 
-                if (this.Error != null)
-                    hash = hash * 59 + this.Error.GetHashCode();
+                if (this.Name != null)
+                    hash = hash * 59 + this.Name.GetHashCode();
                 
-                if (this.Success != null)
-                    hash = hash * 59 + this.Success.GetHashCode();
+                if (this.Password != null)
+                    hash = hash * 59 + this.Password.GetHashCode();
                 
                 return hash;
             }

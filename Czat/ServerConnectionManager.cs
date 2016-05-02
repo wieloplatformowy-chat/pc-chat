@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ServerConnection.Client;
-using ServerConnection.Model;
-using ServerConnection.Api;
+using Czat.ServerConnectionAPI.Client;
+using Czat.ServerConnectionAPI.Model;
+using Czat.ServerConnectionAPI.Api;
 
-namespace ServerConnection
+namespace Czat
 {
     class ServerConnectionManager
     {
@@ -26,7 +26,7 @@ namespace ServerConnection
             }
         }
 
-        public dynamic RegisterUser(string login, string password)
+        public string RegisterUser(string login, string password)
         {
             UserRestControllerApi api = new UserRestControllerApi();
             UserDto newUser = new UserDto(login, password);
@@ -37,7 +37,7 @@ namespace ServerConnection
                 if (serverResponse.Success != null)
                 {
                     if ((bool)serverResponse.Success)
-                        return serverResponse.Success;
+                        return "success";
                     else
                         return serverResponse.Error.Message;
                 }
@@ -56,7 +56,7 @@ namespace ServerConnection
             }
         }
 
-        public String LoginUser(String login, String password)
+        public string LoginUser(String login, String password)
         {
             UserRestControllerApi api = new UserRestControllerApi();
             UserDto user = new UserDto(login, password);

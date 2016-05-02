@@ -9,28 +9,37 @@ using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace ServerConnection.Model
+namespace Czat.ServerConnectionAPI.Model
 {
     /// <summary>
     /// 
     /// </summary>
     [DataContract]
-    public partial class BaseResponse :  IEquatable<BaseResponse>
+    public partial class DataResponsestring :  IEquatable<DataResponsestring>
     { 
     
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseResponse" /> class.
-        /// Initializes a new instance of the <see cref="BaseResponse" />class.
+        /// Initializes a new instance of the <see cref="DataResponsestring" /> class.
+        /// Initializes a new instance of the <see cref="DataResponsestring" />class.
         /// </summary>
+        /// <param name="Data">Data.</param>
         /// <param name="Error">Error.</param>
         /// <param name="Success">Success.</param>
 
-        public BaseResponse(ResponseError Error = null, bool? Success = null)
+        public DataResponsestring(string Data = null, ResponseError Error = null, bool? Success = null)
         {
+            this.Data = Data;
             this.Error = Error;
             this.Success = Success;
             
-        }     
+        }
+        
+    
+        /// <summary>
+        /// Gets or Sets Data
+        /// </summary>
+        [DataMember(Name="data", EmitDefaultValue=false)]
+        public string Data { get; set; }
     
         /// <summary>
         /// Gets or Sets Error
@@ -51,7 +60,8 @@ namespace ServerConnection.Model
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class BaseResponse {\n");
+            sb.Append("class DataResponsestring {\n");
+            sb.Append("  Data: ").Append(Data).Append("\n");
             sb.Append("  Error: ").Append(Error).Append("\n");
             sb.Append("  Success: ").Append(Success).Append("\n");
             
@@ -76,21 +86,26 @@ namespace ServerConnection.Model
         public override bool Equals(object obj)
         {
             // credit: http://stackoverflow.com/a/10454552/677735
-            return this.Equals(obj as BaseResponse);
+            return this.Equals(obj as DataResponsestring);
         }
 
         /// <summary>
-        /// Returns true if BaseResponse instances are equal
+        /// Returns true if DataResponsestring instances are equal
         /// </summary>
-        /// <param name="other">Instance of BaseResponse to be compared</param>
+        /// <param name="other">Instance of DataResponsestring to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(BaseResponse other)
+        public bool Equals(DataResponsestring other)
         {
             // credit: http://stackoverflow.com/a/10454552/677735
             if (other == null)
                 return false;
 
             return 
+                (
+                    this.Data == other.Data ||
+                    this.Data != null &&
+                    this.Data.Equals(other.Data)
+                ) && 
                 (
                     this.Error == other.Error ||
                     this.Error != null &&
@@ -114,6 +129,9 @@ namespace ServerConnection.Model
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
+                
+                if (this.Data != null)
+                    hash = hash * 59 + this.Data.GetHashCode();
                 
                 if (this.Error != null)
                     hash = hash * 59 + this.Error.GetHashCode();

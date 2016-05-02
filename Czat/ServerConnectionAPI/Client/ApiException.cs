@@ -1,6 +1,6 @@
 using System;
 
-namespace ServerConnection.Client
+namespace Czat.ServerConnectionAPI.Client
 {
     /// <summary>
     /// API Exception

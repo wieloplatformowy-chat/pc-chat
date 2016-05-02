@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace ServerConnection.Client
+namespace Czat.ServerConnectionAPI.Client
 {
     /// <summary>
     /// Represents a set of configuration settings

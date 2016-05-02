@@ -62,19 +62,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ServerConnectionScripts\Api\TokenRestControllerApi.cs" />
-    <Compile Include="ServerConnectionScripts\Api\UserRestControllerApi.cs" />
-    <Compile Include="ServerConnectionScripts\Client\ApiClient.cs" />
-    <Compile Include="ServerConnectionScripts\Client\ApiException.cs" />
-    <Compile Include="ServerConnectionScripts\Client\ApiResponse.cs" />
-    <Compile Include="ServerConnectionScripts\Client\Configuration.cs" />
-    <Compile Include="ServerConnectionScripts\Model\BaseResponse.cs" />
-    <Compile Include="ServerConnectionScripts\Model\DataResponsestring.cs" />
-    <Compile Include="ServerConnectionScripts\Model\DataResponseUserEntity.cs" />
-    <Compile Include="ServerConnectionScripts\Model\ResponseError.cs" />
-    <Compile Include="ServerConnectionScripts\Model\UserDto.cs" />
-    <Compile Include="ServerConnectionScripts\Model\UserEntity.cs" />
-    <Compile Include="ServerConnectionScripts\ServerConnectionManager.cs" />
+    <Compile Include="ServerConnectionManager.cs" />
+    <Compile Include="ServerConnectionAPI\Api\TokenRestControllerApi.cs" />
+    <Compile Include="ServerConnectionAPI\Api\UserRestControllerApi.cs" />
+    <Compile Include="ServerConnectionAPI\Client\ApiClient.cs" />
+    <Compile Include="ServerConnectionAPI\Client\ApiException.cs" />
+    <Compile Include="ServerConnectionAPI\Client\ApiResponse.cs" />
+    <Compile Include="ServerConnectionAPI\Client\Configuration.cs" />
+    <Compile Include="ServerConnectionAPI\Model\BaseResponse.cs" />
+    <Compile Include="ServerConnectionAPI\Model\DataResponsestring.cs" />
+    <Compile Include="ServerConnectionAPI\Model\DataResponseUserEntity.cs" />
+    <Compile Include="ServerConnectionAPI\Model\ResponseError.cs" />
+    <Compile Include="ServerConnectionAPI\Model\UserDto.cs" />
+    <Compile Include="ServerConnectionAPI\Model\UserEntity.cs" />
     <Compile Include="Rejestracja.xaml.cs">
       <DependentUpon>Rejestracja.xaml</DependentUpon>
     </Compile>

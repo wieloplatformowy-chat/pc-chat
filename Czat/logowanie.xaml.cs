@@ -26,6 +26,13 @@ namespace Czat
 
         private void LoginOn_Click(object sender, RoutedEventArgs e)    //obsluga guzika loguj
         {
+            string response = ServerConnectionManager.Instance.LoginUser(Login.Text, Password.Text);
+            if (response != "success")
+            {
+                MessageBox.Show(response, "Wystąpił błąd");
+                return;
+            }
+
             MainWindow MainWindow = new MainWindow();
             MainWindow.Show();
             this.Close();
