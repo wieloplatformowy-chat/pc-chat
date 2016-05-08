@@ -15,31 +15,29 @@ namespace Czat.ServerConnectionAPI.Model
     /// 
     /// </summary>
     [DataContract]
-    public partial class UserEntity :  IEquatable<UserEntity>
+    public partial class SearchUserDto :  IEquatable<SearchUserDto>
     { 
     
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserEntity" /> class.
-        /// Initializes a new instance of the <see cref="UserEntity" />class.
+        /// Initializes a new instance of the <see cref="SearchUserDto" /> class.
+        /// Initializes a new instance of the <see cref="SearchUserDto" />class.
         /// </summary>
-        /// <param name="Id">Id.</param>
+        /// <param name="Email">Email.</param>
         /// <param name="Name">Name.</param>
-        /// <param name="Password">Password.</param>
 
-        public UserEntity(long? Id = null, string Name = null, string Password = null)
+        public SearchUserDto(string Email = null, string Name = null)
         {
-            this.Id = Id;
+            this.Email = Email;
             this.Name = Name;
-            this.Password = Password;
             
         }
         
     
         /// <summary>
-        /// Gets or Sets Id
+        /// Gets or Sets Email
         /// </summary>
-        [DataMember(Name="id", EmitDefaultValue=false)]
-        public long? Id { get; set; }
+        [DataMember(Name="email", EmitDefaultValue=false)]
+        public string Email { get; set; }
     
         /// <summary>
         /// Gets or Sets Name
@@ -48,22 +46,15 @@ namespace Czat.ServerConnectionAPI.Model
         public string Name { get; set; }
     
         /// <summary>
-        /// Gets or Sets Password
-        /// </summary>
-        [DataMember(Name="password", EmitDefaultValue=false)]
-        public string Password { get; set; }
-    
-        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class UserEntity {\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
+            sb.Append("class SearchUserDto {\n");
+            sb.Append("  Email: ").Append(Email).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
-            sb.Append("  Password: ").Append(Password).Append("\n");
             
             sb.Append("}\n");
             return sb.ToString();
@@ -86,15 +77,15 @@ namespace Czat.ServerConnectionAPI.Model
         public override bool Equals(object obj)
         {
             // credit: http://stackoverflow.com/a/10454552/677735
-            return this.Equals(obj as UserEntity);
+            return this.Equals(obj as SearchUserDto);
         }
 
         /// <summary>
-        /// Returns true if UserEntity instances are equal
+        /// Returns true if SearchUserDto instances are equal
         /// </summary>
-        /// <param name="other">Instance of UserEntity to be compared</param>
+        /// <param name="other">Instance of SearchUserDto to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(UserEntity other)
+        public bool Equals(SearchUserDto other)
         {
             // credit: http://stackoverflow.com/a/10454552/677735
             if (other == null)
@@ -102,19 +93,14 @@ namespace Czat.ServerConnectionAPI.Model
 
             return 
                 (
-                    this.Id == other.Id ||
-                    this.Id != null &&
-                    this.Id.Equals(other.Id)
+                    this.Email == other.Email ||
+                    this.Email != null &&
+                    this.Email.Equals(other.Email)
                 ) && 
                 (
                     this.Name == other.Name ||
                     this.Name != null &&
                     this.Name.Equals(other.Name)
-                ) && 
-                (
-                    this.Password == other.Password ||
-                    this.Password != null &&
-                    this.Password.Equals(other.Password)
                 );
         }
 
@@ -130,14 +116,11 @@ namespace Czat.ServerConnectionAPI.Model
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
                 
-                if (this.Id != null)
-                    hash = hash * 59 + this.Id.GetHashCode();
+                if (this.Email != null)
+                    hash = hash * 59 + this.Email.GetHashCode();
                 
                 if (this.Name != null)
                     hash = hash * 59 + this.Name.GetHashCode();
-                
-                if (this.Password != null)
-                    hash = hash * 59 + this.Password.GetHashCode();
                 
                 return hash;
             }

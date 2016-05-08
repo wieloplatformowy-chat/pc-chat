@@ -15,41 +15,21 @@ namespace Czat.ServerConnectionAPI.Model
     /// 
     /// </summary>
     [DataContract]
-    public partial class UserDto :  IEquatable<UserDto>
+    public partial class PasswordDto :  IEquatable<PasswordDto>
     { 
     
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserDto" /> class.
-        /// Initializes a new instance of the <see cref="UserDto" />class.
+        /// Initializes a new instance of the <see cref="PasswordDto" /> class.
+        /// Initializes a new instance of the <see cref="PasswordDto" />class.
         /// </summary>
-        /// <param name="Email">Email (required).</param>
-        /// <param name="Name">Name (required).</param>
         /// <param name="Password">Password (required).</param>
 
-        public UserDto(string Email = null, string Name = null, string Password = null)
+        public PasswordDto(string Password = null)
         {
-            // to ensure "Email" is required (not null)
-            if (Email == null)
-            {
-                throw new InvalidDataException("Email is a required property for UserDto and cannot be null");
-            }
-            else
-            {
-                this.Email = Email;
-            }
-            // to ensure "Name" is required (not null)
-            if (Name == null)
-            {
-                throw new InvalidDataException("Name is a required property for UserDto and cannot be null");
-            }
-            else
-            {
-                this.Name = Name;
-            }
             // to ensure "Password" is required (not null)
             if (Password == null)
             {
-                throw new InvalidDataException("Password is a required property for UserDto and cannot be null");
+                throw new InvalidDataException("Password is a required property for PasswordDto and cannot be null");
             }
             else
             {
@@ -58,18 +38,6 @@ namespace Czat.ServerConnectionAPI.Model
             
         }
         
-    
-        /// <summary>
-        /// Gets or Sets Email
-        /// </summary>
-        [DataMember(Name="email", EmitDefaultValue=false)]
-        public string Email { get; set; }
-    
-        /// <summary>
-        /// Gets or Sets Name
-        /// </summary>
-        [DataMember(Name="name", EmitDefaultValue=false)]
-        public string Name { get; set; }
     
         /// <summary>
         /// Gets or Sets Password
@@ -84,9 +52,7 @@ namespace Czat.ServerConnectionAPI.Model
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class UserDto {\n");
-            sb.Append("  Email: ").Append(Email).Append("\n");
-            sb.Append("  Name: ").Append(Name).Append("\n");
+            sb.Append("class PasswordDto {\n");
             sb.Append("  Password: ").Append(Password).Append("\n");
             
             sb.Append("}\n");
@@ -110,31 +76,21 @@ namespace Czat.ServerConnectionAPI.Model
         public override bool Equals(object obj)
         {
             // credit: http://stackoverflow.com/a/10454552/677735
-            return this.Equals(obj as UserDto);
+            return this.Equals(obj as PasswordDto);
         }
 
         /// <summary>
-        /// Returns true if UserDto instances are equal
+        /// Returns true if PasswordDto instances are equal
         /// </summary>
-        /// <param name="other">Instance of UserDto to be compared</param>
+        /// <param name="other">Instance of PasswordDto to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(UserDto other)
+        public bool Equals(PasswordDto other)
         {
             // credit: http://stackoverflow.com/a/10454552/677735
             if (other == null)
                 return false;
 
             return 
-                (
-                    this.Email == other.Email ||
-                    this.Email != null &&
-                    this.Email.Equals(other.Email)
-                ) && 
-                (
-                    this.Name == other.Name ||
-                    this.Name != null &&
-                    this.Name.Equals(other.Name)
-                ) && 
                 (
                     this.Password == other.Password ||
                     this.Password != null &&
@@ -153,12 +109,6 @@ namespace Czat.ServerConnectionAPI.Model
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
-                
-                if (this.Email != null)
-                    hash = hash * 59 + this.Email.GetHashCode();
-                
-                if (this.Name != null)
-                    hash = hash * 59 + this.Name.GetHashCode();
                 
                 if (this.Password != null)
                     hash = hash * 59 + this.Password.GetHashCode();

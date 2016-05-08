@@ -62,19 +62,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ServerConnectionAPI\Api\FriendrestcontrollerApi.cs" />
+    <Compile Include="ServerConnectionAPI\Model\IdDto.cs" />
+    <Compile Include="ServerConnectionAPI\Model\LoginDto.cs" />
+    <Compile Include="ServerConnectionAPI\Model\PasswordDto.cs" />
+    <Compile Include="ServerConnectionAPI\Model\RestResponse.cs" />
+    <Compile Include="ServerConnectionAPI\Model\SearchUserDto.cs" />
+    <Compile Include="ServerConnectionAPI\Model\TokenDto.cs" />
+    <Compile Include="ServerConnectionAPI\Model\UserWithoutPasswordDto.cs" />
     <Compile Include="ServerConnectionManager.cs" />
-    <Compile Include="ServerConnectionAPI\Api\TokenRestControllerApi.cs" />
     <Compile Include="ServerConnectionAPI\Api\UserRestControllerApi.cs" />
     <Compile Include="ServerConnectionAPI\Client\ApiClient.cs" />
     <Compile Include="ServerConnectionAPI\Client\ApiException.cs" />
     <Compile Include="ServerConnectionAPI\Client\ApiResponse.cs" />
     <Compile Include="ServerConnectionAPI\Client\Configuration.cs" />
-    <Compile Include="ServerConnectionAPI\Model\BaseResponse.cs" />
-    <Compile Include="ServerConnectionAPI\Model\DataResponsestring.cs" />
-    <Compile Include="ServerConnectionAPI\Model\DataResponseUserEntity.cs" />
     <Compile Include="ServerConnectionAPI\Model\ResponseError.cs" />
     <Compile Include="ServerConnectionAPI\Model\UserDto.cs" />
-    <Compile Include="ServerConnectionAPI\Model\UserEntity.cs" />
     <Compile Include="Rejestracja.xaml.cs">
       <DependentUpon>Rejestracja.xaml</DependentUpon>
     </Compile>

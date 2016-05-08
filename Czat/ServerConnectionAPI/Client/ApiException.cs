@@ -46,9 +46,10 @@ namespace Czat.ServerConnectionAPI.Client
             this.ErrorContent = errorContent;
         }
 
+
         public string GetExceptionInfo()
         {
-            string exceptionInfo = ErrorCode + " " + ErrorContent + " " + Message;
+            string exceptionInfo = "Error code: " + ErrorCode + "\n" + ErrorContent + "\n" + Message;
             return exceptionInfo;
         }
     }

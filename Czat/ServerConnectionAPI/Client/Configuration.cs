@@ -269,13 +269,13 @@ namespace Czat.ServerConnectionAPI.Client
         /// </summary>
         public static String ToDebugReport()
         {
-            String report = "C# SDK (IO.Swagger) Debug Report:\n";
+            String report = "C# SDK (Czat.ServerConnectionAPI) Debug Report:\n";
             report += "    OS: " + Environment.OSVersion + "\n";
             report += "    .NET Framework Version: " + Assembly
                      .GetExecutingAssembly()
                      .GetReferencedAssemblies()
                      .Where(x => x.Name == "System.Core").First().Version.ToString()  + "\n";
-            report += "    Version of the API: 1.0\n";
+            report += "    Version of the API: 0.2.1 - Friends\n";
             report += "    SDK Package Version: 1.0.0\n";
 
             return report;

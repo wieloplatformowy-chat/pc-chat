@@ -15,34 +15,35 @@ namespace Czat.ServerConnectionAPI.Model
     /// 
     /// </summary>
     [DataContract]
-    public partial class BaseResponse :  IEquatable<BaseResponse>
+    public partial class IdDto :  IEquatable<IdDto>
     { 
     
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseResponse" /> class.
-        /// Initializes a new instance of the <see cref="BaseResponse" />class.
+        /// Initializes a new instance of the <see cref="IdDto" /> class.
+        /// Initializes a new instance of the <see cref="IdDto" />class.
         /// </summary>
-        /// <param name="Error">Error.</param>
-        /// <param name="Success">Success.</param>
+        /// <param name="Id">Id (required).</param>
 
-        public BaseResponse(ResponseError Error = null, bool? Success = null)
+        public IdDto(long? Id = null)
         {
-            this.Error = Error;
-            this.Success = Success;
+            // to ensure "Id" is required (not null)
+            if (Id == null)
+            {
+                throw new InvalidDataException("Id is a required property for IdDto and cannot be null");
+            }
+            else
+            {
+                this.Id = Id;
+            }
             
-        }     
+        }
+        
     
         /// <summary>
-        /// Gets or Sets Error
+        /// Gets or Sets Id
         /// </summary>
-        [DataMember(Name="error", EmitDefaultValue=false)]
-        public ResponseError Error { get; set; }
-    
-        /// <summary>
-        /// Gets or Sets Success
-        /// </summary>
-        [DataMember(Name="success", EmitDefaultValue=false)]
-        public bool? Success { get; set; }
+        [DataMember(Name="id", EmitDefaultValue=false)]
+        public long? Id { get; set; }
     
         /// <summary>
         /// Returns the string presentation of the object
@@ -51,9 +52,8 @@ namespace Czat.ServerConnectionAPI.Model
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class BaseResponse {\n");
-            sb.Append("  Error: ").Append(Error).Append("\n");
-            sb.Append("  Success: ").Append(Success).Append("\n");
+            sb.Append("class IdDto {\n");
+            sb.Append("  Id: ").Append(Id).Append("\n");
             
             sb.Append("}\n");
             return sb.ToString();
@@ -76,15 +76,15 @@ namespace Czat.ServerConnectionAPI.Model
         public override bool Equals(object obj)
         {
             // credit: http://stackoverflow.com/a/10454552/677735
-            return this.Equals(obj as BaseResponse);
+            return this.Equals(obj as IdDto);
         }
 
         /// <summary>
-        /// Returns true if BaseResponse instances are equal
+        /// Returns true if IdDto instances are equal
         /// </summary>
-        /// <param name="other">Instance of BaseResponse to be compared</param>
+        /// <param name="other">Instance of IdDto to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(BaseResponse other)
+        public bool Equals(IdDto other)
         {
             // credit: http://stackoverflow.com/a/10454552/677735
             if (other == null)
@@ -92,14 +92,9 @@ namespace Czat.ServerConnectionAPI.Model
 
             return 
                 (
-                    this.Error == other.Error ||
-                    this.Error != null &&
-                    this.Error.Equals(other.Error)
-                ) && 
-                (
-                    this.Success == other.Success ||
-                    this.Success != null &&
-                    this.Success.Equals(other.Success)
+                    this.Id == other.Id ||
+                    this.Id != null &&
+                    this.Id.Equals(other.Id)
                 );
         }
 
@@ -115,11 +110,8 @@ namespace Czat.ServerConnectionAPI.Model
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
                 
-                if (this.Error != null)
-                    hash = hash * 59 + this.Error.GetHashCode();
-                
-                if (this.Success != null)
-                    hash = hash * 59 + this.Success.GetHashCode();
+                if (this.Id != null)
+                    hash = hash * 59 + this.Id.GetHashCode();
                 
                 return hash;
             }

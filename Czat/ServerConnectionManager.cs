@@ -33,18 +33,8 @@ namespace Czat
 
             try
             {
-                BaseResponse serverResponse = api.RegisterUsingPOST(newUser);
-                if (serverResponse.Success != null)
-                {
-                    if ((bool)serverResponse.Success)
-                        return "success";
-                    else
-                        return serverResponse.Error.Message;
-                }
-                else
-                {
-                    return serverResponse.Error.Message;
-                }
+                RestResponse serverResponse = api.RegisterUsingPOST1(newUser);
+                return serverResponse.Response;
             }
             catch (ApiException exception)
             {
@@ -59,13 +49,12 @@ namespace Czat
         public string LoginUser(String login, String password)
         {
             UserRestControllerApi api = new UserRestControllerApi();
-            UserDto user = new UserDto(login, password);
+            LoginDto user = new LoginDto(login, password);
 
             try
             {
-                DataResponsestring serverResponse = api.LoginUsingPOST(user);
-                return "success";
-
+                TokenDto token = api.LoginUsingPOST(user);
+                return token.Token;
             }
             catch (ApiException exception)
             {

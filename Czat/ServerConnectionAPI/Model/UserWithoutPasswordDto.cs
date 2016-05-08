@@ -15,45 +15,45 @@ namespace Czat.ServerConnectionAPI.Model
     /// 
     /// </summary>
     [DataContract]
-    public partial class UserDto :  IEquatable<UserDto>
+    public partial class UserWithoutPasswordDto :  IEquatable<UserWithoutPasswordDto>
     { 
     
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserDto" /> class.
-        /// Initializes a new instance of the <see cref="UserDto" />class.
+        /// Initializes a new instance of the <see cref="UserWithoutPasswordDto" /> class.
+        /// Initializes a new instance of the <see cref="UserWithoutPasswordDto" />class.
         /// </summary>
         /// <param name="Email">Email (required).</param>
+        /// <param name="Id">Id (required).</param>
         /// <param name="Name">Name (required).</param>
-        /// <param name="Password">Password (required).</param>
 
-        public UserDto(string Email = null, string Name = null, string Password = null)
+        public UserWithoutPasswordDto(string Email = null, long? Id = null, string Name = null)
         {
             // to ensure "Email" is required (not null)
             if (Email == null)
             {
-                throw new InvalidDataException("Email is a required property for UserDto and cannot be null");
+                throw new InvalidDataException("Email is a required property for UserWithoutPasswordDto and cannot be null");
             }
             else
             {
                 this.Email = Email;
             }
+            // to ensure "Id" is required (not null)
+            if (Id == null)
+            {
+                throw new InvalidDataException("Id is a required property for UserWithoutPasswordDto and cannot be null");
+            }
+            else
+            {
+                this.Id = Id;
+            }
             // to ensure "Name" is required (not null)
             if (Name == null)
             {
-                throw new InvalidDataException("Name is a required property for UserDto and cannot be null");
+                throw new InvalidDataException("Name is a required property for UserWithoutPasswordDto and cannot be null");
             }
             else
             {
                 this.Name = Name;
-            }
-            // to ensure "Password" is required (not null)
-            if (Password == null)
-            {
-                throw new InvalidDataException("Password is a required property for UserDto and cannot be null");
-            }
-            else
-            {
-                this.Password = Password;
             }
             
         }
@@ -66,16 +66,16 @@ namespace Czat.ServerConnectionAPI.Model
         public string Email { get; set; }
     
         /// <summary>
+        /// Gets or Sets Id
+        /// </summary>
+        [DataMember(Name="id", EmitDefaultValue=false)]
+        public long? Id { get; set; }
+    
+        /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [DataMember(Name="name", EmitDefaultValue=false)]
         public string Name { get; set; }
-    
-        /// <summary>
-        /// Gets or Sets Password
-        /// </summary>
-        [DataMember(Name="password", EmitDefaultValue=false)]
-        public string Password { get; set; }
     
         /// <summary>
         /// Returns the string presentation of the object
@@ -84,10 +84,10 @@ namespace Czat.ServerConnectionAPI.Model
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class UserDto {\n");
+            sb.Append("class UserWithoutPasswordDto {\n");
             sb.Append("  Email: ").Append(Email).Append("\n");
+            sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
-            sb.Append("  Password: ").Append(Password).Append("\n");
             
             sb.Append("}\n");
             return sb.ToString();
@@ -110,15 +110,15 @@ namespace Czat.ServerConnectionAPI.Model
         public override bool Equals(object obj)
         {
             // credit: http://stackoverflow.com/a/10454552/677735
-            return this.Equals(obj as UserDto);
+            return this.Equals(obj as UserWithoutPasswordDto);
         }
 
         /// <summary>
-        /// Returns true if UserDto instances are equal
+        /// Returns true if UserWithoutPasswordDto instances are equal
         /// </summary>
-        /// <param name="other">Instance of UserDto to be compared</param>
+        /// <param name="other">Instance of UserWithoutPasswordDto to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(UserDto other)
+        public bool Equals(UserWithoutPasswordDto other)
         {
             // credit: http://stackoverflow.com/a/10454552/677735
             if (other == null)
@@ -131,14 +131,14 @@ namespace Czat.ServerConnectionAPI.Model
                     this.Email.Equals(other.Email)
                 ) && 
                 (
+                    this.Id == other.Id ||
+                    this.Id != null &&
+                    this.Id.Equals(other.Id)
+                ) && 
+                (
                     this.Name == other.Name ||
                     this.Name != null &&
                     this.Name.Equals(other.Name)
-                ) && 
-                (
-                    this.Password == other.Password ||
-                    this.Password != null &&
-                    this.Password.Equals(other.Password)
                 );
         }
 
@@ -157,11 +157,11 @@ namespace Czat.ServerConnectionAPI.Model
                 if (this.Email != null)
                     hash = hash * 59 + this.Email.GetHashCode();
                 
+                if (this.Id != null)
+                    hash = hash * 59 + this.Id.GetHashCode();
+                
                 if (this.Name != null)
                     hash = hash * 59 + this.Name.GetHashCode();
-                
-                if (this.Password != null)
-                    hash = hash * 59 + this.Password.GetHashCode();
                 
                 return hash;
             }

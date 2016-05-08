@@ -15,43 +15,51 @@ namespace Czat.ServerConnectionAPI.Model
     /// 
     /// </summary>
     [DataContract]
-    public partial class DataResponsestring :  IEquatable<DataResponsestring>
+    public partial class LoginDto :  IEquatable<LoginDto>
     { 
     
         /// <summary>
-        /// Initializes a new instance of the <see cref="DataResponsestring" /> class.
-        /// Initializes a new instance of the <see cref="DataResponsestring" />class.
+        /// Initializes a new instance of the <see cref="LoginDto" /> class.
+        /// Initializes a new instance of the <see cref="LoginDto" />class.
         /// </summary>
-        /// <param name="Data">Data.</param>
-        /// <param name="Error">Error.</param>
-        /// <param name="Success">Success.</param>
+        /// <param name="Name">Name (required).</param>
+        /// <param name="Password">Password (required).</param>
 
-        public DataResponsestring(string Data = null, ResponseError Error = null, bool? Success = null)
+        public LoginDto(string Name = null, string Password = null)
         {
-            this.Data = Data;
-            this.Error = Error;
-            this.Success = Success;
+            // to ensure "Name" is required (not null)
+            if (Name == null)
+            {
+                throw new InvalidDataException("Name is a required property for LoginDto and cannot be null");
+            }
+            else
+            {
+                this.Name = Name;
+            }
+            // to ensure "Password" is required (not null)
+            if (Password == null)
+            {
+                throw new InvalidDataException("Password is a required property for LoginDto and cannot be null");
+            }
+            else
+            {
+                this.Password = Password;
+            }
             
         }
         
     
         /// <summary>
-        /// Gets or Sets Data
+        /// Gets or Sets Name
         /// </summary>
-        [DataMember(Name="data", EmitDefaultValue=false)]
-        public string Data { get; set; }
+        [DataMember(Name="name", EmitDefaultValue=false)]
+        public string Name { get; set; }
     
         /// <summary>
-        /// Gets or Sets Error
+        /// Gets or Sets Password
         /// </summary>
-        [DataMember(Name="error", EmitDefaultValue=false)]
-        public ResponseError Error { get; set; }
-    
-        /// <summary>
-        /// Gets or Sets Success
-        /// </summary>
-        [DataMember(Name="success", EmitDefaultValue=false)]
-        public bool? Success { get; set; }
+        [DataMember(Name="password", EmitDefaultValue=false)]
+        public string Password { get; set; }
     
         /// <summary>
         /// Returns the string presentation of the object
@@ -60,10 +68,9 @@ namespace Czat.ServerConnectionAPI.Model
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class DataResponsestring {\n");
-            sb.Append("  Data: ").Append(Data).Append("\n");
-            sb.Append("  Error: ").Append(Error).Append("\n");
-            sb.Append("  Success: ").Append(Success).Append("\n");
+            sb.Append("class LoginDto {\n");
+            sb.Append("  Name: ").Append(Name).Append("\n");
+            sb.Append("  Password: ").Append(Password).Append("\n");
             
             sb.Append("}\n");
             return sb.ToString();
@@ -86,15 +93,15 @@ namespace Czat.ServerConnectionAPI.Model
         public override bool Equals(object obj)
         {
             // credit: http://stackoverflow.com/a/10454552/677735
-            return this.Equals(obj as DataResponsestring);
+            return this.Equals(obj as LoginDto);
         }
 
         /// <summary>
-        /// Returns true if DataResponsestring instances are equal
+        /// Returns true if LoginDto instances are equal
         /// </summary>
-        /// <param name="other">Instance of DataResponsestring to be compared</param>
+        /// <param name="other">Instance of LoginDto to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(DataResponsestring other)
+        public bool Equals(LoginDto other)
         {
             // credit: http://stackoverflow.com/a/10454552/677735
             if (other == null)
@@ -102,19 +109,14 @@ namespace Czat.ServerConnectionAPI.Model
 
             return 
                 (
-                    this.Data == other.Data ||
-                    this.Data != null &&
-                    this.Data.Equals(other.Data)
+                    this.Name == other.Name ||
+                    this.Name != null &&
+                    this.Name.Equals(other.Name)
                 ) && 
                 (
-                    this.Error == other.Error ||
-                    this.Error != null &&
-                    this.Error.Equals(other.Error)
-                ) && 
-                (
-                    this.Success == other.Success ||
-                    this.Success != null &&
-                    this.Success.Equals(other.Success)
+                    this.Password == other.Password ||
+                    this.Password != null &&
+                    this.Password.Equals(other.Password)
                 );
         }
 
@@ -130,14 +132,11 @@ namespace Czat.ServerConnectionAPI.Model
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
                 
-                if (this.Data != null)
-                    hash = hash * 59 + this.Data.GetHashCode();
+                if (this.Name != null)
+                    hash = hash * 59 + this.Name.GetHashCode();
                 
-                if (this.Error != null)
-                    hash = hash * 59 + this.Error.GetHashCode();
-                
-                if (this.Success != null)
-                    hash = hash * 59 + this.Success.GetHashCode();
+                if (this.Password != null)
+                    hash = hash * 59 + this.Password.GetHashCode();
                 
                 return hash;
             }
