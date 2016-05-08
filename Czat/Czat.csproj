@@ -62,7 +62,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ServerConnectionAPI\Api\FriendrestcontrollerApi.cs" />
+    <Compile Include="ServerConnectionAPI\Api\FriendRestControllerApi.cs" />
     <Compile Include="ServerConnectionAPI\Model\IdDto.cs" />
     <Compile Include="ServerConnectionAPI\Model\LoginDto.cs" />
     <Compile Include="ServerConnectionAPI\Model\PasswordDto.cs" />

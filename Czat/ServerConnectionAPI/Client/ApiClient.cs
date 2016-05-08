@@ -20,17 +20,17 @@ namespace Czat.ServerConnectionAPI.Client
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" /> class
-        /// with default configuration and base path (https://chatbackend-chat22.rhcloud.com:80/).
+        /// with default configuration and base path (http://chatbackend-chat22.rhcloud.com:80/).
         /// </summary>
         public ApiClient()
         {
             Configuration = Configuration.Default;
-            RestClient = new RestClient("https://chatbackend-chat22.rhcloud.com:80/");
+            RestClient = new RestClient("http://chatbackend-chat22.rhcloud.com:80/");
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" /> class
-        /// with default base path (https://chatbackend-chat22.rhcloud.com:80/).
+        /// with default base path (http://chatbackend-chat22.rhcloud.com:80/).
         /// </summary>
         /// <param name="config">An instance of Configuration.</param>
         public ApiClient(Configuration config = null)
@@ -40,7 +40,7 @@ namespace Czat.ServerConnectionAPI.Client
             else
                 Configuration = config;
 
-            RestClient = new RestClient("https://chatbackend-chat22.rhcloud.com:80/");
+            RestClient = new RestClient("http://chatbackend-chat22.rhcloud.com:80/");
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Czat.ServerConnectionAPI.Client
         /// with default configuration.
         /// </summary>
         /// <param name="basePath">The base path.</param>
-        public ApiClient(String basePath = "https://chatbackend-chat22.rhcloud.com:80/")
+        public ApiClient(String basePath = "http://chatbackend-chat22.rhcloud.com:80/")
         {
            if (String.IsNullOrEmpty(basePath))
                 throw new ArgumentException("basePath cannot be empty");

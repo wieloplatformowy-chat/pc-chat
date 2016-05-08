@@ -26,15 +26,15 @@ namespace Czat
             }
         }
 
-        public string RegisterUser(string login, string password)
+        public string RegisterUser(string email, string login, string password)
         {
             UserRestControllerApi api = new UserRestControllerApi();
-            UserDto newUser = new UserDto(login, password);
+            UserDto newUser = new UserDto(email, login, password);
 
             try
             {
                 RestResponse serverResponse = api.RegisterUsingPOST1(newUser);
-                return serverResponse.Response;
+                return "Success";
             }
             catch (ApiException exception)
             {
@@ -46,7 +46,7 @@ namespace Czat
             }
         }
 
-        public string LoginUser(String login, String password)
+        public string LoginUser(string login, string password)
         {
             UserRestControllerApi api = new UserRestControllerApi();
             LoginDto user = new LoginDto(login, password);
@@ -54,7 +54,7 @@ namespace Czat
             try
             {
                 TokenDto token = api.LoginUsingPOST(user);
-                return token.Token;
+                return "Success";
             }
             catch (ApiException exception)
             {

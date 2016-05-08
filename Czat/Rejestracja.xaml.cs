@@ -49,8 +49,8 @@ namespace Czat
 
             if (Login.Text.Length <= 32 && Pass.Text.Length <= 32 && IsEmailIsValid == true && Pass.Text == PassRep.Text)    //prosta walidacja oraz przejscie miedzy oknami
             {
-                string response = ServerConnectionManager.Instance.RegisterUser(Login.Text, Pass.Text);
-                if (response != "success")
+                string response = ServerConnectionManager.Instance.RegisterUser(Email.Text, Login.Text, Pass.Text);
+                if (response != "Success")
                 {
                     MessageBox.Show(response, "Wystąpił błąd");
                     return;
