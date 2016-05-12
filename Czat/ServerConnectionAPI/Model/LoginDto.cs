@@ -1,13 +1,8 @@
 using System;
-using System.Linq;
 using System.IO;
 using System.Text;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace Czat.ServerConnectionAPI.Model
 {
@@ -15,9 +10,9 @@ namespace Czat.ServerConnectionAPI.Model
     /// 
     /// </summary>
     [DataContract]
-    public partial class LoginDto :  IEquatable<LoginDto>
-    { 
-    
+    public partial class LoginDto : IEquatable<LoginDto>
+    {
+
         /// <summary>
         /// Initializes a new instance of the <see cref="LoginDto" /> class.
         /// Initializes a new instance of the <see cref="LoginDto" />class.
@@ -45,22 +40,22 @@ namespace Czat.ServerConnectionAPI.Model
             {
                 this.Password = Password;
             }
-            
+
         }
-        
-    
+
+
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
-        [DataMember(Name="name", EmitDefaultValue=false)]
+        [DataMember(Name = "name", EmitDefaultValue = false)]
         public string Name { get; set; }
-    
+
         /// <summary>
         /// Gets or Sets Password
         /// </summary>
-        [DataMember(Name="password", EmitDefaultValue=false)]
+        [DataMember(Name = "password", EmitDefaultValue = false)]
         public string Password { get; set; }
-    
+
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -71,11 +66,11 @@ namespace Czat.ServerConnectionAPI.Model
             sb.Append("class LoginDto {\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  Password: ").Append(Password).Append("\n");
-            
+
             sb.Append("}\n");
             return sb.ToString();
         }
-  
+
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>
@@ -107,12 +102,12 @@ namespace Czat.ServerConnectionAPI.Model
             if (other == null)
                 return false;
 
-            return 
+            return
                 (
                     this.Name == other.Name ||
                     this.Name != null &&
                     this.Name.Equals(other.Name)
-                ) && 
+                ) &&
                 (
                     this.Password == other.Password ||
                     this.Password != null &&
@@ -131,13 +126,13 @@ namespace Czat.ServerConnectionAPI.Model
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
-                
+
                 if (this.Name != null)
                     hash = hash * 59 + this.Name.GetHashCode();
-                
+
                 if (this.Password != null)
                     hash = hash * 59 + this.Password.GetHashCode();
-                
+
                 return hash;
             }
         }

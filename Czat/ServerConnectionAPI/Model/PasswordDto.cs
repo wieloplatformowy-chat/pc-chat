@@ -1,13 +1,8 @@
 using System;
-using System.Linq;
 using System.IO;
 using System.Text;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace Czat.ServerConnectionAPI.Model
 {
@@ -15,9 +10,9 @@ namespace Czat.ServerConnectionAPI.Model
     /// 
     /// </summary>
     [DataContract]
-    public partial class PasswordDto :  IEquatable<PasswordDto>
-    { 
-    
+    public partial class PasswordDto : IEquatable<PasswordDto>
+    {
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PasswordDto" /> class.
         /// Initializes a new instance of the <see cref="PasswordDto" />class.
@@ -35,16 +30,16 @@ namespace Czat.ServerConnectionAPI.Model
             {
                 this.Password = Password;
             }
-            
+
         }
-        
-    
+
+
         /// <summary>
         /// Gets or Sets Password
         /// </summary>
-        [DataMember(Name="password", EmitDefaultValue=false)]
+        [DataMember(Name = "password", EmitDefaultValue = false)]
         public string Password { get; set; }
-    
+
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -54,11 +49,11 @@ namespace Czat.ServerConnectionAPI.Model
             var sb = new StringBuilder();
             sb.Append("class PasswordDto {\n");
             sb.Append("  Password: ").Append(Password).Append("\n");
-            
+
             sb.Append("}\n");
             return sb.ToString();
         }
-  
+
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>
@@ -90,7 +85,7 @@ namespace Czat.ServerConnectionAPI.Model
             if (other == null)
                 return false;
 
-            return 
+            return
                 (
                     this.Password == other.Password ||
                     this.Password != null &&
@@ -109,10 +104,10 @@ namespace Czat.ServerConnectionAPI.Model
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
-                
+
                 if (this.Password != null)
                     hash = hash * 59 + this.Password.GetHashCode();
-                
+
                 return hash;
             }
         }

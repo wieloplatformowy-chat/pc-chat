@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Czat.ServerConnectionAPI.Client
@@ -13,19 +12,19 @@ namespace Czat.ServerConnectionAPI.Client
         /// </summary>
         /// <value>The status code.</value>
         public int StatusCode { get; private set; }
-  
+
         /// <summary>
         /// Gets or sets the HTTP headers
         /// </summary>
         /// <value>HTTP headers</value>
         public IDictionary<string, string> Headers { get; private set; }
-  
+
         /// <summary>
         /// Gets or sets the data (parsed HTTP body)
         /// </summary>
         /// <value>The data.</value>
         public T Data { get; private set; }
-  
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiResponse&lt;T&gt;" /> class.
         /// </summary>
@@ -34,11 +33,11 @@ namespace Czat.ServerConnectionAPI.Client
         /// <param name="data">Data (parsed HTTP body)</param>
         public ApiResponse(int statusCode, IDictionary<string, string> headers, T data)
         {
-            this.StatusCode= statusCode;
+            this.StatusCode = statusCode;
             this.Headers = headers;
             this.Data = data;
         }
-  
+
     }
-  
+
 }

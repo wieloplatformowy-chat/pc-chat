@@ -1,7 +1,5 @@
 using System;
-using System.IO;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using RestSharp;
 using Czat.ServerConnectionAPI.Client;
@@ -10,14 +8,14 @@ using RestResponse = Czat.ServerConnectionAPI.Model.RestResponse;
 
 namespace Czat.ServerConnectionAPI.Api
 {
-    
+
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
     public interface IFriendRestControllerApi
     {
         #region Synchronous Operations
-        
+
         /// <summary>
         /// Lists all friends of logged user
         /// </summary>
@@ -27,8 +25,8 @@ namespace Czat.ServerConnectionAPI.Api
         /// <exception cref="Czat.ServerConnectionAPI.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xAuthToken">Authorization token (optional)</param>
         /// <returns>List&lt;UserWithoutPasswordDto&gt;</returns>
-        List<UserWithoutPasswordDto> MyUsingGET (string xAuthToken = null);
-  
+        List<UserWithoutPasswordDto> MyUsingGET(string xAuthToken = null);
+
         /// <summary>
         /// Lists all friends of logged user
         /// </summary>
@@ -38,8 +36,8 @@ namespace Czat.ServerConnectionAPI.Api
         /// <exception cref="Czat.ServerConnectionAPI.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xAuthToken">Authorization token (optional)</param>
         /// <returns>ApiResponse of List&lt;UserWithoutPasswordDto&gt;</returns>
-        ApiResponse<List<UserWithoutPasswordDto>> MyUsingGETWithHttpInfo (string xAuthToken = null);
-        
+        ApiResponse<List<UserWithoutPasswordDto>> MyUsingGETWithHttpInfo(string xAuthToken = null);
+
         /// <summary>
         /// Adds friend for logged user
         /// </summary>
@@ -50,8 +48,8 @@ namespace Czat.ServerConnectionAPI.Api
         /// <param name="idDto">idDto</param>
         /// <param name="xAuthToken">Authorization token (optional)</param>
         /// <returns>RestResponse</returns>
-        RestResponse RegisterUsingPOST (IdDto idDto, string xAuthToken = null);
-  
+        RestResponse RegisterUsingPOST(IdDto idDto, string xAuthToken = null);
+
         /// <summary>
         /// Adds friend for logged user
         /// </summary>
@@ -62,12 +60,12 @@ namespace Czat.ServerConnectionAPI.Api
         /// <param name="idDto">idDto</param>
         /// <param name="xAuthToken">Authorization token (optional)</param>
         /// <returns>ApiResponse of RestResponse</returns>
-        ApiResponse<RestResponse> RegisterUsingPOSTWithHttpInfo (IdDto idDto, string xAuthToken = null);
-        
+        ApiResponse<RestResponse> RegisterUsingPOSTWithHttpInfo(IdDto idDto, string xAuthToken = null);
+
         #endregion Synchronous Operations
-        
+
         #region Asynchronous Operations
-        
+
         /// <summary>
         /// Lists all friends of logged user
         /// </summary>
@@ -77,7 +75,7 @@ namespace Czat.ServerConnectionAPI.Api
         /// <exception cref="Czat.ServerConnectionAPI.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xAuthToken">Authorization token (optional)</param>
         /// <returns>Task of List&lt;UserWithoutPasswordDto&gt;</returns>
-        System.Threading.Tasks.Task<List<UserWithoutPasswordDto>> MyUsingGETAsync (string xAuthToken = null);
+        System.Threading.Tasks.Task<List<UserWithoutPasswordDto>> MyUsingGETAsync(string xAuthToken = null);
 
         /// <summary>
         /// Lists all friends of logged user
@@ -88,8 +86,8 @@ namespace Czat.ServerConnectionAPI.Api
         /// <exception cref="Czat.ServerConnectionAPI.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xAuthToken">Authorization token (optional)</param>
         /// <returns>Task of ApiResponse (List&lt;UserWithoutPasswordDto&gt;)</returns>
-        System.Threading.Tasks.Task<ApiResponse<List<UserWithoutPasswordDto>>> MyUsingGETAsyncWithHttpInfo (string xAuthToken = null);
-        
+        System.Threading.Tasks.Task<ApiResponse<List<UserWithoutPasswordDto>>> MyUsingGETAsyncWithHttpInfo(string xAuthToken = null);
+
         /// <summary>
         /// Adds friend for logged user
         /// </summary>
@@ -100,7 +98,7 @@ namespace Czat.ServerConnectionAPI.Api
         /// <param name="idDto">idDto</param>
         /// <param name="xAuthToken">Authorization token (optional)</param>
         /// <returns>Task of RestResponse</returns>
-        System.Threading.Tasks.Task<RestResponse> RegisterUsingPOSTAsync (IdDto idDto, string xAuthToken = null);
+        System.Threading.Tasks.Task<RestResponse> RegisterUsingPOSTAsync(IdDto idDto, string xAuthToken = null);
 
         /// <summary>
         /// Adds friend for logged user
@@ -112,12 +110,12 @@ namespace Czat.ServerConnectionAPI.Api
         /// <param name="idDto">idDto</param>
         /// <param name="xAuthToken">Authorization token (optional)</param>
         /// <returns>Task of ApiResponse (RestResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<RestResponse>> RegisterUsingPOSTAsyncWithHttpInfo (IdDto idDto, string xAuthToken = null);
-        
+        System.Threading.Tasks.Task<ApiResponse<RestResponse>> RegisterUsingPOSTAsyncWithHttpInfo(IdDto idDto, string xAuthToken = null);
+
         #endregion Asynchronous Operations
-        
+
     }
-  
+
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
@@ -137,7 +135,7 @@ namespace Czat.ServerConnectionAPI.Api
                 this.Configuration.ApiClient.Configuration = this.Configuration;
             }
         }
-    
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FriendRestControllerApi"/> class
         /// using Configuration object
@@ -147,7 +145,7 @@ namespace Czat.ServerConnectionAPI.Api
         public FriendRestControllerApi(Configuration configuration = null)
         {
             if (configuration == null) // use the default one in Configuration
-                this.Configuration = Configuration.Default; 
+                this.Configuration = Configuration.Default;
             else
                 this.Configuration = configuration;
 
@@ -176,12 +174,12 @@ namespace Czat.ServerConnectionAPI.Api
         {
             // do nothing
         }
-    
+
         /// <summary>
         /// Gets or sets the configuration object
         /// </summary>
         /// <value>An instance of the Configuration</value>
-        public Configuration Configuration {get; set;}
+        public Configuration Configuration { get; set; }
 
         /// <summary>
         /// Gets the default header.
@@ -204,18 +202,18 @@ namespace Czat.ServerConnectionAPI.Api
         {
             this.Configuration.AddDefaultHeader(key, value);
         }
-   
-        
+
+
         /// <summary>
         /// Lists all friends of logged user 
         /// </summary>
         /// <exception cref="Czat.ServerConnectionAPI.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xAuthToken">Authorization token (optional)</param> 
         /// <returns>List&lt;UserWithoutPasswordDto&gt;</returns>
-        public List<UserWithoutPasswordDto> MyUsingGET (string xAuthToken = null)
+        public List<UserWithoutPasswordDto> MyUsingGET(string xAuthToken = null)
         {
-             ApiResponse<List<UserWithoutPasswordDto>> localVarResponse = MyUsingGETWithHttpInfo(xAuthToken);
-             return localVarResponse.Data;
+            ApiResponse<List<UserWithoutPasswordDto>> localVarResponse = MyUsingGETWithHttpInfo(xAuthToken);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -224,12 +222,12 @@ namespace Czat.ServerConnectionAPI.Api
         /// <exception cref="Czat.ServerConnectionAPI.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xAuthToken">Authorization token (optional)</param> 
         /// <returns>ApiResponse of List&lt;UserWithoutPasswordDto&gt;</returns>
-        public ApiResponse< List<UserWithoutPasswordDto> > MyUsingGETWithHttpInfo (string xAuthToken = null)
+        public ApiResponse<List<UserWithoutPasswordDto>> MyUsingGETWithHttpInfo(string xAuthToken = null)
         {
-            
-    
+
+
             var localVarPath = "/friends/my";
-    
+
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -254,44 +252,44 @@ namespace Czat.ServerConnectionAPI.Api
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
-            
-            
-            if (xAuthToken != null) localVarHeaderParams.Add("X-Auth-Token", Configuration.ApiClient.ParameterToString(xAuthToken)); // header parameter
-            
-            
-            
 
-            
-    
+
+            if (xAuthToken != null) localVarHeaderParams.Add("X-Auth-Token", Configuration.ApiClient.ParameterToString(xAuthToken)); // header parameter
+
+
+
+
+
+
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, 
+            IRestResponse localVarResponse = (IRestResponse)Configuration.ApiClient.CallApi(localVarPath,
                 Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-    
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
+
             if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling MyUsingGET: " + localVarResponse.Content, localVarResponse.Content);
+                throw new ApiException(localVarStatusCode, "Error calling MyUsingGET: " + localVarResponse.Content, localVarResponse.Content);
             else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling MyUsingGET: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
-    
+                throw new ApiException(localVarStatusCode, "Error calling MyUsingGET: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+
             return new ApiResponse<List<UserWithoutPasswordDto>>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
-                (List<UserWithoutPasswordDto>) Configuration.ApiClient.Deserialize(localVarResponse, typeof(List<UserWithoutPasswordDto>)));
-            
+                (List<UserWithoutPasswordDto>)Configuration.ApiClient.Deserialize(localVarResponse, typeof(List<UserWithoutPasswordDto>)));
+
         }
 
-        
+
         /// <summary>
         /// Lists all friends of logged user 
         /// </summary>
         /// <exception cref="Czat.ServerConnectionAPI.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xAuthToken">Authorization token (optional)</param>
         /// <returns>Task of List&lt;UserWithoutPasswordDto&gt;</returns>
-        public async System.Threading.Tasks.Task<List<UserWithoutPasswordDto>> MyUsingGETAsync (string xAuthToken = null)
+        public async System.Threading.Tasks.Task<List<UserWithoutPasswordDto>> MyUsingGETAsync(string xAuthToken = null)
         {
-             ApiResponse<List<UserWithoutPasswordDto>> localVarResponse = await MyUsingGETAsyncWithHttpInfo(xAuthToken);
-             return localVarResponse.Data;
+            ApiResponse<List<UserWithoutPasswordDto>> localVarResponse = await MyUsingGETAsyncWithHttpInfo(xAuthToken);
+            return localVarResponse.Data;
 
         }
 
@@ -301,12 +299,12 @@ namespace Czat.ServerConnectionAPI.Api
         /// <exception cref="Czat.ServerConnectionAPI.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xAuthToken">Authorization token (optional)</param>
         /// <returns>Task of ApiResponse (List&lt;UserWithoutPasswordDto&gt;)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<List<UserWithoutPasswordDto>>> MyUsingGETAsyncWithHttpInfo (string xAuthToken = null)
+        public async System.Threading.Tasks.Task<ApiResponse<List<UserWithoutPasswordDto>>> MyUsingGETAsyncWithHttpInfo(string xAuthToken = null)
         {
-            
-    
+
+
             var localVarPath = "/friends/my";
-    
+
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -331,33 +329,33 @@ namespace Czat.ServerConnectionAPI.Api
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
-            
-            
-            if (xAuthToken != null) localVarHeaderParams.Add("X-Auth-Token", Configuration.ApiClient.ParameterToString(xAuthToken)); // header parameter
-            
-            
-            
 
-            
+
+            if (xAuthToken != null) localVarHeaderParams.Add("X-Auth-Token", Configuration.ApiClient.ParameterToString(xAuthToken)); // header parameter
+
+
+
+
+
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, 
-                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, 
+            IRestResponse localVarResponse = (IRestResponse)await Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
- 
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
+
             if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling MyUsingGET: " + localVarResponse.Content, localVarResponse.Content);
+                throw new ApiException(localVarStatusCode, "Error calling MyUsingGET: " + localVarResponse.Content, localVarResponse.Content);
             else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling MyUsingGET: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+                throw new ApiException(localVarStatusCode, "Error calling MyUsingGET: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
 
             return new ApiResponse<List<UserWithoutPasswordDto>>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
-                (List<UserWithoutPasswordDto>) Configuration.ApiClient.Deserialize(localVarResponse, typeof(List<UserWithoutPasswordDto>)));
-            
+                (List<UserWithoutPasswordDto>)Configuration.ApiClient.Deserialize(localVarResponse, typeof(List<UserWithoutPasswordDto>)));
+
         }
-        
+
         /// <summary>
         /// Adds friend for logged user 
         /// </summary>
@@ -365,10 +363,10 @@ namespace Czat.ServerConnectionAPI.Api
         /// <param name="idDto">idDto</param> 
         /// <param name="xAuthToken">Authorization token (optional)</param> 
         /// <returns>RestResponse</returns>
-        public RestResponse RegisterUsingPOST (IdDto idDto, string xAuthToken = null)
+        public RestResponse RegisterUsingPOST(IdDto idDto, string xAuthToken = null)
         {
-             ApiResponse<RestResponse> localVarResponse = RegisterUsingPOSTWithHttpInfo(idDto, xAuthToken);
-             return localVarResponse.Data;
+            ApiResponse<RestResponse> localVarResponse = RegisterUsingPOSTWithHttpInfo(idDto, xAuthToken);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -378,16 +376,16 @@ namespace Czat.ServerConnectionAPI.Api
         /// <param name="idDto">idDto</param> 
         /// <param name="xAuthToken">Authorization token (optional)</param> 
         /// <returns>ApiResponse of RestResponse</returns>
-        public ApiResponse< RestResponse > RegisterUsingPOSTWithHttpInfo (IdDto idDto, string xAuthToken = null)
+        public ApiResponse<RestResponse> RegisterUsingPOSTWithHttpInfo(IdDto idDto, string xAuthToken = null)
         {
-            
+
             // verify the required parameter 'idDto' is set
             if (idDto == null)
                 throw new ApiException(400, "Missing required parameter 'idDto' when calling FriendrestcontrollerApi->RegisterUsingPOST");
-            
-    
+
+
             var localVarPath = "/friends/add";
-    
+
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -412,11 +410,11 @@ namespace Czat.ServerConnectionAPI.Api
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
-            
-            
+
+
             if (xAuthToken != null) localVarHeaderParams.Add("X-Auth-Token", Configuration.ApiClient.ParameterToString(xAuthToken)); // header parameter
-            
-            
+
+
             if (idDto.GetType() != typeof(byte[]))
             {
                 localVarPostBody = Configuration.ApiClient.Serialize(idDto); // http body (model) parameter
@@ -426,27 +424,27 @@ namespace Czat.ServerConnectionAPI.Api
                 localVarPostBody = idDto; // byte array
             }
 
-            
-    
+
+
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, 
+            IRestResponse localVarResponse = (IRestResponse)Configuration.ApiClient.CallApi(localVarPath,
                 Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-    
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
+
             if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling RegisterUsingPOST: " + localVarResponse.Content, localVarResponse.Content);
+                throw new ApiException(localVarStatusCode, "Error calling RegisterUsingPOST: " + localVarResponse.Content, localVarResponse.Content);
             else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling RegisterUsingPOST: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
-    
+                throw new ApiException(localVarStatusCode, "Error calling RegisterUsingPOST: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+
             return new ApiResponse<RestResponse>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
-                (RestResponse) Configuration.ApiClient.Deserialize(localVarResponse, typeof(RestResponse)));
-            
+                (RestResponse)Configuration.ApiClient.Deserialize(localVarResponse, typeof(RestResponse)));
+
         }
 
-        
+
         /// <summary>
         /// Adds friend for logged user 
         /// </summary>
@@ -454,10 +452,10 @@ namespace Czat.ServerConnectionAPI.Api
         /// <param name="idDto">idDto</param>
         /// <param name="xAuthToken">Authorization token (optional)</param>
         /// <returns>Task of RestResponse</returns>
-        public async System.Threading.Tasks.Task<RestResponse> RegisterUsingPOSTAsync (IdDto idDto, string xAuthToken = null)
+        public async System.Threading.Tasks.Task<RestResponse> RegisterUsingPOSTAsync(IdDto idDto, string xAuthToken = null)
         {
-             ApiResponse<RestResponse> localVarResponse = await RegisterUsingPOSTAsyncWithHttpInfo(idDto, xAuthToken);
-             return localVarResponse.Data;
+            ApiResponse<RestResponse> localVarResponse = await RegisterUsingPOSTAsyncWithHttpInfo(idDto, xAuthToken);
+            return localVarResponse.Data;
 
         }
 
@@ -468,14 +466,14 @@ namespace Czat.ServerConnectionAPI.Api
         /// <param name="idDto">idDto</param>
         /// <param name="xAuthToken">Authorization token (optional)</param>
         /// <returns>Task of ApiResponse (RestResponse)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<RestResponse>> RegisterUsingPOSTAsyncWithHttpInfo (IdDto idDto, string xAuthToken = null)
+        public async System.Threading.Tasks.Task<ApiResponse<RestResponse>> RegisterUsingPOSTAsyncWithHttpInfo(IdDto idDto, string xAuthToken = null)
         {
             // verify the required parameter 'idDto' is set
             if (idDto == null) throw new ApiException(400, "Missing required parameter 'idDto' when calling RegisterUsingPOST");
-            
-    
+
+
             var localVarPath = "/friends/add";
-    
+
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -500,11 +498,11 @@ namespace Czat.ServerConnectionAPI.Api
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
-            
-            
+
+
             if (xAuthToken != null) localVarHeaderParams.Add("X-Auth-Token", Configuration.ApiClient.ParameterToString(xAuthToken)); // header parameter
-            
-            
+
+
             if (idDto.GetType() != typeof(byte[]))
             {
                 localVarPostBody = Configuration.ApiClient.Serialize(idDto); // http body (model) parameter
@@ -514,26 +512,26 @@ namespace Czat.ServerConnectionAPI.Api
                 localVarPostBody = idDto; // byte array
             }
 
-            
+
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, 
-                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, 
+            IRestResponse localVarResponse = (IRestResponse)await Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
- 
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
+
             if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling RegisterUsingPOST: " + localVarResponse.Content, localVarResponse.Content);
+                throw new ApiException(localVarStatusCode, "Error calling RegisterUsingPOST: " + localVarResponse.Content, localVarResponse.Content);
             else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling RegisterUsingPOST: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+                throw new ApiException(localVarStatusCode, "Error calling RegisterUsingPOST: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
 
             return new ApiResponse<RestResponse>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
-                (RestResponse) Configuration.ApiClient.Deserialize(localVarResponse, typeof(RestResponse)));
-            
+                (RestResponse)Configuration.ApiClient.Deserialize(localVarResponse, typeof(RestResponse)));
+
         }
-        
+
     }
-    
+
 }

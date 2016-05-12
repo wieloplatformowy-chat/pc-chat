@@ -1,13 +1,7 @@
 using System;
-using System.Linq;
-using System.IO;
 using System.Text;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace Czat.ServerConnectionAPI.Model
 {
@@ -15,9 +9,9 @@ namespace Czat.ServerConnectionAPI.Model
     /// 
     /// </summary>
     [DataContract]
-    public partial class SearchUserDto :  IEquatable<SearchUserDto>
-    { 
-    
+    public partial class SearchUserDto : IEquatable<SearchUserDto>
+    {
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SearchUserDto" /> class.
         /// Initializes a new instance of the <see cref="SearchUserDto" />class.
@@ -29,22 +23,22 @@ namespace Czat.ServerConnectionAPI.Model
         {
             this.Email = Email;
             this.Name = Name;
-            
+
         }
-        
-    
+
+
         /// <summary>
         /// Gets or Sets Email
         /// </summary>
-        [DataMember(Name="email", EmitDefaultValue=false)]
+        [DataMember(Name = "email", EmitDefaultValue = false)]
         public string Email { get; set; }
-    
+
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
-        [DataMember(Name="name", EmitDefaultValue=false)]
+        [DataMember(Name = "name", EmitDefaultValue = false)]
         public string Name { get; set; }
-    
+
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -55,11 +49,11 @@ namespace Czat.ServerConnectionAPI.Model
             sb.Append("class SearchUserDto {\n");
             sb.Append("  Email: ").Append(Email).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
-            
+
             sb.Append("}\n");
             return sb.ToString();
         }
-  
+
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>
@@ -91,12 +85,12 @@ namespace Czat.ServerConnectionAPI.Model
             if (other == null)
                 return false;
 
-            return 
+            return
                 (
                     this.Email == other.Email ||
                     this.Email != null &&
                     this.Email.Equals(other.Email)
-                ) && 
+                ) &&
                 (
                     this.Name == other.Name ||
                     this.Name != null &&
@@ -115,13 +109,13 @@ namespace Czat.ServerConnectionAPI.Model
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
-                
+
                 if (this.Email != null)
                     hash = hash * 59 + this.Email.GetHashCode();
-                
+
                 if (this.Name != null)
                     hash = hash * 59 + this.Name.GetHashCode();
-                
+
                 return hash;
             }
         }

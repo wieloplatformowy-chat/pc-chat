@@ -1,13 +1,8 @@
 using System;
-using System.Linq;
 using System.IO;
 using System.Text;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace Czat.ServerConnectionAPI.Model
 {
@@ -15,9 +10,9 @@ namespace Czat.ServerConnectionAPI.Model
     /// 
     /// </summary>
     [DataContract]
-    public partial class IdDto :  IEquatable<IdDto>
-    { 
-    
+    public partial class IdDto : IEquatable<IdDto>
+    {
+
         /// <summary>
         /// Initializes a new instance of the <see cref="IdDto" /> class.
         /// Initializes a new instance of the <see cref="IdDto" />class.
@@ -35,16 +30,16 @@ namespace Czat.ServerConnectionAPI.Model
             {
                 this.Id = Id;
             }
-            
+
         }
-        
-    
+
+
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
-        [DataMember(Name="id", EmitDefaultValue=false)]
+        [DataMember(Name = "id", EmitDefaultValue = false)]
         public long? Id { get; set; }
-    
+
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -54,11 +49,11 @@ namespace Czat.ServerConnectionAPI.Model
             var sb = new StringBuilder();
             sb.Append("class IdDto {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
-            
+
             sb.Append("}\n");
             return sb.ToString();
         }
-  
+
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>
@@ -90,7 +85,7 @@ namespace Czat.ServerConnectionAPI.Model
             if (other == null)
                 return false;
 
-            return 
+            return
                 (
                     this.Id == other.Id ||
                     this.Id != null &&
@@ -109,10 +104,10 @@ namespace Czat.ServerConnectionAPI.Model
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
-                
+
                 if (this.Id != null)
                     hash = hash * 59 + this.Id.GetHashCode();
-                
+
                 return hash;
             }
         }

@@ -1,12 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Text.RegularExpressions;
 using System.IO;
-using System.Web;
 using System.Linq;
-using System.Net;
 using System.Text;
 using Newtonsoft.Json;
 using RestSharp;
@@ -50,7 +47,7 @@ namespace Czat.ServerConnectionAPI.Client
         /// <param name="basePath">The base path.</param>
         public ApiClient(String basePath = "http://chatbackend-chat22.rhcloud.com:80/")
         {
-           if (String.IsNullOrEmpty(basePath))
+            if (String.IsNullOrEmpty(basePath))
                 throw new ArgumentException("basePath cannot be empty");
 
             RestClient = new RestClient(basePath);
@@ -63,7 +60,7 @@ namespace Czat.ServerConnectionAPI.Client
         /// <value>The default API client.</value>
         [Obsolete("ApiClient.Default is deprecated, please use 'Configuration.Default.ApiClient' instead.")]
         public static ApiClient Default;
-    
+
         /// <summary>
         /// Gets or sets the Configuration.
         /// </summary>
@@ -75,7 +72,7 @@ namespace Czat.ServerConnectionAPI.Client
         /// </summary>
         /// <value>An instance of the RestClient</value>
         public RestClient RestClient { get; set; }
-    
+
         // Creates and sets up a RestRequest prior to a call.
         private RestRequest PrepareRequest(
             String path, RestSharp.Method method, Dictionary<String, String> queryParams, Object postBody,
@@ -86,23 +83,23 @@ namespace Czat.ServerConnectionAPI.Client
             var request = new RestRequest(path, method);
 
             // add path parameter, if any
-            foreach(var param in pathParams)
-                request.AddParameter(param.Key, param.Value, ParameterType.UrlSegment); 
+            foreach (var param in pathParams)
+                request.AddParameter(param.Key, param.Value, ParameterType.UrlSegment);
 
             // add header parameter, if any
-            foreach(var param in headerParams)
+            foreach (var param in headerParams)
                 request.AddHeader(param.Key, param.Value);
 
             // add query parameter, if any
-            foreach(var param in queryParams)
+            foreach (var param in queryParams)
                 request.AddQueryParameter(param.Key, param.Value);
 
             // add form parameter, if any
-            foreach(var param in formParams)
+            foreach (var param in formParams)
                 request.AddParameter(param.Key, param.Value);
 
             // add file parameter, if any
-            foreach(var param in fileParams)
+            foreach (var param in fileParams)
                 request.AddFile(param.Value.Name, param.Value.Writer, param.Value.FileName, param.Value.ContentType);
 
             if (postBody != null) // http body (model or byte[]) parameter
@@ -116,7 +113,7 @@ namespace Czat.ServerConnectionAPI.Client
                     request.AddParameter(contentType, postBody, ParameterType.RequestBody);
                 }
             }
-    
+
             return request;
         }
 
@@ -149,9 +146,9 @@ namespace Czat.ServerConnectionAPI.Client
             RestClient.UserAgent = Configuration.UserAgent;
 
             var response = RestClient.Execute(request);
-            return (Object) response;
+            return (Object)response;
         }
-        
+
         /// <summary>
         /// Makes the asynchronous HTTP request.
         /// </summary>
@@ -177,7 +174,7 @@ namespace Czat.ServerConnectionAPI.Client
             var response = await RestClient.ExecuteTaskAsync(request);
             return (Object)response;
         }
-    
+
         /// <summary>
         /// Escape string (url-encoded).
         /// </summary>
@@ -187,7 +184,7 @@ namespace Czat.ServerConnectionAPI.Client
         {
             return UrlEncode(str);
         }
-    
+
         /// <summary>
         /// Create FileParameter based on Stream.
         /// </summary>
@@ -201,7 +198,7 @@ namespace Czat.ServerConnectionAPI.Client
             else
                 return FileParameter.Create(name, ReadAsBytes(stream), "no_file_name_provided");
         }
-    
+
         /// <summary>
         /// If parameter is DateTime, output in a formatted string (default ISO 8601), customizable with Configuration.DateTime.
         /// If parameter is a list, join the list with ",".
@@ -216,13 +213,13 @@ namespace Czat.ServerConnectionAPI.Client
                 // Defaults to an ISO 8601, using the known as a Round-trip date/time pattern ("o")
                 // https://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx#Anchor_8
                 // For example: 2009-06-15T13:45:30.0000000
-                return ((DateTime)obj).ToString (Configuration.DateTimeFormat);
+                return ((DateTime)obj).ToString(Configuration.DateTimeFormat);
             else if (obj is DateTimeOffset)
                 // Return a formatted date string - Can be customized with Configuration.DateTimeFormat
                 // Defaults to an ISO 8601, using the known as a Round-trip date/time pattern ("o")
                 // https://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx#Anchor_8
                 // For example: 2009-06-15T13:45:30.0000000
-                return ((DateTimeOffset)obj).ToString (Configuration.DateTimeFormat);   
+                return ((DateTimeOffset)obj).ToString(Configuration.DateTimeFormat);
             else if (obj is IList)
             {
                 var flattenedString = new StringBuilder();
@@ -235,9 +232,9 @@ namespace Czat.ServerConnectionAPI.Client
                 return flattenedString.ToString();
             }
             else
-                return Convert.ToString (obj);
+                return Convert.ToString(obj);
         }
-    
+
         /// <summary>
         /// Deserialize the JSON string into a proper object.
         /// </summary>
@@ -277,14 +274,14 @@ namespace Czat.ServerConnectionAPI.Client
 
             if (type.Name.StartsWith("System.Nullable`1[[System.DateTime")) // return a datetime object
             {
-                return DateTime.Parse(response.Content,  null, System.Globalization.DateTimeStyles.RoundtripKind);
+                return DateTime.Parse(response.Content, null, System.Globalization.DateTimeStyles.RoundtripKind);
             }
 
             if (type == typeof(String) || type.Name.StartsWith("System.Nullable")) // return primitive type
             {
-                return ConvertType(response.Content, type); 
+                return ConvertType(response.Content, type);
             }
-    
+
             // at this point, it must be a model (json)
             try
             {
@@ -295,7 +292,7 @@ namespace Czat.ServerConnectionAPI.Client
                 throw new ApiException(500, e.Message);
             }
         }
-    
+
         /// <summary>
         /// Serialize an input (model) into JSON string
         /// </summary>
@@ -312,7 +309,7 @@ namespace Czat.ServerConnectionAPI.Client
                 throw new ApiException(500, e.Message);
             }
         }
-    
+
         /// <summary>
         /// Select the Content-Type header's value from the given content-type array:
         /// if JSON exists in the given array, use it;
@@ -348,7 +345,7 @@ namespace Czat.ServerConnectionAPI.Client
 
             return String.Join(",", accepts);
         }
- 
+
         /// <summary>
         /// Encode string in base64 format.
         /// </summary>
@@ -358,7 +355,7 @@ namespace Czat.ServerConnectionAPI.Client
         {
             return System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(text));
         }
-    
+
         /// <summary>
         /// Dynamically cast the object into target type.
         /// Ref: http://stackoverflow.com/questions/4925718/c-dynamic-runtime-cast
@@ -379,7 +376,7 @@ namespace Czat.ServerConnectionAPI.Client
         /// <returns>Byte array</returns>
         public static byte[] ReadAsBytes(Stream input)
         {
-            byte[] buffer = new byte[16*1024];
+            byte[] buffer = new byte[16 * 1024];
             using (MemoryStream ms = new MemoryStream())
             {
                 int read;
