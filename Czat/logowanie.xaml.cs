@@ -29,7 +29,7 @@ namespace Czat
             ServerResponse response = ServerConnectionManager.Instance.LoginUser(Login.Text, Password.Text);
             if (response != ServerResponse.SUCCESS)
             {
-                MessageBox.Show(ServerConnectionManager.Instance.GetErrorInfo(response), "Wystąpił błąd");
+                MessageBox.Show(Helper.GetErrorInfo(response), "Wystąpił błąd");
                 return;
             }
 

@@ -13,7 +13,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Net.Mail;
 
-
 namespace Czat
 {
     /// <summary>
@@ -52,7 +51,7 @@ namespace Czat
                 ServerResponse response = ServerConnectionManager.Instance.RegisterUser(Email.Text, Login.Text, Pass.Text);
                 if (response != ServerResponse.SUCCESS)
                 {
-                    MessageBox.Show(ServerConnectionManager.Instance.GetErrorInfo(response), "Wystąpił błąd");
+                    MessageBox.Show(Helper.GetErrorInfo(response), "Wystąpił błąd");
                     return;
                 }
 

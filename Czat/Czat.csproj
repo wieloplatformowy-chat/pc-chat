@@ -62,6 +62,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Error.cs" />
+    <Compile Include="Enums.cs" />
+    <Compile Include="Helper.cs" />
     <Compile Include="ServerConnectionAPI\Api\FriendRestControllerApi.cs" />
     <Compile Include="ServerConnectionAPI\Model\IdDto.cs" />
     <Compile Include="ServerConnectionAPI\Model\LoginDto.cs" />
@@ -132,6 +135,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helpers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
