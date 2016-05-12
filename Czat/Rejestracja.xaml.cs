@@ -13,7 +13,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Net.Mail;
 
-
 namespace Czat
 {
     /// <summary>
@@ -49,6 +48,13 @@ namespace Czat
 
             if (Login.Text.Length <= 32 && Pass.Text.Length <= 32 && IsEmailIsValid == true && Pass.Text == PassRep.Text)    //prosta walidacja oraz przejscie miedzy oknami
             {
+                ServerResponse response = ServerConnectionManager.Instance.RegisterUser(Email.Text, Login.Text, Pass.Text);
+                if (response != ServerResponse.SUCCESS)
+                {
+                    MessageBox.Show(Helper.GetErrorInfo(response), "Wystąpił błąd");
+                    return;
+                }
+
                 MessageBox.Show("Zarejestrowano!");
                 Logowanie log = new Logowanie();
                 log.Show();

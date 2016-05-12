@@ -34,8 +34,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.105.2.3\lib\net45\RestSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -53,6 +62,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Error.cs" />
+    <Compile Include="Enums.cs" />
+    <Compile Include="Helper.cs" />
+    <Compile Include="ServerConnectionAPI\Api\FriendRestControllerApi.cs" />
+    <Compile Include="ServerConnectionAPI\Model\IdDto.cs" />
+    <Compile Include="ServerConnectionAPI\Model\LoginDto.cs" />
+    <Compile Include="ServerConnectionAPI\Model\PasswordDto.cs" />
+    <Compile Include="ServerConnectionAPI\Model\RestResponse.cs" />
+    <Compile Include="ServerConnectionAPI\Model\SearchUserDto.cs" />
+    <Compile Include="ServerConnectionAPI\Model\TokenDto.cs" />
+    <Compile Include="ServerConnectionAPI\Model\UserWithoutPasswordDto.cs" />
+    <Compile Include="ServerConnectionManager.cs" />
+    <Compile Include="ServerConnectionAPI\Api\UserRestControllerApi.cs" />
+    <Compile Include="ServerConnectionAPI\Client\ApiClient.cs" />
+    <Compile Include="ServerConnectionAPI\Client\ApiException.cs" />
+    <Compile Include="ServerConnectionAPI\Client\ApiResponse.cs" />
+    <Compile Include="ServerConnectionAPI\Client\Configuration.cs" />
+    <Compile Include="ServerConnectionAPI\Model\ResponseError.cs" />
+    <Compile Include="ServerConnectionAPI\Model\UserDto.cs" />
     <Compile Include="Rejestracja.xaml.cs">
       <DependentUpon>Rejestracja.xaml</DependentUpon>
     </Compile>
@@ -98,6 +126,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -106,6 +135,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helpers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
