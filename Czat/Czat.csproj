@@ -72,10 +72,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="IoC.cs" />
-    <Compile Include="Views\Rejestracja.xaml.cs">
-      <DependentUpon>Rejestracja.xaml</DependentUpon>
+    <Compile Include="Views\RegisterVM.xaml.cs">
+      <DependentUpon>RegisterVM.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\logowanie.xaml">
+    <Page Include="Views\LoginVM.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -87,14 +87,14 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Views\logowanie.xaml.cs">
-      <DependentUpon>logowanie.xaml</DependentUpon>
+    <Compile Include="Views\LoginVM.xaml.cs">
+      <DependentUpon>LoginVM.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\Rejestracja.xaml">
+    <Page Include="Views\RegisterVM.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

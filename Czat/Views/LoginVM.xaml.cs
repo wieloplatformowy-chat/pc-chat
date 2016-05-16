@@ -7,10 +7,10 @@ namespace Czat.Views
     /// <summary>
     /// Interaction logic for logowanie.xaml
     /// </summary>
-    public partial class Logowanie : Window
+    public partial class LoginVM : Window
     {
         public UserRestService UserService { get; }
-        public Logowanie(UserRestService userService)
+        public LoginVM(UserRestService userService)
         {
             UserService = userService;
             InitializeComponent();
@@ -35,8 +35,8 @@ namespace Czat.Views
 
         private void Register_Click(object sender, RoutedEventArgs e)   //obsluga guzika rejestracja
         {
-            Rejestracja Register = IoC.Resolve<Rejestracja>();
-            Register.Show();
+            RegisterVM registerVm = IoC.Resolve<RegisterVM>();
+            registerVm.Show();
             this.Close();
         }
     }

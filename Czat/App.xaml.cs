@@ -23,8 +23,8 @@ namespace Czat
         {
             InicializeIoC();
 
-            Logowanie logowanie = IoC.Resolve<Logowanie>();
-            logowanie.Show();
+            LoginVM loginVm = IoC.Resolve<LoginVM>();
+            loginVm.Show();
         }
 
         private static void InicializeIoC()

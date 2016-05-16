@@ -7,13 +7,13 @@ using Czat.RestApiService.Services;
 namespace Czat.Views
 {
     /// <summary>
-    /// Interaction logic for Rejestracja.xaml
+    /// Interaction logic for RegisterVM.xaml
     /// </summary>
-    public partial class Rejestracja : Window
+    public partial class RegisterVM : Window
     {
         public UserRestService UserService { get; }
 
-        public Rejestracja(UserRestService userService)
+        public RegisterVM(UserRestService userService)
         {
             UserService = userService;
             InitializeComponent();
@@ -21,7 +21,7 @@ namespace Czat.Views
 
         private void LoginOn_Click(object sender, RoutedEventArgs e) //obsluga guzika do logowania
         {
-            Logowanie log = IoC.Resolve<Logowanie>();
+            LoginVM log = IoC.Resolve<LoginVM>();
             log.Show();
             this.Close();
         }
@@ -53,7 +53,7 @@ namespace Czat.Views
                 }
 
                 MessageBox.Show("Zarejestrowano!");
-                Logowanie log = IoC.Resolve<Logowanie>();
+                LoginVM log = IoC.Resolve<LoginVM>();
                 log.Show();
                 this.Close();
             }
