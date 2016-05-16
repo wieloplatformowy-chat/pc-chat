@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 using Czat.RestApiService;
 using Czat.RestApiService.Services;
 
@@ -10,17 +11,18 @@ namespace Czat.Views
     public partial class LoginVM : Window
     {
         public UserRestService UserService { get; }
+
         public LoginVM(UserRestService userService)
         {
             UserService = userService;
             InitializeComponent();
         }
 
-        private async void LoginOn_Click(object sender, RoutedEventArgs e)    //obsluga guzika loguj
+        private async void LoginOn_Click(object sender, RoutedEventArgs e) //obsluga guzika loguj
         {
             try
             {
-                await UserService.Login(Login.Text, Password.Text);
+                await UserService.Login(Login.Text, Password.Password);
             }
             catch (ApiException apiException)
             {
@@ -33,10 +35,20 @@ namespace Czat.Views
             this.Close();
         }
 
-        private void Register_Click(object sender, RoutedEventArgs e)   //obsluga guzika rejestracja
+        private void Register_Click(object sender, RoutedEventArgs e) //obsluga guzika rejestracja
         {
             RegisterVM registerVm = IoC.Resolve<RegisterVM>();
             registerVm.Show();
+            this.Close();
+        }
+
+        private void LoginVM_OnMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            App.Current.MainWindow.DragMove();
+        }
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
             this.Close();
         }
     }

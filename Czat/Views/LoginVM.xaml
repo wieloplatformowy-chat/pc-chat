@@ -1,25 +1,50 @@
 ﻿<Window x:Class="Czat.Views.LoginVM"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="LoginVM" MinHeight="300" MinWidth="300" Height="300" Width="300" MaxWidth="400" MaxHeight="400" WindowStartupLocation="CenterScreen">
-    <Grid Background="#FFDADADA">
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="LoginVM" Height="370" Width="310" WindowStyle="None" ResizeMode="NoResize"
+        MouseDown="LoginVM_OnMouseDown"
+        WindowStartupLocation="CenterScreen">
+    <Grid Background="#FFffffff">
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="19"/>
-            <RowDefinition Height="11"/>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="70" />
+            <RowDefinition Height="36" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="36" />
+            <RowDefinition Height="40" />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="197"/>
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition />
+            <ColumnDefinition Width="10" />
         </Grid.ColumnDefinitions>
 
-        <TextBox x:Name="Login" Height="23" Margin="10,62,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2" FontWeight="Bold"/>
-        <TextBox x:Name="Password" Height="23" Margin="10,123,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2" FontWeight="Bold"/>
-        <Button x:Name="LoginOn" Content="Zaloguj" HorizontalAlignment="Left" VerticalAlignment="Top"  Width="186" Click="LoginOn_Click" Height="20" Margin="1,0,0,0" Grid.Column="1" Grid.Row="1" FontWeight="Bold" Background="#FF009688" Foreground="White" Grid.RowSpan="2"/>
-        <Button x:Name="Register" Content="Rejestruj" HorizontalAlignment="Left" VerticalAlignment="Top"  Width="186" Click="Register_Click" Height="20" Grid.Column="1" FontWeight="Bold" Background="#FF727272" Foreground="White" Margin="1,0,0,0" Grid.Row="3"/>
-        <TextBlock x:Name="TextBlockPassowrd" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="22" Margin="10,101,0,0" TextWrapping="Wrap" Text="Hasło" VerticalAlignment="Top" Width="128" FontWeight="Bold" FontSize="16"/>
-        <TextBlock x:Name="TextBoxLogin" HorizontalAlignment="Left" Height="22" Margin="10,40,0,0" TextWrapping="Wrap" Text="LoginVM" VerticalAlignment="Top" Width="75" FontWeight="Bold" FontSize="16"/>
+        <TextBox Name="Login" materialDesign:HintAssist.Hint="Username" FontSize="16"
+                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" Grid.Row="2" Grid.Column="1" />
 
+        <PasswordBox Name="Password" Grid.Row="4" Grid.Column="1"
+                     Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
+                     materialDesign:HintAssist.Hint="Hasło" FontSize="16" />
+
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#9c27b0" Grid.Row="0"
+              Grid.ColumnSpan="3" Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="70" />
+            </Grid.ColumnDefinitions>
+            <TextBlock TextWrapping="Wrap" Text="Logowanie" VerticalAlignment="Center" HorizontalAlignment="Center"
+                       FontSize="36" Foreground="#ffffff" />
+            <Button Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                    Background="#33000000"
+                    Foreground="#FFFFFFFF"
+                    BorderBrush="#00000000"
+                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                    ToolTip="MaterialDesignFloatingActionMiniLightButton" Grid.Column="1" Height="Auto" Width="Auto"
+                    Margin="15"
+                    Click="ButtonBase_OnClick">
+                <materialDesign:PackIcon Kind="Close" Height="24" Width="24" />
+            </Button>
+        </Grid>
     </Grid>
 </Window>
