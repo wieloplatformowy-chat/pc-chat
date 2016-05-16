@@ -16,11 +16,11 @@ namespace Czat.Views
             InitializeComponent();
         }
 
-        private void LoginOn_Click(object sender, RoutedEventArgs e)    //obsluga guzika loguj
+        private async void LoginOn_Click(object sender, RoutedEventArgs e)    //obsluga guzika loguj
         {
             try
             {
-                UserService.Login(Login.Text, Password.Text);
+                await UserService.Login(Login.Text, Password.Text);
             }
             catch (ApiException apiException)
             {

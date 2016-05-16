@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using Czat.RestApiService;
 using Czat.RestApiService.Services;
@@ -15,37 +16,37 @@ namespace RestApiServiceTests
 
         public UserRestService Service { get; }
 
-        private void Register()
+        private async Task Register()
         {
             try
             {
-                Service.Login("testowyUser", "12345678");
-                Service.DeleteAccount("12345678");
+                await Service.Login("testowyUser", "12345678");
+                await Service.DeleteAccount("12345678");
             }
             catch (Exception)
             {
                 // ignored
             }
-            Service.Register("testUser@test.pl", "testowyUser", "12345678");
+            await Service.Register("testUser@test.pl", "testowyUser", "12345678");
         }
 
-        private void Login()
+        private async Task Login()
         {
-            Service.Login("testowyUser", "12345678");
+            await Service.Login("testowyUser", "12345678");
 
-            var userWithoutPasswordDto = Service.WhoAmI();
+            var userWithoutPasswordDto = await Service.WhoAmI();
             Assert.AreEqual("testUser@test.pl", userWithoutPasswordDto.Email);
             Assert.AreEqual("testowyUser", userWithoutPasswordDto.Name);
             Assert.IsNotNull(Service.Client.Token);
         }
 
-        private void Logout()
+        private async Task Logout()
         {
-            Service.Logout();
+            await Service.Logout();
 
             try
             {
-                Service.WhoAmI();
+                await Service.WhoAmI();
             }
             catch (ApiException ex)
             {
@@ -54,21 +55,21 @@ namespace RestApiServiceTests
             Assert.IsNull(Service.Client.Token);
         }
 
-        private void DeleteAccount()
+        private async Task DeleteAccount()
         {
-            Service.Login("testowyUser", "12345678");
+            await Service.Login("testowyUser", "12345678");
 
-            Service.DeleteAccount("12345678");
+            await Service.DeleteAccount("12345678");
             Assert.IsNull(Service.Client.Token);
         }
 
         [Test]
-        public void GeneralAccountFlow()
+        public async Task GeneralAccountFlow()
         {
-            Register();
-            Login();
-            Logout();
-            DeleteAccount();
+            await Register();
+            await Login();
+            await Logout();
+            await DeleteAccount();
         }
     }
 }

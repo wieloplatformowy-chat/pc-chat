@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Security;
+using System.Threading.Tasks;
 using Czat.RestApiService.Model;
 
 namespace Czat.RestApiService.Services
@@ -13,30 +14,30 @@ namespace Czat.RestApiService.Services
 
         public ApiClient Client { get; }
 
-        public void DeleteAccount(string password)
+        public async Task DeleteAccount(string password)
         {
-            Client.CallApiDeleteJson<GeneralStringResponse>(@"/user/delete", new {Password = password});
+            await Client.CallApiDeleteJson<GeneralStringResponse>(@"/user/delete", new {Password = password});
             Client.Token = null;
         }
 
-        public void Login(string username, string password)
+        public async Task Login(string username, string password)
         {
             var loginParam = new LoginParam()
             {
                 Name = username,
                 Password = password
             };
-            var response = Client.CallApiPostJson<LoginResponse>(@"/user/login", loginParam);
+            var response = await Client.CallApiPostJson<LoginResponse>(@"/user/login", loginParam);
             Client.Token = response.Token;
         }
 
-        public void Logout()
+        public async Task Logout()
         {
-            Client.CallGet<GeneralStringResponse>(@"/user/logout");
+            await Client.CallGet<GeneralStringResponse>(@"/user/logout");
             Client.Token = null;
         }
 
-        public void Register(string email, string name, string password)
+        public async Task Register(string email, string name, string password)
         {
             var param = new RegisterParam()
             {
@@ -44,17 +45,17 @@ namespace Czat.RestApiService.Services
                 Name = name,
                 Password = password
             };
-            Client.CallApiPostJson<LoginResponse>(@"/user/register", param);
+            await Client.CallApiPostJson<LoginResponse>(@"/user/register", param);
         }
 
-        public IList<UserDTO> Search(SearchUserParam param)
+        public async Task<IList<UserDTO>> Search(SearchUserParam param)
         {
-            return Client.CallApiPostJson<IList<UserDTO>>(@"/user/search", param);
+            return await Client.CallApiPostJson<IList<UserDTO>>(@"/user/search", param);
         }
 
-        public UserDTO WhoAmI()
+        public async Task<UserDTO> WhoAmI()
         {
-            return Client.CallGet<UserDTO>(@"/user/whoami");
+            return await Client.CallGet<UserDTO>(@"/user/whoami");
         }
     }
 }

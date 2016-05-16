@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -18,7 +19,7 @@ namespace Czat.RestApiService
 
         public Uri ApiUrl { get; }
 
-        private T CallApi<T>(string url, HttpMethod method, object json = null)
+        private async Task<T> CallApi<T>(string url, HttpMethod method, object json = null)
         {
             using (var client = new HttpClient())
             {
@@ -29,7 +30,7 @@ namespace Czat.RestApiService
 
                 var httpRequestMessage = new HttpRequestMessage(method, new Uri(url, UriKind.Relative));
                 PrepareRequestmessege(json, httpRequestMessage);
-                var responseMsg = client.SendAsync(httpRequestMessage).Result;
+                var responseMsg = await client.SendAsync(httpRequestMessage);
 
 
                 if (!responseMsg.IsSuccessStatusCode)
@@ -64,25 +65,25 @@ namespace Czat.RestApiService
             }
         }
 
-        public T CallGet<T>(string url)
+        public async Task<T> CallGet<T>(string url)
         {
-            return CallApi<T>(url,HttpMethod.Get);
+            return await CallApi<T>(url, HttpMethod.Get);
         }
 
-        public T CallApiPostJson<T>(string url, object json)
+        public async Task<T> CallApiPostJson<T>(string url, object json)
         {
-            return CallApi<T>(url,HttpMethod.Post,json);
+            return await CallApi<T>(url, HttpMethod.Post, json);
         }
 
 
-        public T CallApiDelete<T>(string url)
+        public async Task<T> CallApiDelete<T>(string url)
         {
-            return CallApi<T>(url,HttpMethod.Delete);
+            return await CallApi<T>(url, HttpMethod.Delete);
         }
 
-        public T CallApiDeleteJson<T>(string url, object json)
+        public async Task<T> CallApiDeleteJson<T>(string url, object json)
         {
-            return CallApi<T>(url,HttpMethod.Delete,json);
+            return await CallApi<T>(url, HttpMethod.Delete, json);
         }
     }
 }

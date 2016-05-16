@@ -26,7 +26,7 @@ namespace Czat.Views
             this.Close();
         }
 
-        private void Rejestracja_Click(object sender, RoutedEventArgs e) //rejestracja guzik
+        private async void Rejestracja_Click(object sender, RoutedEventArgs e) //rejestracja guzik
         {
             bool IsEmailIsValid = false;
             try
@@ -44,7 +44,7 @@ namespace Czat.Views
             {
                 try
                 {
-                    UserService.Register(Email.Text, Login.Text, Pass.Text);
+                    await UserService.Register(Email.Text, Login.Text, Pass.Text);
                 }
                 catch (ApiException apiException)
                 {
