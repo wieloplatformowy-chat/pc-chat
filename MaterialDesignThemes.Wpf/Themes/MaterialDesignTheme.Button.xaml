@@ -43,7 +43,7 @@
                             <AdornerDecorator.CacheMode>
                                 <BitmapCache EnableClearType="True" SnapsToDevicePixels="True"/>
                             </AdornerDecorator.CacheMode>
-                            <Border Background="{TemplateBinding Background}" CornerRadius="2"
+                            <Border Background="{TemplateBinding Background}" CornerRadius="0"
                                     BorderThickness="{TemplateBinding BorderThickness}"
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     x:Name="border"
