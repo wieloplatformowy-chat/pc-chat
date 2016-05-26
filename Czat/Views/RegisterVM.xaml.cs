@@ -19,44 +19,51 @@ namespace Czat.Views
             InitializeComponent();
         }
 
-        private void LoginOn_Click(object sender, RoutedEventArgs e) //obsluga guzika do logowania
+        /// <summary>
+        /// Switches to login window
+        /// </summary>
+        private void LoginOn_Click(object sender, RoutedEventArgs e)
         {
-            LoginVM log = IoC.Resolve<LoginVM>();
-            log.Show();
-            this.Close();
+            IoC.Resolve<LoginVM>().Show();
+            Close();
         }
 
-        private async void Rejestracja_Click(object sender, RoutedEventArgs e) //rejestracja guzik
+        /// <summary>
+        /// Tries to register entered user on click event
+        /// </summary>
+        private async void Rejestracja_Click(object sender, RoutedEventArgs e)
         {
-            bool IsEmailIsValid = false;
-            try
-            {
-                MailAddress UserMailAdress = new MailAddress(Email.Text); //sprawdzanie poprawnosci emaila
-                IsEmailIsValid = true;
-            }
-            catch (FormatException)
-            {
-                IsEmailIsValid = false;
-            }
+            // Email validation
+            bool isEmailValid = false;
+            try {
+                new MailAddress(Email.Text);
+                isEmailValid = true;
+            } catch (Exception) {/* isEmailValid: false */}
 
-            if (Login.Text.Length <= 32 && Pass.Text.Length <= 32 && IsEmailIsValid == true && Pass.Text == PassRep.Text)
-                //prosta walidacja oraz przejscie miedzy oknami
-            {
-                try
-                {
-                    await UserService.Register(Email.Text, Login.Text, Pass.Text);
-                }
-                catch (ApiException apiException)
-                {
-                    MessageBox.Show(apiException.Message, "Wystąpił błąd");
-                    return;
-                }
+            //TODO proper validation
+            // Simple user data validation
+            if (Login.Text.Length > 32 || Pass.Text.Length > 32 || !isEmailValid || Pass.Text != PassRep.Text)
+                return;
 
-                MessageBox.Show("Zarejestrowano!");
-                LoginVM log = IoC.Resolve<LoginVM>();
-                log.Show();
-                this.Close();
+            // Registration
+            try 
+            {
+                Register.IsEnabled = false;
+                await UserService.Register(Email.Text, Login.Text, Pass.Text);
             }
+            catch (ApiException apiException)
+            {
+                //TODO Get rid of MessageBox
+                MessageBox.Show(apiException.Message, "Wystąpił błąd");
+                Register.IsEnabled = true;
+                return;
+            }
+            //TODO Get rid of MessageBox
+            MessageBox.Show("Zarejestrowano!");
+
+            // Show login window
+            IoC.Resolve<LoginVM>().Show();
+            Close();
         }
     }
 }

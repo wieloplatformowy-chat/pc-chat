@@ -6,7 +6,7 @@ using RestApiService.Services;
 namespace Czat.Views
 {
     /// <summary>
-    /// Interaction logic for logowanie.xaml
+    /// Interaction logic for LoginVM.xaml
     /// </summary>
     public partial class LoginVM : Window
     {
@@ -18,38 +18,43 @@ namespace Czat.Views
             InitializeComponent();
         }
 
-        private async void LoginOn_Click(object sender, RoutedEventArgs e) //obsluga guzika loguj
+        /// <summary>
+        /// Tries to login entered user on click event
+        /// </summary>
+        private async void LoginOn_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                LoginButton.IsEnabled = false;
                 await UserService.Login(Login.Text, Password.Password);
             }
             catch (ApiException apiException)
             {
+                LoginButton.IsEnabled = true;
+                // Get rid of MessageBox
                 MessageBox.Show(apiException.Message, "Wystąpił błąd");
                 return;
             }
 
-            MainWindow mainWindow = IoC.Resolve<MainWindow>();
-            mainWindow.Show();
-            this.Close();
+            IoC.Resolve<MainWindow>().Show();
+            Close();
         }
 
-        private void Register_Click(object sender, RoutedEventArgs e) //obsluga guzika rejestracja
+        /// <summary>
+        /// Switches to registration window
+        /// </summary>
+        private void Register_Click(object sender, RoutedEventArgs e)
         {
-            RegisterVM registerVm = IoC.Resolve<RegisterVM>();
-            registerVm.Show();
-            this.Close();
+            IoC.Resolve<RegisterVM>().Show();
+            Close();
         }
 
+        /// <summary>
+        /// Adds drag functionality to window
+        /// </summary>
         private void LoginVM_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             App.Current.MainWindow.DragMove();
-        }
-
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-        {
-            this.Close();
         }
     }
 }
