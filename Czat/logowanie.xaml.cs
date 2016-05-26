@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using RestApiService;
+using RestApiService.Services;
 
 namespace Czat
 {
@@ -19,17 +21,22 @@ namespace Czat
     /// </summary>
     public partial class Logowanie : Window
     {
-        public Logowanie()
+        public UserRestService UserService { get; }
+        public Logowanie(UserRestService userService)
         {
+            UserService = userService;
             InitializeComponent();
         }
 
         private void LoginOn_Click(object sender, RoutedEventArgs e)    //obsluga guzika loguj
         {
-            ServerResponse response = ServerConnectionManager.Instance.LoginUser(Login.Text, Password.Text);
-            if (response != ServerResponse.SUCCESS)
+            try
             {
-                MessageBox.Show(Helper.GetErrorInfo(response), "Wystąpił błąd");
+                UserService.Login(Login.Text, Password.Text);
+            }
+            catch (ApiException apiException)
+            {
+                MessageBox.Show(apiException.Message, "Wystąpił błąd");
                 return;
             }
 
