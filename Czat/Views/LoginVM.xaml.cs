@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using Czat.RestApiService;
-using Czat.RestApiService.Services;
+using RestApiService;
+using RestApiService.Services;
 
 namespace Czat.Views
 {

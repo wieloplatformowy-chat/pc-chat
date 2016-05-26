@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Net.Mail;
 using System.Windows;
-using Czat.RestApiService;
-using Czat.RestApiService.Services;
+using RestApiService;
+using RestApiService.Services;
 
 namespace Czat.Views
 {

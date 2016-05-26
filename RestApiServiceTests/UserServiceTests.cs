@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using Czat.RestApiService;
-using Czat.RestApiService.Services;
+using RestApiService;
+using RestApiService.Services;
 
 namespace RestApiServiceTests
 {

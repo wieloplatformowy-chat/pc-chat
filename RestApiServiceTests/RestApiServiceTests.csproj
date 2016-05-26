@@ -58,9 +58,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RestApiService\Czat.RestApiService.csproj">
+    <ProjectReference Include="..\RestApiService\RestApiService.csproj">
       <Project>{7c3112dc-443a-4709-a652-4cb42dd7a2ce}</Project>
-      <Name>Czat.RestApiService</Name>
+      <Name>RestApiService</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

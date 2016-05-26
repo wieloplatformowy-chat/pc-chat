@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Security;
 using System.Threading.Tasks;
-using Czat.RestApiService.Model;
+using RestApiService.Model;
 
-namespace Czat.RestApiService.Services
+namespace RestApiService.Services
 {
     public class UserRestService
     {

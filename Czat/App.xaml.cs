@@ -8,9 +8,9 @@ using System.Windows;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.Resolvers.SpecializedResolvers;
 using Castle.Windsor;
-using Czat.RestApiService;
-using Czat.RestApiService.Services;
 using Czat.Views;
+using RestApiService;
+using RestApiService.Services;
 
 namespace Czat
 {

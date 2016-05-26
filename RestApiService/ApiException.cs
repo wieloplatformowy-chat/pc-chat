@@ -1,9 +1,9 @@
 using System;
 using System.Net.Http;
-using Czat.RestApiService.Model;
 using Newtonsoft.Json;
+using RestApiService.Model;
 
-namespace Czat.RestApiService
+namespace RestApiService
 {
     public class ApiException : Exception
     {

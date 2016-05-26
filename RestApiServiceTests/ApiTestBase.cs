@@ -1,5 +1,5 @@
-﻿using Czat.RestApiService;
-using Czat.RestApiService.Model;
+﻿using RestApiService;
+using RestApiService.Model;
 
 namespace RestApiServiceTests
 {

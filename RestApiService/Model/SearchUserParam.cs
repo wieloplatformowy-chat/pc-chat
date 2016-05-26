@@ -1,4 +1,4 @@
-namespace Czat.RestApiService.Model
+namespace RestApiService.Model
 {
     public class SearchUserParam
     {
