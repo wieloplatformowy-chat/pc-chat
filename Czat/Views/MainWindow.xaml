@@ -14,14 +14,27 @@
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
 
-        <RichTextBox x:Name="MsgView" Grid.Row="1" Grid.ColumnSpan="3" IsReadOnly="True" Block.TextAlignment="Right" Block.LineHeight="6" />
+        <RichTextBox x:Name="MsgView" Grid.Row="1" Grid.ColumnSpan="3" IsReadOnly="True" Block.TextAlignment="Right" Block.LineHeight="6" VerticalScrollBarVisibility="Auto" />
         <TextBox x:Name="TextOfMsg" Grid.Row="2" Grid.Column="0" VerticalContentAlignment="Center" KeyDown="OnKeyDownHandler" Background="{DynamicResource MaterialDesignCheckBoxDisabled}" Padding="5,0"/>
         <Button x:Name="SendMsg" Grid.Row="2" Grid.Column="2" Content="Wyślij" Click="SendMsg_Click" Height="40" VerticalAlignment="Bottom" Style="{StaticResource MaterialDesignSecondaryButton}" FontSize="20" />
-        <Button x:Name="ChooseEmot" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Height="40" VerticalAlignment="Bottom" Width="40" BorderBrush="{x:Null}" BorderThickness="1">
-            <StackPanel>
-                <!--Image Source="Czat/Resources/Img/ic_insert_emoticon_2x.png"/-->
-            </StackPanel>
+        <Button x:Name="ChooseEmot" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Height="40" VerticalAlignment="Bottom" Width="40" Click="ChooseEmot_Click" Panel.ZIndex="1">
+            <Image Source="Czat/Resources/Img/ic_insert_emoticon_2x.png"/>
         </Button>
+        <Canvas Height="40" Width="40" Grid.Row="2" Grid.Column="1" Panel.ZIndex="0">
+            <Popup Name="Popup1" Width="150" Height="150" Grid.Row="1" Grid.ColumnSpan="3" IsOpen="False" Placement="Top" StaysOpen="False">
+                <UniformGrid Background="LightCoral">
+                    <Button Name="emot1" Width="30" Height="30" VerticalAlignment="Center" Background="Green"></Button>
+                    <Button Name="emot2" Width="30" Height="30" VerticalAlignment="Center" Background="Yellow"></Button>
+                    <Button Name="emot3" Width="30" Height="30" VerticalAlignment="Center" Background="Blue"></Button>
+                    <Button Name="emot4" Width="30" Height="30" VerticalAlignment="Center"></Button>
+                    <Button Name="emot5" Width="30" Height="30" VerticalAlignment="Center"></Button>
+                    <Button Name="emot6" Width="30" Height="30" VerticalAlignment="Center"></Button>
+                    <Button Name="emot7" Width="30" Height="30" VerticalAlignment="Center"></Button>
+                    <Button Name="emot8" Width="30" Height="30" VerticalAlignment="Center"></Button>
+                    <Button Name="emot9" Width="30" Height="30" VerticalAlignment="Center"></Button>
+                </UniformGrid>
+            </Popup>
+        </Canvas>
 
         <Grid Background="#9c27b0" HorizontalAlignment="Stretch" Height="25" Grid.ColumnSpan="3" VerticalAlignment="Stretch">
             <Button x:Name="FileBtn" Content="Plik" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="60" Style="{StaticResource MaterialDesignPrimaryButton}" FontSize="12"/>
