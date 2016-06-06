@@ -35,27 +35,29 @@ namespace Czat.Views
         {
             // Email validation
             bool isEmailValid = false;
-            try {
-                new MailAddress(Email.Text);
+            try
+            {
+                new MailAddress(EMail.Text);
                 isEmailValid = true;
-            } catch (Exception) {/* isEmailValid: false */}
+            }
+            catch (Exception) {/* isEmailValid: false */}
 
             //TODO proper validation
             // Simple user data validation
-            if (Login.Text.Length > 32 || Pass.Text.Length > 32 || !isEmailValid || Pass.Text != PassRep.Text)
+            if (Login.Text.Length > 32 || Password.Password.Length > 32 || !isEmailValid || Password.Password != RepeatPassword.Password)
                 return;
 
             // Registration
-            try 
+            try
             {
-                Register.IsEnabled = false;
-                await UserService.Register(Email.Text, Login.Text, Pass.Text);
+                RegisterButton.IsEnabled = false;
+                await UserService.Register(EMail.Text, Login.Text, Password.Password);
             }
             catch (ApiException apiException)
             {
                 //TODO Get rid of MessageBox
                 MessageBox.Show(apiException.Message, "Wystąpił błąd");
-                Register.IsEnabled = true;
+                RegisterButton.IsEnabled = true;
                 return;
             }
             //TODO Get rid of MessageBox
