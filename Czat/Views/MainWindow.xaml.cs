@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace Czat.Views
 {
@@ -129,8 +130,8 @@ namespace Czat.Views
             if (timeRange.TotalSeconds <= MergeInterval && areTheSameSenders) 
                 isNewMessage = false;
 
-            var msgParagraph = GetMessageParagraph(isNewMessage, currentSender.Id);
-            var dateParagraph = GetDateTimeParagraph(isNewMessage, currentSender.Id);
+            GetMessageParagraph(isNewMessage, currentSender.Id);
+            GetDateTimeParagraph(isNewMessage, currentSender.Id);
 
             if (isNewMessage)
             {
@@ -141,10 +142,36 @@ namespace Czat.Views
             else
                 message = "\n" + message;
 
-            messageParagraph.Inlines.Add(new Bold(new Run(message)));
+            string[] splittedMessage = SplitMessage(message);
+            AddToParagraph(splittedMessage);
 
             previousTime = currentTime;
             previousSender = currentSender;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="splittedMessage"></param>
+        private void AddToParagraph(string[] splittedMessage)
+        {
+            BitmapImage b = new BitmapImage();
+            b.BeginInit();
+            b.UriSource = new Uri(Environment.CurrentDirectory + @"\emot 1.png");
+            b.EndInit();
+
+            Image img = new Image();
+            img.Source = b;
+            img.Height = 20;
+            img.Width = 20;
+
+            foreach (var element in splittedMessage)
+            {
+                if (element == ":)")
+                    messageParagraph.Inlines.Add(img);
+                else
+                    messageParagraph.Inlines.Add(new Bold(new Run(element)));
+            }
         }
 
         /// <summary>
@@ -156,6 +183,29 @@ namespace Czat.Views
         {
             Popup1.IsOpen = toOpen;
             toOpen = !toOpen;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        private string[] SplitMessage(string message)
+        {
+            string pattern = @"(:\)) | (;\)) | (:\D) | (:\/) | (:\() | (<3) | (:P)";
+            string[] partsOfMessage = System.Text.RegularExpressions.Regex.Split(message, pattern, System.Text.RegularExpressions.RegexOptions.IgnorePatternWhitespace);
+
+            return partsOfMessage;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void emot1_Click(object sender, RoutedEventArgs e)
+        {
+            TextOfMsg.Text += emot1.Content.ToString();
         }
     }
 }
