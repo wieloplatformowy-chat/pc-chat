@@ -158,6 +158,14 @@
   <ItemGroup>
     <Resource Include="Resources\img\ic_insert_emoticon_2x.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\img\emot 1.png" />
+    <Resource Include="Resources\img\emot 2.png" />
+    <Resource Include="Resources\img\emot 3.png" />
+    <Resource Include="Resources\img\emot 4.png" />
+    <Resource Include="Resources\img\emot 5.png" />
+    <Resource Include="Resources\img\emot 6.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using System.Collections.Generic;
 
 namespace Czat.Views
 {
@@ -27,12 +28,26 @@ namespace Czat.Views
         private RestApiService.Model.UserDTO me = new RestApiService.Model.UserDTO();
         private RestApiService.Model.UserDTO currentSender = new RestApiService.Model.UserDTO();
         private RestApiService.Model.UserDTO previousSender = new RestApiService.Model.UserDTO();
+        private Dictionary<string, string> emotDictionary;
 
         public MainWindow()
         {
             InitializeComponent();
+            InitializeDictionary();
             document = new FlowDocument();
             MsgView.Document = document;
+            System.IO.Directory.SetCurrentDirectory(@"..\..\");
+        }
+
+        private void InitializeDictionary()
+        {
+            emotDictionary = new Dictionary<string, string>();
+            emotDictionary.Add(":)", "emot 1.png");
+            emotDictionary.Add(";)", "emot 2.png");
+            emotDictionary.Add(":D", "emot 3.png");
+            emotDictionary.Add(":|", "emot 4.png");
+            emotDictionary.Add(":/", "emot 5.png");
+            emotDictionary.Add(":(", "emot 6.png");
         }
 
         private void OnKeyDownHandler(object sender, KeyEventArgs e)
@@ -62,7 +77,7 @@ namespace Czat.Views
         /// </summary>
         /// <param name="isNewNeeded">Checks if new paragraph is needed</param>
         /// <param name="senderId">Id of current message sender</param>
-        /// <returns></returns>
+        /// <returns>Paragraph</returns>
         private Paragraph GetMessageParagraph(bool isNewNeeded, long? senderId)
         {
             if (messageParagraph != null && !isNewNeeded)
@@ -91,7 +106,7 @@ namespace Czat.Views
         /// </summary>
         /// <param name="isNewNeeded">Checks if new paragraph is needed</param>
         /// <param name="senderId">Id of current message sender</param>
-        /// <returns></returns>
+        /// <returns>Paragraph</returns>
         private Paragraph GetDateTimeParagraph(bool isNewNeeded, long? senderId)
         {
             if (dateTimeParagraph != null && !isNewNeeded)
@@ -111,7 +126,7 @@ namespace Czat.Views
         /// <summary>
         /// Adds new message
         /// </summary>
-        /// <param name="message">contents of message</param>
+        /// <param name="message">Contents of message</param>
         /// <param name="senderId">Id of current message sender</param>
         private void AddMessage(string message, long? senderId)
         {
@@ -150,28 +165,56 @@ namespace Czat.Views
         }
 
         /// <summary>
-        /// 
+        /// Adds text of message or emoticon image to paragraph
         /// </summary>
         /// <param name="splittedMessage"></param>
         private void AddToParagraph(string[] splittedMessage)
         {
-            BitmapImage b = new BitmapImage();
-            b.BeginInit();
-            b.UriSource = new Uri(Environment.CurrentDirectory + @"\emot 1.png");
-            b.EndInit();
-
-            Image img = new Image();
-            img.Source = b;
-            img.Height = 20;
-            img.Width = 20;
+            Image img;
 
             foreach (var element in splittedMessage)
             {
-                if (element == ":)")
+                if (emotDictionary.ContainsKey(element))
+                {
+                    img = createImage(emotDictionary[element]);
                     messageParagraph.Inlines.Add(img);
+                }
                 else
                     messageParagraph.Inlines.Add(new Bold(new Run(element)));
             }
+        }
+
+        /// <summary>
+        /// Creates Image object loading proper emoticon icon
+        /// </summary>
+        /// <param name="uri">Path to the emoticons directory</param>
+        /// <returns>Emoticon image</returns>
+        private Image createImage(string uri)
+        {
+            BitmapImage bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.UriSource = new Uri(Environment.CurrentDirectory + @"\Resources\img\" + uri);
+            bitmap.EndInit();
+
+            Image img = new Image();
+            img.Source = bitmap;
+            img.Height = 18;
+            img.Width = 18;
+
+            return img;
+        }
+
+        /// <summary>
+        /// Splits message by emoticons including them
+        /// </summary>
+        /// <param name="message">Contents of message</param>
+        /// <returns>Table of splitted message</returns>
+        private string[] SplitMessage(string message)
+        {
+            string pattern = @"(:\)) | (;\)) | (:\D) | (:\/) | (:\() | (:\|)";
+            string[] partsOfMessage = System.Text.RegularExpressions.Regex.Split(message, pattern, System.Text.RegularExpressions.RegexOptions.IgnorePatternWhitespace);
+
+            return partsOfMessage;
         }
 
         /// <summary>
@@ -185,27 +228,40 @@ namespace Czat.Views
             toOpen = !toOpen;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="message"></param>
-        /// <returns></returns>
-        private string[] SplitMessage(string message)
-        {
-            string pattern = @"(:\)) | (;\)) | (:\D) | (:\/) | (:\() | (<3) | (:P)";
-            string[] partsOfMessage = System.Text.RegularExpressions.Regex.Split(message, pattern, System.Text.RegularExpressions.RegexOptions.IgnorePatternWhitespace);
-
-            return partsOfMessage;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void emot1_Click(object sender, RoutedEventArgs e)
         {
             TextOfMsg.Text += emot1.Content.ToString();
+            Popup1.IsOpen = false;
+        }
+
+        private void emot2_Click(object sender, RoutedEventArgs e)
+        {
+            TextOfMsg.Text += emot2.Content.ToString();
+            Popup1.IsOpen = false;
+        }
+
+        private void emot3_Click(object sender, RoutedEventArgs e)
+        {
+            TextOfMsg.Text += emot3.Content.ToString();
+            Popup1.IsOpen = false;
+        }
+
+        private void emot4_Click(object sender, RoutedEventArgs e)
+        {
+            TextOfMsg.Text += emot4.Content.ToString();
+            Popup1.IsOpen = false;
+        }
+
+        private void emot5_Click(object sender, RoutedEventArgs e)
+        {
+            TextOfMsg.Text += emot5.Content.ToString();
+            Popup1.IsOpen = false;
+        }
+
+        private void emot6_Click(object sender, RoutedEventArgs e)
+        {
+            TextOfMsg.Text += emot6.Content.ToString();
+            Popup1.IsOpen = false;
         }
     }
 }

@@ -23,13 +23,13 @@
         <Canvas Height="40" Width="40" Grid.Row="2" Grid.Column="1" Panel.ZIndex="0">
             <Popup Name="Popup1" Width="150" Height="150" Grid.Row="1" Grid.ColumnSpan="3" IsOpen="False" Placement="Top" StaysOpen="False">
                 <UniformGrid Background="LightCoral">
-                    <Button Name="emot1" Width="30" Height="30" VerticalAlignment="Center" Background="Green" Content=":)" Click="emot1_Click"></Button>
-                    <Button Name="emot2" Width="30" Height="30" VerticalAlignment="Center" Background="Yellow" Content=";)"></Button>
-                    <Button Name="emot3" Width="30" Height="30" VerticalAlignment="Center" Background="Blue" Content=":D"></Button>
-                    <Button Name="emot4" Width="30" Height="30" VerticalAlignment="Center" Content=":/"></Button>
-                    <Button Name="emot5" Width="30" Height="30" VerticalAlignment="Center" Content=":("></Button>
-                    <Button Name="emot6" Width="30" Height="30" VerticalAlignment="Center" Content="&lt;3"></Button>
-                    <Button Name="emot7" Width="30" Height="30" VerticalAlignment="Center" Content=":P"></Button>
+                    <Button Name="emot1" Width="30" Height="30" VerticalAlignment="Center" Content=":)" Click="emot1_Click"></Button>
+                    <Button Name="emot2" Width="30" Height="30" VerticalAlignment="Center" Content=";)" Click="emot2_Click"></Button>
+                    <Button Name="emot3" Width="30" Height="30" VerticalAlignment="Center" Content=":D" Click="emot3_Click"></Button>
+                    <Button Name="emot4" Width="30" Height="30" VerticalAlignment="Center" Content=":|" Click="emot4_Click"></Button>
+                    <Button Name="emot5" Width="30" Height="30" VerticalAlignment="Center" Content=":/" Click="emot5_Click"></Button>
+                    <Button Name="emot6" Width="30" Height="30" VerticalAlignment="Center" Content=":(" Click="emot6_Click"></Button>
+                    <Button Name="emot7" Width="30" Height="30" VerticalAlignment="Center"></Button>
                     <Button Name="emot8" Width="30" Height="30" VerticalAlignment="Center"></Button>
                     <Button Name="emot9" Width="30" Height="30" VerticalAlignment="Center"></Button>
                 </UniformGrid>
