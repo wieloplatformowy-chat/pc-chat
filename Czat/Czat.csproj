@@ -74,6 +74,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helpers\ChatElementsHelper.cs" />
     <Compile Include="IoC.cs" />
     <Compile Include="Views\RegisterVM.xaml.cs">
       <DependentUpon>RegisterVM.xaml</DependentUpon>
@@ -138,9 +139,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Helpers\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\MaterialDesignColors.Wpf\MaterialDesignColors.Wpf.csproj">
       <Project>{90b53209-c60c-4655-b28d-a1b3e1044ba3}</Project>
@@ -159,12 +158,15 @@
     <Resource Include="Resources\img\ic_insert_emoticon_2x.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\img\emot 1.png" />
-    <Resource Include="Resources\img\emot 2.png" />
-    <Resource Include="Resources\img\emot 3.png" />
-    <Resource Include="Resources\img\emot 4.png" />
-    <Resource Include="Resources\img\emot 5.png" />
-    <Resource Include="Resources\img\emot 6.png" />
+    <Resource Include="Resources\img\EmoteSmile.png" />
+    <Resource Include="Resources\img\EmoteWinkSmile.png" />
+    <Resource Include="Resources\img\EmoteGrin.png" />
+    <Resource Include="Resources\img\EmoteSerious.png" />
+    <Resource Include="Resources\img\EmoteUnsure.png" />
+    <Resource Include="Resources\img\EmoteSad.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\img\EmoteCry.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

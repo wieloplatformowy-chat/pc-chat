@@ -5,6 +5,8 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Collections.Generic;
+using System.Windows.Controls.Primitives;
+using RestApiService.Model;
 
 namespace Czat.Views
 {
@@ -18,43 +20,43 @@ namespace Czat.Views
         /// </summary>
         private const double MergeInterval = 30;
 
-        private FlowDocument document;
-        private DateTime currentTime;
-        private DateTime previousTime;
-        private TimeSpan timeRange;
-        private Paragraph messageParagraph;
-        private Paragraph dateTimeParagraph;
-        private bool toOpen = true;
-        private RestApiService.Model.UserDTO me = new RestApiService.Model.UserDTO();
-        private RestApiService.Model.UserDTO currentSender = new RestApiService.Model.UserDTO();
-        private RestApiService.Model.UserDTO previousSender = new RestApiService.Model.UserDTO();
-        private Dictionary<string, string> emotDictionary;
+        private DateTime _currentTime;
+        private DateTime _previousTime;
+        private TimeSpan _timeRange;
+        private Paragraph _messageParagraph;
+        private Paragraph _dateTimeParagraph;
+        private bool _toOpen = true;
+        private UserDTO _me = new UserDTO();
+        private UserDTO _currentSender = new UserDTO();
+        private UserDTO _previousSender = new UserDTO();
+        private Dictionary<string, string> _emoteDictionary;
 
         public MainWindow()
         {
             InitializeComponent();
             InitializeDictionary();
-            document = new FlowDocument();
-            MsgView.Document = document;
             System.IO.Directory.SetCurrentDirectory(@"..\..\");
         }
 
         private void InitializeDictionary()
         {
-            emotDictionary = new Dictionary<string, string>();
-            emotDictionary.Add(":)", "emot 1.png");
-            emotDictionary.Add(";)", "emot 2.png");
-            emotDictionary.Add(":D", "emot 3.png");
-            emotDictionary.Add(":|", "emot 4.png");
-            emotDictionary.Add(":/", "emot 5.png");
-            emotDictionary.Add(":(", "emot 6.png");
+            _emoteDictionary = new Dictionary<string, string>
+            {
+                {":)", "EmoteSmile.png"},
+                {";)", "EmoteWinkSmile.png"},
+                {":D", "EmoteGrin.png"},
+                {":|", "EmoteSerious.png"},
+                {":/", "EmoteUnsure.png"},
+                {":(", "EmoteSad.png"},
+                {":'(", "EmoteCry.png"}
+            };
         }
 
         private void OnKeyDownHandler(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Return)
             {
-                SendMsg.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                SendMsg.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             }
         }
 
@@ -68,7 +70,7 @@ namespace Czat.Views
             if (string.IsNullOrWhiteSpace(TextOfMsg.Text))
                 return;
 
-            AddMessage(TextOfMsg.Text, me.Id);
+            AddMessage(TextOfMsg.Text, _me.Id);
             TextOfMsg.Text = null;
         }
 
@@ -80,25 +82,25 @@ namespace Czat.Views
         /// <returns>Paragraph</returns>
         private Paragraph GetMessageParagraph(bool isNewNeeded, long? senderId)
         {
-            if (messageParagraph != null && !isNewNeeded)
-                return messageParagraph;
+            if (_messageParagraph != null && !isNewNeeded)
+                return _messageParagraph;
 
-            messageParagraph = new Paragraph();
-            messageParagraph.FontSize = 12;
+            _messageParagraph = new Paragraph();
+            _messageParagraph.FontSize = 12;
 
-            if (senderId == me.Id)
+            if (senderId == _me.Id)
             {
-                messageParagraph.Background = System.Windows.Media.Brushes.DarkCyan;
-                messageParagraph.Foreground = System.Windows.Media.Brushes.White;
-                messageParagraph.TextAlignment = TextAlignment.Right;
+                _messageParagraph.Background = System.Windows.Media.Brushes.DarkCyan;
+                _messageParagraph.Foreground = System.Windows.Media.Brushes.White;
+                _messageParagraph.TextAlignment = TextAlignment.Right;
             }
             else
             {
-                messageParagraph.Background = System.Windows.Media.Brushes.LightGray;
-                messageParagraph.TextAlignment = TextAlignment.Left;
+                _messageParagraph.Background = System.Windows.Media.Brushes.LightGray;
+                _messageParagraph.TextAlignment = TextAlignment.Left;
             }
 
-            return messageParagraph;
+            return _messageParagraph;
         }
 
         /// <summary>
@@ -109,18 +111,18 @@ namespace Czat.Views
         /// <returns>Paragraph</returns>
         private Paragraph GetDateTimeParagraph(bool isNewNeeded, long? senderId)
         {
-            if (dateTimeParagraph != null && !isNewNeeded)
-                return dateTimeParagraph;
+            if (_dateTimeParagraph != null && !isNewNeeded)
+                return _dateTimeParagraph;
 
-            dateTimeParagraph = new Paragraph();
-            dateTimeParagraph.FontSize = 8;
+            _dateTimeParagraph = new Paragraph();
+            _dateTimeParagraph.FontSize = 8;
 
-            if (senderId == me.Id)
-                dateTimeParagraph.TextAlignment = TextAlignment.Right;
+            if (senderId == _me.Id)
+                _dateTimeParagraph.TextAlignment = TextAlignment.Right;
             else
-                dateTimeParagraph.TextAlignment = TextAlignment.Left;
+                _dateTimeParagraph.TextAlignment = TextAlignment.Left;
 
-            return dateTimeParagraph;
+            return _dateTimeParagraph;
         }
 
         /// <summary>
@@ -130,29 +132,29 @@ namespace Czat.Views
         /// <param name="senderId">Id of current message sender</param>
         private void AddMessage(string message, long? senderId)
         {
-            currentTime = DateTime.Now;
-            currentSender.Id = senderId;
+            _currentTime = DateTime.Now;
+            _currentSender.Id = senderId;
 
             bool areTheSameSenders = false;
             bool isNewMessage = true;
 
-            if (currentSender.Id == previousSender.Id)
+            if (_currentSender.Id == _previousSender.Id)
                 areTheSameSenders = true;
 
-            timeRange = currentTime - previousTime;
+            _timeRange = _currentTime - _previousTime;
 
             // Checks if new or merged message
-            if (timeRange.TotalSeconds <= MergeInterval && areTheSameSenders) 
+            if (_timeRange.TotalSeconds <= MergeInterval && areTheSameSenders) 
                 isNewMessage = false;
 
-            GetMessageParagraph(isNewMessage, currentSender.Id);
-            GetDateTimeParagraph(isNewMessage, currentSender.Id);
+            GetMessageParagraph(isNewMessage, _currentSender.Id);
+            GetDateTimeParagraph(isNewMessage, _currentSender.Id);
 
             if (isNewMessage)
             {
-                document.Blocks.Add(messageParagraph);
-                document.Blocks.Add(dateTimeParagraph);
-                dateTimeParagraph.Inlines.Add(new Run(currentTime.ToString("HH:mm")));
+                //document.Blocks.Add(messageParagraph);
+                //document.Blocks.Add(dateTimeParagraph);
+                _dateTimeParagraph.Inlines.Add(new Run(_currentTime.ToString("HH:mm")));
             }
             else
                 message = "\n" + message;
@@ -160,8 +162,8 @@ namespace Czat.Views
             string[] splittedMessage = SplitMessage(message);
             AddToParagraph(splittedMessage);
 
-            previousTime = currentTime;
-            previousSender = currentSender;
+            _previousTime = _currentTime;
+            _previousSender = _currentSender;
         }
 
         /// <summary>
@@ -174,13 +176,13 @@ namespace Czat.Views
 
             foreach (var element in splittedMessage)
             {
-                if (emotDictionary.ContainsKey(element))
+                if (_emoteDictionary.ContainsKey(element))
                 {
-                    img = createImage(emotDictionary[element]);
-                    messageParagraph.Inlines.Add(img);
+                    img = createImage(_emoteDictionary[element]);
+                    _messageParagraph.Inlines.Add(img);
                 }
                 else
-                    messageParagraph.Inlines.Add(new Bold(new Run(element)));
+                    _messageParagraph.Inlines.Add(new Bold(new Run(element)));
             }
         }
 
@@ -211,7 +213,7 @@ namespace Czat.Views
         /// <returns>Table of splitted message</returns>
         private string[] SplitMessage(string message)
         {
-            string pattern = @"(:\)) | (;\)) | (:\D) | (:\/) | (:\() | (:\|)";
+            string pattern = @"(:\)) | (;\)) | (:\D) | (:\/) | (:\() | (:\|) | (:'\()";
             string[] partsOfMessage = System.Text.RegularExpressions.Regex.Split(message, pattern, System.Text.RegularExpressions.RegexOptions.IgnorePatternWhitespace);
 
             return partsOfMessage;
@@ -224,43 +226,13 @@ namespace Czat.Views
         /// <param name="e"></param>
         private void ChooseEmot_Click(object sender, RoutedEventArgs e)
         {
-            Popup1.IsOpen = toOpen;
-            toOpen = !toOpen;
+            Popup1.IsOpen = _toOpen;
+            _toOpen = !_toOpen;
         }
 
-        private void emot1_Click(object sender, RoutedEventArgs e)
+        private void Emote_Click(object sender, RoutedEventArgs e)
         {
-            TextOfMsg.Text += emot1.Content.ToString();
-            Popup1.IsOpen = false;
-        }
-
-        private void emot2_Click(object sender, RoutedEventArgs e)
-        {
-            TextOfMsg.Text += emot2.Content.ToString();
-            Popup1.IsOpen = false;
-        }
-
-        private void emot3_Click(object sender, RoutedEventArgs e)
-        {
-            TextOfMsg.Text += emot3.Content.ToString();
-            Popup1.IsOpen = false;
-        }
-
-        private void emot4_Click(object sender, RoutedEventArgs e)
-        {
-            TextOfMsg.Text += emot4.Content.ToString();
-            Popup1.IsOpen = false;
-        }
-
-        private void emot5_Click(object sender, RoutedEventArgs e)
-        {
-            TextOfMsg.Text += emot5.Content.ToString();
-            Popup1.IsOpen = false;
-        }
-
-        private void emot6_Click(object sender, RoutedEventArgs e)
-        {
-            TextOfMsg.Text += emot6.Content.ToString();
+            TextOfMsg.Text += ((ContentControl)sender).Content.ToString();
             Popup1.IsOpen = false;
         }
     }
