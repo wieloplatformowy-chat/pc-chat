@@ -6,27 +6,17 @@ using MaterialDesignThemes.Wpf;
 namespace Czat.Helpers {
     internal static class ChatElementsHelper {
 
-        public class MessageControls {
-
-            public MessageControls(Panel control, TextBlock messageControl, ContentControl dateTimeControl, Image avatarImage) {
-                Control = control;
-                MessageControl = messageControl;
-                DateTimeControl = dateTimeControl;
-                AvatarImage = avatarImage;
-            }
-
-            public Panel Control { get; private set; }
-
-            public TextBlock MessageControl { get; private set; }
-
-            public ContentControl DateTimeControl { get; private set; }
-
-            public Image AvatarImage { get; private set; }
-        }
-
-        public static MessageControls GetMessageControl(bool isLocalUser = true) {
+        /// <summary>
+        /// Returns MessageControl containing Panel with message row
+        /// </summary>
+        /// <param name="isLocalUser">true if panel is for current logged in user</param>
+        public static MessageControl GetMessageControl(bool isLocalUser = true) {
             // Awatar
-            var avatarImage = new Image();
+            var avatarImage = new Image {
+                Width = 50,
+                Margin = new Thickness(8),
+                VerticalAlignment = VerticalAlignment.Top
+            };
             DockPanel.SetDock(avatarImage, isLocalUser ? Dock.Right : Dock.Left);
 
             // Message content
@@ -59,7 +49,7 @@ namespace Czat.Helpers {
             outerPanel.Children.Add(avatarImage);
             outerPanel.Children.Add(innerPanel);
 
-            return new MessageControls(outerPanel, message, dateTime, avatarImage);
+            return new MessageControl(outerPanel, message, dateTime, avatarImage);
         }
     }
 }

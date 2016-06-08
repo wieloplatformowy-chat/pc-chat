@@ -75,6 +75,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Helpers\ChatElementsHelper.cs" />
+    <Compile Include="Helpers\MessageControl.cs" />
     <Compile Include="IoC.cs" />
     <Compile Include="Views\RegisterVM.xaml.cs">
       <DependentUpon>RegisterVM.xaml</DependentUpon>
