@@ -79,6 +79,9 @@
     </Compile>
     <Compile Include="Helpers\ColorsHelper.cs" />
     <Compile Include="IoC.cs" />
+    <Compile Include="Views\ContactList.xaml.cs">
+      <DependentUpon>ContactList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\RegisterVM.xaml.cs">
       <DependentUpon>RegisterVM.xaml</DependentUpon>
     </Compile>
@@ -91,6 +94,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\Colors.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ContactList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
