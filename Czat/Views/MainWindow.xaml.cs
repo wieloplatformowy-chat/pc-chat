@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Windows.Controls.Primitives;
 using Czat.Helpers;
 using RestApiService.Model;
+using System.Text.RegularExpressions;
 
 namespace Czat.Views
 {
@@ -24,7 +25,6 @@ namespace Czat.Views
         private DateTime _previousTime;
         private TimeSpan _timeRange;
         private MessageControl _lastMessageControls;
-        private bool _toOpen = true;
         private UserDTO _me = new UserDTO();
         private UserDTO _currentSender = new UserDTO();
         private UserDTO _previousSender = new UserDTO();
@@ -110,20 +110,31 @@ namespace Czat.Views
                 messageControl = _lastMessageControls;
             }
 
-            string[] splittedMessage = SplitMessage(message);
-            AddToMessageControl(splittedMessage, messageControl);
+            AddFormattedMessage(messageControl, message);
 
             _previousTime = _currentTime;
             _previousSender = _currentSender;
         }
 
         /// <summary>
+        /// Splits message by emoticons including them
+        /// </summary>
+        /// <param name="message">Content of the message</param>
+        /// <returns>Slices of the message</returns>
+        private static IEnumerable<string> SplitMessageByEmoticons(string message) 
+        {
+            const string pattern = @"((?::|;)\S+)"; // All texts starting with : or ; up to whitespace
+            return Regex.Split(message, pattern);
+        }
+
+        /// <summary>
         /// Adds text of message or emoticon image to MessageControl
         /// </summary>
-        /// <param name="splittedMessage"></param>
-        /// <param name="messageControl"></param>
-        private void AddToMessageControl(string[] splittedMessage, MessageControl messageControl)
+        /// <param name="messageControl">MessageControl to add the text to</param>
+        /// <param name="message">Content of the message</param>
+        private void AddFormattedMessage(MessageControl messageControl, string message)
         {
+            var splittedMessage = SplitMessageByEmoticons(message);
             foreach (var element in splittedMessage)
             {
                 if (_emoteDictionary.ContainsKey(element))
@@ -141,34 +152,19 @@ namespace Czat.Views
         /// </summary>
         /// <param name="uri">Path to the emoticons directory</param>
         /// <returns>Emoticon image</returns>
-        private Image CreateImage(string uri)
+        private static Image CreateImage(string uri)
         {
             var bitmap = new BitmapImage();
             bitmap.BeginInit();
-            bitmap.UriSource = new Uri(Environment.CurrentDirectory + @"\Resources\img\" + uri);
+            bitmap.UriSource = new Uri(Environment.CurrentDirectory + @"\Resources\img\" + uri); // TODO change to embedded resource
             bitmap.EndInit();
 
-            var img = new Image
+            return new Image
             {
                 Source = bitmap,
                 Height = 18,
                 Width = 18
             };
-
-            return img;
-        }
-
-        /// <summary>
-        /// Splits message by emoticons including them
-        /// </summary>
-        /// <param name="message">Contents of message</param>
-        /// <returns>Table of splitted message</returns>
-        private string[] SplitMessage(string message)
-        {
-            string pattern = @"(:\)) | (;\)) | (:\D) | (:\/) | (:\() | (:\|) | (:'\()";
-            string[] partsOfMessage = System.Text.RegularExpressions.Regex.Split(message, pattern, System.Text.RegularExpressions.RegexOptions.IgnorePatternWhitespace);
-
-            return partsOfMessage;
         }
 
         /// <summary>
@@ -178,8 +174,7 @@ namespace Czat.Views
         /// <param name="e"></param>
         private void ChooseEmote_Click(object sender, RoutedEventArgs e)
         {
-            Popup1.IsOpen = _toOpen;
-            _toOpen = !_toOpen;
+            Popup1.IsOpen = !Popup1.IsOpen;
         }
 
         /// <summary>
