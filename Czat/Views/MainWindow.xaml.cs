@@ -5,9 +5,9 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Collections.Generic;
 using System.Windows.Controls.Primitives;
-using Czat.Helpers;
 using RestApiService.Model;
 using System.Text.RegularExpressions;
+using Czat.Controls;
 
 namespace Czat.Views
 {
@@ -24,7 +24,7 @@ namespace Czat.Views
         private DateTime _currentTime;
         private DateTime _previousTime;
         private TimeSpan _timeRange;
-        private MessageControl _lastMessageControls;
+        private MessageRow _lastMessageRow;
         private UserDTO _me = new UserDTO();
         private UserDTO _currentSender = new UserDTO();
         private UserDTO _previousSender = new UserDTO();
@@ -80,7 +80,7 @@ namespace Czat.Views
         /// <param name="senderId">Id of current message sender</param>
         private void AddMessage(string message, long? senderId)
         {
-            MessageControl messageControl;
+            MessageRow messageRow;
 
             _currentTime = DateTime.Now;
             _currentSender.Id = senderId;
@@ -99,18 +99,20 @@ namespace Czat.Views
 
             if (isNewMessage)
             {
-                messageControl = ChatElementsHelper.GetMessageControl(senderId == _me.Id);
-                messageControl.ChangeDateTimeContent(_currentTime.ToString("HH:mm"));
-                ChatPanel.Children.Add(messageControl.Control);
-                _lastMessageControls = messageControl;
+                messageRow = new MessageRow(senderId == _me.Id) {
+                    AdditionalInfo = _currentTime.ToString("HH:mm"),
+                    AvatarSource = CreateImage(_emoteDictionary[":D"]).Source
+                };
+                ChatPanel.Children.Add(messageRow);
+                _lastMessageRow = messageRow;
             }
             else
             {
                 message = "\n" + message;
-                messageControl = _lastMessageControls;
+                messageRow = _lastMessageRow;
             }
 
-            AddFormattedMessage(messageControl, message);
+            AddFormattedMessage(messageRow, message);
 
             _previousTime = _currentTime;
             _previousSender = _currentSender;
@@ -132,7 +134,7 @@ namespace Czat.Views
         /// </summary>
         /// <param name="messageControl">MessageControl to add the text to</param>
         /// <param name="message">Content of the message</param>
-        private void AddFormattedMessage(MessageControl messageControl, string message)
+        private void AddFormattedMessage(MessageRow messageControl, string message)
         {
             var splittedMessage = SplitMessageByEmoticons(message);
             foreach (var element in splittedMessage)
@@ -140,10 +142,10 @@ namespace Czat.Views
                 if (_emoteDictionary.ContainsKey(element))
                 {
                     var img = CreateImage(_emoteDictionary[element]);
-                    messageControl.AddMessage(img);
+                    messageControl.AppendMessage(img);
                 }
                 else
-                    messageControl.AddMessage(element);
+                    messageControl.AppendMessage(element);
             }
         }
 
