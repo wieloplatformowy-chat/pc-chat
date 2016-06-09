@@ -113,9 +113,25 @@ namespace Czat.Views
             }
 
             AddFormattedMessage(messageRow, message);
+            ScrollContentToBottom(senderId == _me.Id);
 
             _previousTime = _currentTime;
             _previousSender = _currentSender;
+        }
+
+        /// <summary>
+        /// Scrolls vertically to the most recent message
+        /// </summary>
+        /// <param name="isLocal">Checks who sent the message</param>
+        private void ScrollContentToBottom(bool isLocal = true)
+        {
+            var verticalOffset = ChatScrollViewer.VerticalOffset;
+            var maxVerticalOffset = ChatScrollViewer.ExtentHeight - ChatScrollViewer.ViewportHeight;
+
+            if (isLocal)
+                ChatScrollViewer.ScrollToBottom();
+            else if (maxVerticalOffset < 0 || verticalOffset == maxVerticalOffset)
+                ChatScrollViewer.ScrollToBottom();
         }
 
         /// <summary>
