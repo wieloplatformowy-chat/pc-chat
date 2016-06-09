@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Czat.Views"
         mc:Ignorable="d"
-        Title="Lista kontaktów" Height="630" Width="330" WindowStartupLocation="CenterScreen">
+        Title="Lista kontaktów" Height="630" Width="330" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Window.Resources>
         <ControlTemplate x:Key="ContactPrefab">
             <Grid Width="325" Height="56" >
@@ -15,18 +15,25 @@
                         <Ellipse.Fill>
                             <ImageBrush>
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="Czat/Resources/img/Teemo_Square.png" />
+                                    <ImageSource>/Czat;component/Resources/img/Teemo_Square.png</ImageSource>
                                 </ImageBrush.ImageSource>
                             </ImageBrush>
                         </Ellipse.Fill>
                     </Ellipse>
                     <Ellipse Width="12" Height="12" Fill="#FF23F523" Margin="44,36,16,8"/>
                 </Grid>
-                <TextBlock Width="199" Margin="22,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="Black" FontWeight="Bold">Captain Teemo</TextBlock>
-                <ToggleButton Style="{StaticResource MaterialDesignActionAccentToggleButton}" IsChecked="{Binding IsFollowed, Mode=TwoWay}" Background="White" Foreground="Black" Width="16" Height="16" Margin="250,0,0,0" >
+                <TextBlock Width="199" Margin="22,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="Black" FontWeight="Bold" Text ="{Binding Name}"/>
+                <ToggleButton Style="{StaticResource MaterialDesignActionAccentToggleButton}" IsChecked="{Binding IsFollowed, Mode=TwoWay}" Background="White" Foreground="Black" Width="20" Height="20" Margin="250,0,0,0" >
                     <materialDesign:PackIcon Kind="DotsVertical" Width="16" Height="16"/>
                 </ToggleButton>
                 <Line Stroke="#FFC9C8C8" X1="0" Y1="56" X2="325" Y2="56" StrokeThickness="0.5" />
+            </Grid>
+        </ControlTemplate>
+        <ControlTemplate x:Key="Header">
+            <Grid Height="32">
+                <Line Stroke="#FFC9C8C8" X1="0" Y1="0" X2="325" Y2="0" StrokeThickness="2" />
+                <TextBlock VerticalAlignment="Center" Margin="20,10,0,6" FontWeight="Bold" Text ="{Binding Title}"/>
+                <Line Stroke="#FFC9C8C8" X1="0" Y1="30" X2="325" Y2="30" StrokeThickness="2" />
             </Grid>
         </ControlTemplate>
     </Window.Resources>
@@ -41,42 +48,23 @@
                         <Ellipse.Fill>
                             <ImageBrush>
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="Czat/Resources/img/Teemo_Square.png" />
+                                    <ImageSource>/Czat;component/Resources/img/Teemo_Square.png</ImageSource>
                                 </ImageBrush.ImageSource>
                             </ImageBrush>
                         </Ellipse.Fill>
                     </Ellipse>
                     <Ellipse Width="16" Height="16" Fill="#FF23F523" Margin="46,56,10,16"/>
                 </Grid>
-                <TextBlock Width="199" Margin="22,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="White" FontWeight="Bold">Captain Teemo</TextBlock>
+                <TextBlock x:Name="CurrentUserName" Width="199" Margin="22,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="White" FontWeight="Bold"/>
             </Grid>
             <Grid Width="325" Height="490">
-                <StackPanel>
+                <ScrollViewer VerticalScrollBarVisibility="Hidden">
                     <StackPanel>
-                        <Grid Height="32">
-                            <TextBlock VerticalAlignment="Center" Margin="20,10,0,6" FontWeight="Bold">Kontakty</TextBlock>
-                            <Line Stroke="#FFC9C8C8" X1="0" Y1="30" X2="325" Y2="30" StrokeThickness="2" />
-                        </Grid>
-                        <ContentControl Template="{StaticResource ContactPrefab}"></ContentControl>
-                        <ContentControl Template="{StaticResource ContactPrefab}"></ContentControl>
-                        <ContentControl Template="{StaticResource ContactPrefab}"></ContentControl>
-                        <ContentControl Template="{StaticResource ContactPrefab}"></ContentControl>
                     </StackPanel>
-                    <StackPanel>
-                        <Grid Height="32">
-                            <Line Stroke="#FFC9C8C8" X1="0" Y1="0" X2="325" Y2="0" StrokeThickness="2" />
-                            <TextBlock VerticalAlignment="Center" Margin="20,10,0,6" FontWeight="Bold">Grupy</TextBlock>
-                            <Line Stroke="#FFC9C8C8" X1="0" Y1="30" X2="325" Y2="30" StrokeThickness="2" />
-                        </Grid>
-                        <ContentControl Template="{StaticResource ContactPrefab}"></ContentControl>
-                        <ContentControl Template="{StaticResource ContactPrefab}"></ContentControl>
-                        <ContentControl Template="{StaticResource ContactPrefab}"></ContentControl>
-                        <ContentControl Template="{StaticResource ContactPrefab}"></ContentControl>
-                    </StackPanel>
-                </StackPanel>
+                </ScrollViewer>
             </Grid>
         </StackPanel>
-        <ToggleButton Style="{StaticResource MaterialDesignActionAccentToggleButton}" IsChecked="{Binding IsFollowed, Mode=TwoWay}" Background="#FF009688" Foreground="White" Width="56" Height="56" Margin="256,533,10,10" >
+        <ToggleButton Style="{StaticResource MaterialDesignActionAccentToggleButton}" IsChecked="{Binding IsFollowed, Mode=TwoWay}" Background="#FF009688" Foreground="White" Width="56" Height="56" Margin="220,500,30,20" >
             <materialDesign:PackIcon Kind="Plus" Width="40" Height="40"/>
         </ToggleButton>
     </Grid>

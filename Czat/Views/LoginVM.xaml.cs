@@ -36,7 +36,7 @@ namespace Czat.Views
                 return;
             }
 
-            IoC.Resolve<MainWindow>().Show();
+            IoC.Resolve<ContactList>().Show();
             Close();
         }
 

@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Czat.Helpers
+{
+    class ContactListHeaderData
+    {
+        public string Title;
+        public ContactListHeaderData(string title)
+        {
+            Title = title;
+        }
+    }
+}

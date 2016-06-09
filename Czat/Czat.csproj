@@ -78,6 +78,8 @@
       <DependentUpon>MessageRow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ColorsHelper.cs" />
+    <Compile Include="Helpers\ContactListElementData.cs" />
+    <Compile Include="Helpers\ContactListHeaderData.cs" />
     <Compile Include="IoC.cs" />
     <Compile Include="Views\ContactList.xaml.cs">
       <DependentUpon>ContactList.xaml</DependentUpon>

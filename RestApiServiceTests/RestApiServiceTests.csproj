@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiTestBase.cs" />
+    <Compile Include="ContactListTestService.cs" />
     <Compile Include="ConversationServiceTests.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
