@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Collections.Generic;
 using System.Windows.Controls.Primitives;
+using Czat.Helpers;
 using RestApiService.Model;
 
 namespace Czat.Views
@@ -18,13 +18,12 @@ namespace Czat.Views
         /// <summary>
         /// Time in seconds after which messages of the same sender are written separately
         /// </summary>
-        private const double MergeInterval = 30;
+        private const double MergeInterval = 15;
 
         private DateTime _currentTime;
         private DateTime _previousTime;
         private TimeSpan _timeRange;
-        private Paragraph _messageParagraph;
-        private Paragraph _dateTimeParagraph;
+        private MessageControl _lastMessageControls;
         private bool _toOpen = true;
         private UserDTO _me = new UserDTO();
         private UserDTO _currentSender = new UserDTO();
@@ -75,63 +74,14 @@ namespace Czat.Views
         }
 
         /// <summary>
-        /// Gets message paragraph
-        /// </summary>
-        /// <param name="isNewNeeded">Checks if new paragraph is needed</param>
-        /// <param name="senderId">Id of current message sender</param>
-        /// <returns>Paragraph</returns>
-        private Paragraph GetMessageParagraph(bool isNewNeeded, long? senderId)
-        {
-            if (_messageParagraph != null && !isNewNeeded)
-                return _messageParagraph;
-
-            _messageParagraph = new Paragraph();
-            _messageParagraph.FontSize = 12;
-
-            if (senderId == _me.Id)
-            {
-                _messageParagraph.Background = System.Windows.Media.Brushes.DarkCyan;
-                _messageParagraph.Foreground = System.Windows.Media.Brushes.White;
-                _messageParagraph.TextAlignment = TextAlignment.Right;
-            }
-            else
-            {
-                _messageParagraph.Background = System.Windows.Media.Brushes.LightGray;
-                _messageParagraph.TextAlignment = TextAlignment.Left;
-            }
-
-            return _messageParagraph;
-        }
-
-        /// <summary>
-        /// Gets date time paragraph
-        /// </summary>
-        /// <param name="isNewNeeded">Checks if new paragraph is needed</param>
-        /// <param name="senderId">Id of current message sender</param>
-        /// <returns>Paragraph</returns>
-        private Paragraph GetDateTimeParagraph(bool isNewNeeded, long? senderId)
-        {
-            if (_dateTimeParagraph != null && !isNewNeeded)
-                return _dateTimeParagraph;
-
-            _dateTimeParagraph = new Paragraph();
-            _dateTimeParagraph.FontSize = 8;
-
-            if (senderId == _me.Id)
-                _dateTimeParagraph.TextAlignment = TextAlignment.Right;
-            else
-                _dateTimeParagraph.TextAlignment = TextAlignment.Left;
-
-            return _dateTimeParagraph;
-        }
-
-        /// <summary>
         /// Adds new message
         /// </summary>
         /// <param name="message">Contents of message</param>
         /// <param name="senderId">Id of current message sender</param>
         private void AddMessage(string message, long? senderId)
         {
+            MessageControl messageControl;
+
             _currentTime = DateTime.Now;
             _currentSender.Id = senderId;
 
@@ -147,42 +97,42 @@ namespace Czat.Views
             if (_timeRange.TotalSeconds <= MergeInterval && areTheSameSenders) 
                 isNewMessage = false;
 
-            GetMessageParagraph(isNewMessage, _currentSender.Id);
-            GetDateTimeParagraph(isNewMessage, _currentSender.Id);
-
             if (isNewMessage)
             {
-                //document.Blocks.Add(messageParagraph);
-                //document.Blocks.Add(dateTimeParagraph);
-                _dateTimeParagraph.Inlines.Add(new Run(_currentTime.ToString("HH:mm")));
+                messageControl = ChatElementsHelper.GetMessageControl(senderId == _me.Id);
+                messageControl.ChangeDateTimeContent(_currentTime.ToString("HH:mm"));
+                ChatPanel.Children.Add(messageControl.Control);
+                _lastMessageControls = messageControl;
             }
             else
+            {
                 message = "\n" + message;
+                messageControl = _lastMessageControls;
+            }
 
             string[] splittedMessage = SplitMessage(message);
-            AddToParagraph(splittedMessage);
+            AddToMessageControl(splittedMessage, messageControl);
 
             _previousTime = _currentTime;
             _previousSender = _currentSender;
         }
 
         /// <summary>
-        /// Adds text of message or emoticon image to paragraph
+        /// Adds text of message or emoticon image to MessageControl
         /// </summary>
         /// <param name="splittedMessage"></param>
-        private void AddToParagraph(string[] splittedMessage)
+        /// <param name="messageControl"></param>
+        private void AddToMessageControl(string[] splittedMessage, MessageControl messageControl)
         {
-            Image img;
-
             foreach (var element in splittedMessage)
             {
                 if (_emoteDictionary.ContainsKey(element))
                 {
-                    img = createImage(_emoteDictionary[element]);
-                    _messageParagraph.Inlines.Add(img);
+                    var img = CreateImage(_emoteDictionary[element]);
+                    messageControl.AddMessage(img);
                 }
                 else
-                    _messageParagraph.Inlines.Add(new Bold(new Run(element)));
+                    messageControl.AddMessage(element);
             }
         }
 
@@ -191,17 +141,19 @@ namespace Czat.Views
         /// </summary>
         /// <param name="uri">Path to the emoticons directory</param>
         /// <returns>Emoticon image</returns>
-        private Image createImage(string uri)
+        private Image CreateImage(string uri)
         {
-            BitmapImage bitmap = new BitmapImage();
+            var bitmap = new BitmapImage();
             bitmap.BeginInit();
             bitmap.UriSource = new Uri(Environment.CurrentDirectory + @"\Resources\img\" + uri);
             bitmap.EndInit();
 
-            Image img = new Image();
-            img.Source = bitmap;
-            img.Height = 18;
-            img.Width = 18;
+            var img = new Image
+            {
+                Source = bitmap,
+                Height = 18,
+                Width = 18
+            };
 
             return img;
         }
@@ -224,16 +176,23 @@ namespace Czat.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ChooseEmot_Click(object sender, RoutedEventArgs e)
+        private void ChooseEmote_Click(object sender, RoutedEventArgs e)
         {
             Popup1.IsOpen = _toOpen;
             _toOpen = !_toOpen;
         }
 
+        /// <summary>
+        /// Inserts emoticon clicked in popup window into text of message
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Emote_Click(object sender, RoutedEventArgs e)
         {
             TextOfMsg.Text += ((ContentControl)sender).Content.ToString();
             Popup1.IsOpen = false;
+            TextOfMsg.Focus();
+            TextOfMsg.SelectionStart = TextOfMsg.Text.Length;
         }
     }
 }
