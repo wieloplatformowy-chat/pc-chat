@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Okienko czatu" Height="600" Width="600" MinWidth="450" MinHeight="450" WindowStartupLocation="CenterScreen">
-    <Grid Background="LightGray">
+    <Grid Background="{StaticResource DarkerBackground}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="40"/>
@@ -17,14 +17,14 @@
         <ScrollViewer x:Name="ChatScrollViewer" Grid.Row="1" Grid.ColumnSpan="3" Background="White" VerticalScrollBarVisibility="Auto">
             <StackPanel x:Name="ChatPanel"/>
         </ScrollViewer>
-        <TextBox x:Name="TextOfMsg" Grid.Row="2" Grid.Column="0" VerticalContentAlignment="Center" KeyDown="OnKeyDownHandler" Background="LightGray" BorderThickness="0" Padding="5,0"/>
+        <TextBox x:Name="TextOfMsg" Grid.Row="2" Grid.Column="0" VerticalContentAlignment="Center" KeyDown="OnKeyDownHandler" Background="{StaticResource DarkerBackground}" BorderThickness="0" Padding="5,0"/>
         <Button x:Name="ChooseEmote" Grid.Row="2" Grid.Column="1" Background="{x:Null}" Height="40" Width="40" Click="ChooseEmote_Click" Panel.ZIndex="1" Padding="0" BorderBrush="{x:Null}" BorderThickness="0">
             <Image Source="/Resources/img/ic_insert_emoticon_2x.png" />
         </Button>
         <Button x:Name="SendMsg" Grid.Row="2" Grid.Column="2" Content="Wyślij" Click="SendMsg_Click" Height="40" VerticalAlignment="Bottom" Style="{StaticResource MaterialDesignSecondaryButton}" FontSize="20" />
         <Canvas Height="40" Width="40" Grid.Row="2" Grid.Column="1" Panel.ZIndex="0">
             <Popup Name="Popup1" Width="150" Height="150" IsOpen="False" Placement="Top" StaysOpen="False">
-                <UniformGrid Background="DarkCyan">
+                <UniformGrid Background="{StaticResource SecondaryBrush}">
                     <Button x:Name="EmoteSmile" Foreground="Transparent" Padding="0" BorderThickness="0" Width="30" Height="30" VerticalAlignment="Center" Content=":)" Click="Emote_Click" >
                         <Button.Background>
                             <ImageBrush ImageSource="/Czat;component/Resources/img/EmoteSmile.png"/>
@@ -74,7 +74,7 @@
             </Popup>
         </Canvas>
 
-        <Grid Background="#9c27b0" HorizontalAlignment="Stretch" Height="25" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Stretch">
+        <Grid Background="{StaticResource PrimaryBrush}" HorizontalAlignment="Stretch" Height="25" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Stretch">
             <Button x:Name="FileBtn" Content="Plik" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="60" Style="{StaticResource MaterialDesignPrimaryButton}" FontSize="12"/>
             <Button x:Name="PersonsBtn" Content="Osoby" HorizontalAlignment="Left" Margin="60,0,0,0" VerticalAlignment="Top" Height="25" Width="70" Style="{StaticResource MaterialDesignPrimaryButton}" FontSize="12"/>
         </Grid>

@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
+using Czat.Helpers;
 
 namespace Czat.Controls {
     /// <summary>
@@ -87,8 +88,8 @@ namespace Czat.Controls {
         public MessageRow(bool isLocal = true) {
             InitializeComponent();
             DataContext = this;
-            MessageBackground = isLocal ? Brushes.DarkCyan : Brushes.LightGray;
-            MessageForeground = isLocal ? Brushes.White : Brushes.Black;
+            MessageBackground = isLocal ? ColorsHelper.GetSecondaryColorBrush() : ColorsHelper.GetBackgroundColorBrush();
+            MessageForeground = isLocal ? ColorsHelper.GetLightForegroundColorBrush() : ColorsHelper.GetDarkForegroundColorBrush();
             HorizontalRowAlignment = isLocal ? HorizontalAlignment.Right : HorizontalAlignment.Left;
             HorizontalAvatarAlignment = isLocal ? Dock.Right : Dock.Left;
         }

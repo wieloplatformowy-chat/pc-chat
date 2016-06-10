@@ -132,7 +132,7 @@ namespace Czat.Views
 
             if (isLocal)
                 ChatScrollViewer.ScrollToBottom();
-            else if (maxVerticalOffset < 0 || verticalOffset == maxVerticalOffset)
+            else if (maxVerticalOffset < 0 || Math.Abs(verticalOffset - maxVerticalOffset) < .5)
                 ChatScrollViewer.ScrollToBottom();
         }
 
@@ -143,7 +143,7 @@ namespace Czat.Views
         /// <returns>Slices of the message</returns>
         private static IEnumerable<string> SplitMessageByEmoticons(string message) 
         {
-            const string pattern = @"((?::|;|>)\S+)"; // All texts starting with : or ; or > up to whitespace
+            const string pattern = @"((?::|;|>:)\S+)"; // All texts starting with : or ; or >: up to whitespace
             return Regex.Split(message, pattern);
         }
 
