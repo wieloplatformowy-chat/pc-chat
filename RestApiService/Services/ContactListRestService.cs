@@ -15,9 +15,21 @@ namespace RestApiService.Services
             Client = client;
         }
 
-        public async Task<GetFriendListResponse> GetFriendList(string token)
+        public async Task<IList<UserDTO>> GetFriendList()
         {
-            var response = await Client.CallGet<GetFriendListResponse>($"/friends/my/{token}");
+            var response = await Client.CallGet<IList<UserDTO>>($"/friends/my");
+            return response;
+        }
+
+        public async Task<GeneralStringResponse> AddFriend(long? id)
+        {
+            var response = await Client.CallApiPostJson<GeneralStringResponse>($"/friends/add/{id}", new { ID = id });
+            return response;
+        }
+
+        public async Task<GeneralStringResponse> RemoveFriend(long? id)
+        {
+            var response = await Client.CallApiDeleteJson<GeneralStringResponse>($"/friends/delete/{id}", new { ID = id });
             return response;
         }
     }

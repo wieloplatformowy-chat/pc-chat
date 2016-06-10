@@ -26,16 +26,43 @@ namespace RestApiServiceTests
         [Test]
         public async Task GetFriendListData()
         {
-            //await UserService.Login("abcd", "abcd"); // id: 1670
-            //var user = await UserService.WhoAmI();
-            //var firstUserId = user.Id ?? 0;
-            //await UserService.Logout();
-
             await UserService.Login("test", "pass"); // id: 1291
             try
             {
-                var response = await ContactListService.GetFriendList(Client.Token);
+                var response = await ContactListService.GetFriendList();
                 Console.WriteLine(response);
+            }
+            catch (ApiException e)
+            {
+                Console.WriteLine(e.ErrorData.Message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        [Test]
+        public async Task AddFriend()
+        {
+            await UserService.Login("1", "1");
+            try
+            {
+                var response = await ContactListService.AddFriend(1291);
+                Console.WriteLine(response.Response);
+            }
+            catch (ApiException e)
+            {
+                Console.WriteLine(e.ErrorData.Message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            try
+            {
+                var response = await ContactListService.RemoveFriend(1291);
+                Console.WriteLine(response.Response);
             }
             catch (ApiException e)
             {

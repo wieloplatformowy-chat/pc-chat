@@ -49,7 +49,6 @@
     <Compile Include="Model\ApiError.cs" />
     <Compile Include="ApiClient.cs" />
     <Compile Include="Model\ConversationsResponse.cs" />
-    <Compile Include="Model\GetFriendListResponse.cs" />
     <Compile Include="Model\LoginParam.cs" />
     <Compile Include="Model\GeneralStringResponse.cs" />
     <Compile Include="Model\SearchUserParam.cs" />

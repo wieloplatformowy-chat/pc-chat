@@ -8,10 +8,6 @@ namespace Czat.Helpers
 {
     class ContactListHeaderData
     {
-        public string Title;
-        public ContactListHeaderData(string title)
-        {
-            Title = title;
-        }
+        public string Title { get; set; }
     }
 }

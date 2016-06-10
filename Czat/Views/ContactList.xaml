@@ -8,34 +8,46 @@
         mc:Ignorable="d"
         Title="Lista kontaktów" Height="630" Width="330" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Window.Resources>
-        <ControlTemplate x:Key="ContactPrefab">
-            <Grid Width="325" Height="56" >
-                <Grid Width="72" HorizontalAlignment="Left">
-                    <Ellipse Width="40" Height="40" >
-                        <Ellipse.Fill>
-                            <ImageBrush>
-                                <ImageBrush.ImageSource>
-                                    <ImageSource>/Czat;component/Resources/img/Teemo_Square.png</ImageSource>
-                                </ImageBrush.ImageSource>
-                            </ImageBrush>
-                        </Ellipse.Fill>
-                    </Ellipse>
-                    <Ellipse Width="12" Height="12" Fill="#FF23F523" Margin="44,36,16,8"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
+                <!-- throw in some extra colour for our floating action button -->
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/MaterialDesignColor.Green.Named.Primary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <ControlTemplate x:Key="ContactPrefab">
+                <Grid Width="325" Height="56" >
+                    <Grid Width="72" HorizontalAlignment="Left">
+                        <Ellipse Width="40" Height="40" >
+                            <Ellipse.Fill>
+                                <ImageBrush>
+                                    <ImageBrush.ImageSource>
+                                        <ImageSource>/Czat;component/Resources/img/Teemo_Square.png</ImageSource>
+                                    </ImageBrush.ImageSource>
+                                </ImageBrush>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <Ellipse Width="12" Height="12" Fill="#FF23F523" Margin="44,36,16,8"/>
+                    </Grid>
+                    <TextBlock Width="199" Margin="22,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="Black" FontWeight="Bold" Text ="{Binding Name}"/>
+                    <materialDesign:PopupBox Margin="250,0,0,0" StaysOpen="False" Foreground="#DD000000">
+                        <StackPanel>
+                            <Button Content="Usuń"/>
+                        </StackPanel>
+                    </materialDesign:PopupBox>
+                    <Line Stroke="#FFC9C8C8" X1="0" Y1="56" X2="325" Y2="56" StrokeThickness="0.5" />
                 </Grid>
-                <TextBlock Width="199" Margin="22,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="Black" FontWeight="Bold" Text ="{Binding Name}"/>
-                <ToggleButton Style="{StaticResource MaterialDesignActionAccentToggleButton}" IsChecked="{Binding IsFollowed, Mode=TwoWay}" Background="White" Foreground="Black" Width="20" Height="20" Margin="250,0,0,0" >
-                    <materialDesign:PackIcon Kind="DotsVertical" Width="16" Height="16"/>
-                </ToggleButton>
-                <Line Stroke="#FFC9C8C8" X1="0" Y1="56" X2="325" Y2="56" StrokeThickness="0.5" />
-            </Grid>
-        </ControlTemplate>
-        <ControlTemplate x:Key="Header">
-            <Grid Height="32">
-                <Line Stroke="#FFC9C8C8" X1="0" Y1="0" X2="325" Y2="0" StrokeThickness="2" />
-                <TextBlock VerticalAlignment="Center" Margin="20,10,0,6" FontWeight="Bold" Text ="{Binding Title}"/>
-                <Line Stroke="#FFC9C8C8" X1="0" Y1="30" X2="325" Y2="30" StrokeThickness="2" />
-            </Grid>
-        </ControlTemplate>
+            </ControlTemplate>
+            <ControlTemplate x:Key="Header">
+                <Grid Height="32">
+                    <Line Stroke="#FFC9C8C8" X1="0" Y1="0" X2="325" Y2="0" StrokeThickness="2" />
+                    <TextBlock x:Name="HeaderLabel" VerticalAlignment="Center" Margin="20,10,0,6" FontWeight="Bold" Text ="{Binding Title, Mode=OneTime}"/>
+                    <Line Stroke="#FFC9C8C8" X1="0" Y1="30" X2="325" Y2="30" StrokeThickness="2" />
+                </Grid>
+            </ControlTemplate>
+        </ResourceDictionary>
     </Window.Resources>
     <Grid HorizontalAlignment="Stretch">
         <StackPanel>
@@ -59,13 +71,33 @@
             </Grid>
             <Grid Width="325" Height="490">
                 <ScrollViewer VerticalScrollBarVisibility="Hidden">
-                    <StackPanel>
-                    </StackPanel>
+                    <StackPanel x:Name="ListContainer"/>
                 </ScrollViewer>
             </Grid>
         </StackPanel>
-        <ToggleButton Style="{StaticResource MaterialDesignActionAccentToggleButton}" IsChecked="{Binding IsFollowed, Mode=TwoWay}" Background="#FF009688" Foreground="White" Width="56" Height="56" Margin="220,500,30,20" >
-            <materialDesign:PackIcon Kind="Plus" Width="40" Height="40"/>
-        </ToggleButton>
+        <materialDesign:PopupBox Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
+                                 HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                 Margin="0,0,32,32" Background="#FF009688" Foreground="White" BorderBrush="#FF009688">
+            <StackPanel>
+                <Button ToolTip="Utwórz nową konwersację." >
+                    <Button.Background>
+                        <SolidColorBrush Color="{StaticResource GreenPrimary500}" />
+                    </Button.Background>
+                    <Button.Foreground>
+                        <SolidColorBrush Color="{StaticResource GreenPrimary500Foreground}" />
+                    </Button.Foreground>
+                    <materialDesign:PackIcon Kind="MessageDraw" />
+                </Button>
+                <Button ToolTip="Dodaj nowego znajomego do listy kontaktów." Click="AddNewFriendButton_Click">
+                    <Button.Background>
+                        <SolidColorBrush Color="{StaticResource GreenPrimary200}" />
+                    </Button.Background>
+                    <Button.Foreground>
+                        <SolidColorBrush Color="{StaticResource GreenPrimary200Foreground}" />
+                    </Button.Foreground>
+                    <materialDesign:PackIcon Kind="AccountPlus" />
+                </Button>
+            </StackPanel>
+        </materialDesign:PopupBox>
     </Grid>
 </Window>

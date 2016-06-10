@@ -84,6 +84,9 @@
     <Compile Include="Views\ContactList.xaml.cs">
       <DependentUpon>ContactList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\FriendSearch.xaml.cs">
+      <DependentUpon>FriendSearch.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\RegisterVM.xaml.cs">
       <DependentUpon>RegisterVM.xaml</DependentUpon>
     </Compile>
@@ -100,6 +103,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ContactList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FriendSearch.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

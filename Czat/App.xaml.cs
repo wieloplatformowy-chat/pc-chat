@@ -38,7 +38,8 @@ namespace Czat
                 Component.For<ApiClient>()
                     .DependsOn(Dependency.OnValue("apiUrl", ConfigurationManager.AppSettings["ApiBaseUrl"]))
                     .LifestyleSingleton(),
-                Component.For<UserRestService>().LifestyleSingleton()
+                Component.For<UserRestService>().LifestyleSingleton(), 
+                Component.For<ContactListRestService>().LifestyleSingleton()
                 );
         }
 
