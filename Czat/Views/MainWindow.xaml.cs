@@ -47,7 +47,9 @@ namespace Czat.Views
                 {":|", "EmoteSerious.png"},
                 {":/", "EmoteUnsure.png"},
                 {":(", "EmoteSad.png"},
-                {":'(", "EmoteCry.png"}
+                {":'(", "EmoteCry.png"},
+                {":O", "EmoteWonder.png"},
+                {">:(", "EmoteAngry.png"}
             };
         }
 
@@ -141,7 +143,7 @@ namespace Czat.Views
         /// <returns>Slices of the message</returns>
         private static IEnumerable<string> SplitMessageByEmoticons(string message) 
         {
-            const string pattern = @"((?::|;)\S+)"; // All texts starting with : or ; up to whitespace
+            const string pattern = @"((?::|;|>)\S+)"; // All texts starting with : or ; or > up to whitespace
             return Regex.Split(message, pattern);
         }
 
@@ -202,7 +204,7 @@ namespace Czat.Views
         /// <param name="e"></param>
         private void Emote_Click(object sender, RoutedEventArgs e)
         {
-            TextOfMsg.Text += ((ContentControl)sender).Content.ToString();
+            TextOfMsg.Text += ((ContentControl) sender).Content + " ";
             Popup1.IsOpen = false;
             TextOfMsg.Focus();
             TextOfMsg.SelectionStart = TextOfMsg.Text.Length;
