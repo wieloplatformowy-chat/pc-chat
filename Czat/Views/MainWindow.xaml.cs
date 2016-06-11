@@ -188,13 +188,13 @@ namespace Czat.Views
         }
 
         /// <summary>
-        /// Opens or closes popup window with emoticons
+        /// Opens popup window with emoticons
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ChooseEmote_Click(object sender, RoutedEventArgs e)
         {
-            Popup1.IsOpen = !Popup1.IsOpen;
+            EmotePopup.IsOpen = !EmotePopup.IsOpen;
         }
 
         /// <summary>
@@ -205,9 +205,29 @@ namespace Czat.Views
         private void Emote_Click(object sender, RoutedEventArgs e)
         {
             TextOfMsg.Text += ((ContentControl) sender).Content + " ";
-            Popup1.IsOpen = false;
+            EmotePopup.IsOpen = false;
             TextOfMsg.Focus();
             TextOfMsg.SelectionStart = TextOfMsg.Text.Length;
+        }
+
+        /// <summary>
+        /// Opens popup window with the exit button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FileButton_Click(object sender, RoutedEventArgs e)
+        {
+            MenuPopup.IsOpen = !MenuPopup.IsOpen;
+        }
+
+        /// <summary>
+        /// Closes the window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }
