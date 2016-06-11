@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Czat.Helpers;
 
 namespace Czat.Views
 {
@@ -48,6 +49,15 @@ namespace Czat.Views
                     if (potentialFriendsList[i].Name == FriendName.Text)
                     {
                         await ContactListService.AddFriend(potentialFriendsList[i].Id);
+                        foreach(Window window in Application.Current.Windows)
+                        {
+                            if (window.GetType() == typeof(ContactList))
+                            {
+                                ContactListContactData contact = new ContactListContactData { ID = potentialFriendsList[i].Id, Name = potentialFriendsList[i].Name, IsOnline = true, IsPerson = true, Avatar = null };
+                                (window as ContactList).AddNewContact(contact);
+                                break;
+                            }
+                        }
                         Window.GetWindow(this).Close();
                     }
                 }

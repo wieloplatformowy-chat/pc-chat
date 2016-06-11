@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Czat.Helpers
 {
-    class ContactListHeaderData
+    public class ContactListHeaderData
     {
         public string Title { get; set; }
     }

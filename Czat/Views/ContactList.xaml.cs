@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using RestApiService;
-using System.Windows.Data;
 using RestApiService.Services;
 using RestApiService.Model;
 using Czat.Helpers;
@@ -27,14 +26,16 @@ namespace Czat.Views
         public UserRestService UserService { get; }
         public ContactListRestService ContactListService { get; }
 
-        private ContactListElementData currentUser;
-        public ContactListElementData CurrentUser { get { return currentUser; } }
+        private ContactListContactData currentUser;
+        public ContactListContactData CurrentUser { get { return currentUser; } }
 
         private IList<UserDTO> friendList;
+        private List<ContactListContactData> contacts;
         public ContactList(UserRestService userService, ContactListRestService contactListService)
         {
             UserService = userService;
             ContactListService = contactListService;
+            contacts = new List<ContactListContactData>();
             InitializeComponent();
             FilContactListData();
         }
@@ -42,8 +43,20 @@ namespace Czat.Views
         private async void FilContactListData()
         {
             UserDTO currentUserDTO = await UserService.WhoAmI();
-            currentUser = new ContactListElementData(currentUserDTO.Id, currentUserDTO.Name, true, true, null);
+            currentUser = new ContactListContactData { ID = currentUserDTO.Id, Name = currentUserDTO.Name, IsOnline = true, IsPerson = true, Avatar = null };
             CurrentUserName.Text = currentUser.Name;
+            HeaderUserControl contactsHeader = new HeaderUserControl(new ContactListHeaderData { Title = "Kontakty" });
+            ListContainer.Children.Add(contactsHeader);
+            friendList = await ContactListService.GetFriendList();
+            for (int i = 0; i < friendList.Count; i++)
+            {
+                ContactListContactData contact = new ContactListContactData { ID = friendList[i].Id, Name = friendList[i].Name, IsOnline = true, IsPerson = true, Avatar = null };
+                ContactUserControl contactControl = new ContactUserControl(contact, ContactListService);
+                contacts.Add(contact);
+                ListContainer.Children.Add(contactControl);
+            }
+            HeaderUserControl groupsHeader = new HeaderUserControl(new ContactListHeaderData { Title = "Groupy" });
+            ListContainer.Children.Add(groupsHeader);
         }
 
         private void AddNewFriendButton_Click(object sender, RoutedEventArgs e)
@@ -51,6 +64,16 @@ namespace Czat.Views
             IoC.Resolve<FriendSearch>().Show();
         }
 
+        public void AddNewContact(ContactListContactData contact)
+        {
+            contacts.Add(contact);
+            ContactUserControl contactControl = new ContactUserControl(contact, ContactListService);
+            ListContainer.Children.Insert(contacts.Count, contactControl);
+        }
 
+        public void RemoveContact(ContactListContactData contact)
+        {
+            contacts.Remove(contact);
+        }
     }
 }
