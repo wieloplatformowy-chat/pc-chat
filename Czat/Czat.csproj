@@ -74,10 +74,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\MessageRow.xaml.cs">
+      <DependentUpon>MessageRow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\ColorsHelper.cs" />
     <Compile Include="IoC.cs" />
     <Compile Include="Views\RegisterVM.xaml.cs">
       <DependentUpon>RegisterVM.xaml</DependentUpon>
     </Compile>
+    <Page Include="Controls\MessageRow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Buttons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -138,9 +146,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Helpers\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\MaterialDesignColors.Wpf\MaterialDesignColors.Wpf.csproj">
       <Project>{90b53209-c60c-4655-b28d-a1b3e1044ba3}</Project>
@@ -154,6 +160,26 @@
       <Project>{7c3112dc-443a-4709-a652-4cb42dd7a2ce}</Project>
       <Name>RestApiService</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\img\ic_insert_emoticon_2x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\img\EmoteSmile.png" />
+    <Resource Include="Resources\img\EmoteWinkSmile.png" />
+    <Resource Include="Resources\img\EmoteGrin.png" />
+    <Resource Include="Resources\img\EmoteSerious.png" />
+    <Resource Include="Resources\img\EmoteUnsure.png" />
+    <Resource Include="Resources\img\EmoteSad.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\img\EmoteCry.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\img\EmoteWonder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\img\EmoteAngry.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
