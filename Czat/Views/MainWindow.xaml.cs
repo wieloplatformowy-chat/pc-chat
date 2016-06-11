@@ -211,21 +211,11 @@ namespace Czat.Views
         }
 
         /// <summary>
-        /// Opens popup window with the exit button
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void FileButton_Click(object sender, RoutedEventArgs e)
-        {
-            MenuPopup.IsOpen = !MenuPopup.IsOpen;
-        }
-
-        /// <summary>
         /// Closes the window
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        private void ExitItem_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }

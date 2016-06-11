@@ -15,16 +15,14 @@
         </Grid.RowDefinitions>
 
         <Grid Background="{StaticResource PrimaryBrush}" HorizontalAlignment="Stretch" Height="25" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Stretch">
-            <Button x:Name="FileButton" Content="Plik" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="60" Style="{StaticResource MaterialDesignPrimaryButton}" FontSize="12" Click="FileButton_Click"/>
+            <Button x:Name="FileButton" Content="Plik" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="60" Style="{StaticResource MaterialDesignPrimaryButton}" FontSize="12" />
             <Button x:Name="PersonsButton" Content="Osoby" HorizontalAlignment="Left" Margin="60,0,0,0" VerticalAlignment="Top" Height="25" Width="70" Style="{StaticResource MaterialDesignPrimaryButton}" FontSize="12"/>
         </Grid>
-        <Canvas Grid.Row="0" Grid.Column="0" Height="25" Width="60" HorizontalAlignment="Left">
-            <Popup x:Name="MenuPopup" HorizontalAlignment="Left" Height="30" Width="130" VerticalAlignment="Top" IsOpen="False" Placement="Bottom" StaysOpen="False">
-                <StackPanel Background="{StaticResource PrimaryBrush}">
-                    <Button x:Name="ExitButton" Height="25" Width="100" Content="Zakończ" Style="{StaticResource MaterialDesignSecondaryButton}" Click="ExitButton_Click" />
-                </StackPanel>
-            </Popup>
-        </Canvas>
+        <Menu x:Name="Menu" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Height="50" Width="60" IsMainMenu="True" >
+            <MenuItem Header="_Plik" Background="{StaticResource PrimaryBrush}" Foreground="White" Height="25" Width="60" FontSize="12" Padding="20,0,0,0" >
+                <MenuItem x:Name="ExitItem" Header="_Zakończ" Foreground="Black" Height="15" Width="120" Padding="20,0,0,0" Click="ExitItem_Click"/>
+            </MenuItem>
+        </Menu>
         <ScrollViewer x:Name="ChatScrollViewer" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Background="White" VerticalScrollBarVisibility="Auto">
             <StackPanel x:Name="ChatPanel"/>
         </ScrollViewer>
