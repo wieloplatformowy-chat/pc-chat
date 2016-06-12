@@ -23,12 +23,17 @@ namespace Czat.Helpers
     public partial class ContactUserControl : UserControl
     {
         public ContactListContactData ContactData { get; set; }
+        public ContactListContactData CurrentUser { get; set; }
         public ContactListRestService ContactListService { get; }
-        public ContactUserControl(ContactListContactData contactData, ContactListRestService contactRestService)
+        public bool IsConversationWindowVisible { get; set; }
+
+        private Window conversationWindow;
+        public ContactUserControl(ContactListContactData contactData, ContactListContactData me, ContactListRestService contactRestService)
         {
             InitializeComponent();
             ContactListService = contactRestService;
             ContactData = contactData;
+            CurrentUser = me;
             this.DataContext = ContactData;
         }
 
@@ -44,6 +49,20 @@ namespace Czat.Helpers
                 }
             }
             ((StackPanel)this.Parent).Children.Remove(this);
+        }
+
+        private void MainGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!IsConversationWindowVisible || !conversationWindow.IsVisible)
+            {
+                IsConversationWindowVisible = true;
+                conversationWindow = new MainWindow(CurrentUser.ID, ContactData.ID);
+                conversationWindow.Show();
+            }
+            else
+            {
+                conversationWindow.Activate();              
+            }
         }
     }
 }

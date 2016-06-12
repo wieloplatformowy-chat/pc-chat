@@ -11,25 +11,25 @@
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
     </UserControl.Resources>
 
-    <Grid Width="325" Height="56" >
+    <Grid x:Name="MainGrid" Width="325" Height="56" Background="#00000000" MouseLeftButtonDown="MainGrid_MouseLeftButtonDown">
         <Grid Width="72" HorizontalAlignment="Left">
-            <Ellipse Width="40" Height="40" >
-                <Ellipse.Fill>
-                    <ImageBrush>
-                        <ImageBrush.ImageSource>
-                            <ImageSource>/Czat;component/Resources/img/Teemo_Square.png</ImageSource>
-                        </ImageBrush.ImageSource>
-                    </ImageBrush>
-                </Ellipse.Fill>
-            </Ellipse>
-            <Ellipse Width="12" Height="12" Fill="#FF23F523" Margin="44,36,16,8"/>
-        </Grid>
-        <TextBlock Width="199" Margin="22,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="Black" FontWeight="Bold" Text ="{Binding Name}"/>
-        <materialDesign:PopupBox Margin="250,0,0,0" StaysOpen="False" Foreground="#DD000000">
-            <StackPanel>
-                <Button Click="RemoveFriend_Click"  Content="Usuń"/>
-            </StackPanel>
-        </materialDesign:PopupBox>
+                <Ellipse Width="40" Height="40" >
+                    <Ellipse.Fill>
+                        <ImageBrush>
+                            <ImageBrush.ImageSource>
+                                <ImageSource>/Czat;component/Resources/img/Teemo_Square.png</ImageSource>
+                            </ImageBrush.ImageSource>
+                        </ImageBrush>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <Ellipse Width="12" Height="12" Fill="#FF23F523" Margin="44,36,16,8"/>
+            </Grid>
+            <TextBlock Width="199" Margin="22,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="Black" FontWeight="Bold" Text ="{Binding Name}"/>
+            <materialDesign:PopupBox Margin="250,0,0,0" StaysOpen="False" Foreground="#DD000000">
+                <StackPanel>
+                    <Button Click="RemoveFriend_Click"  Content="Usuń"/>
+                </StackPanel>
+            </materialDesign:PopupBox>
         <Line Stroke="#FFC9C8C8" X1="0" Y1="56" X2="325" Y2="56" StrokeThickness="0.5" />
     </Grid>
 </UserControl>

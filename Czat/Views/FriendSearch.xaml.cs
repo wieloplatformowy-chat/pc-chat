@@ -25,11 +25,13 @@ namespace Czat.Views
     {
         public UserRestService UserService { get; }
         public ContactListRestService ContactListService { get; }
+        private ContactList contactListReference;
 
-        public FriendSearch(UserRestService userService, ContactListRestService contactListService)
+        public FriendSearch(ContactList contactList)
         {
-            UserService = userService;
-            ContactListService = contactListService;
+            UserService = IoC.Resolve<UserRestService>();
+            ContactListService = IoC.Resolve<ContactListRestService>();
+            contactListReference = contactList;
             InitializeComponent();
         }
 
@@ -49,17 +51,11 @@ namespace Czat.Views
                     if (potentialFriendsList[i].Name == FriendName.Text)
                     {
                         await ContactListService.AddFriend(potentialFriendsList[i].Id);
-                        foreach(Window window in Application.Current.Windows)
-                        {
-                            if (window.GetType() == typeof(ContactList))
-                            {
-                                ContactListContactData contact = new ContactListContactData { ID = potentialFriendsList[i].Id, Name = potentialFriendsList[i].Name, IsOnline = true, IsPerson = true, Avatar = null };
-                                (window as ContactList).AddNewContact(contact);
-                                break;
-                            }
-                        }
-                        Window.GetWindow(this).Close();
+                        ContactListContactData contact = new ContactListContactData { ID = potentialFriendsList[i].Id, Name = potentialFriendsList[i].Name, IsOnline = true, IsPerson = true, Avatar = null };
+                        contactListReference.AddNewContact(contact);
+                        break;
                     }
+                     Window.GetWindow(this).Close();
                 }
             }
             catch (ApiException apiException)

@@ -10,14 +10,13 @@ using RestApiService.Services;
 namespace RestApiServiceTests
 {
     [TestFixture]
-    internal class ContactListTestService : ApiTestBase
+    internal class ContactListServiceTest : ApiTestBase
     {
-
         public UserRestService UserService { get; }
 
         public ContactListRestService ContactListService { get; }
 
-        public ContactListTestService()
+        public ContactListServiceTest()
         {
             UserService = new UserRestService(Client);
             ContactListService = new ContactListRestService(Client);

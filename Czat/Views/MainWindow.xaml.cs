@@ -8,6 +8,10 @@ using System.Windows.Controls.Primitives;
 using RestApiService.Model;
 using System.Text.RegularExpressions;
 using Czat.Controls;
+using RestApiService;
+using RestApiService.Model;
+using RestApiService.Services;
+using System.Collections.Generic;
 
 namespace Czat.Views
 {
@@ -19,19 +23,28 @@ namespace Czat.Views
         /// <summary>
         /// Time in seconds after which messages of the same sender are written separately
         /// </summary>
+
         private const double MergeInterval = 15;
 
         private DateTime _currentTime;
         private DateTime _previousTime;
         private TimeSpan _timeRange;
         private MessageRow _lastMessageRow;
-        private UserDTO _me = new UserDTO();
-        private UserDTO _currentSender = new UserDTO();
-        private UserDTO _previousSender = new UserDTO();
+        private long? _me;
+        private long? _currentSender;
+        private long? _previousSender;
         private Dictionary<string, string> _emoteDictionary;
 
-        public MainWindow()
+        public ConversationRestService ConversationService { get; }
+        public MessageRestService MessageService { get; }
+
+        private ConversationsResponse conversationResponse;
+        private IList<MessageModel> messages;
+
+        public MainWindow(long? currentUser, long? friend)
         {
+            ConversationService = IoC.Resolve<ConversationRestService>();
+            MessageService = IoC.Resolve<MessageRestService>();
             InitializeComponent();
             InitializeDictionary();
             System.IO.Directory.SetCurrentDirectory(@"..\..\");
@@ -51,6 +64,23 @@ namespace Czat.Views
                 {":O", "EmoteWonder.png"},
                 {">:(", "EmoteAngry.png"}
             };
+            GetConversationAndMessages(currentUser, friend);
+            document = new FlowDocument();
+            MsgView.Document = document;
+        }
+
+        private async void GetConversationAndMessages(long? currentUser, long? friend)
+        {
+            me = currentUser;
+            myFriend = friend;
+         
+            conversationResponse = await ConversationService.GetConversationWithUser(friend);
+            messages = await MessageService.Get20LastMessages(conversationResponse.Id);
+
+            foreach (var message in messages)
+            {
+                AddMessage(message.Message, message.Id);
+            }
         }
 
         private void OnKeyDownHandler(object sender, KeyEventArgs e)
@@ -66,12 +96,13 @@ namespace Czat.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void SendMsg_Click(object sender, RoutedEventArgs e)
+        private async void SendMsg_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(TextOfMsg.Text))
                 return;
 
-            AddMessage(TextOfMsg.Text, _me.Id);
+            AddMessage(TextOfMsg.Text, me);
+            await MessageService.SendMessage(conversationResponse.Id, TextOfMsg.Text);
             TextOfMsg.Text = null;
         }
 
@@ -146,7 +177,7 @@ namespace Czat.Views
             const string pattern = @"((?::|;|>:)\S+)"; // All texts starting with : or ; or >: up to whitespace
             return Regex.Split(message, pattern);
         }
-
+		
         /// <summary>
         /// Adds text of message or emoticon image to MessageControl
         /// </summary>
@@ -167,18 +198,12 @@ namespace Czat.Views
             }
         }
 
-        /// <summary>
-        /// Creates Image object loading proper emoticon icon
-        /// </summary>
-        /// <param name="uri">Path to the emoticons directory</param>
-        /// <returns>Emoticon image</returns>
         private static Image CreateImage(string uri)
         {
             var bitmap = new BitmapImage();
             bitmap.BeginInit();
             bitmap.UriSource = new Uri(Environment.CurrentDirectory + @"\Resources\img\" + uri); // TODO change to embedded resource
             bitmap.EndInit();
-
             return new Image
             {
                 Source = bitmap,

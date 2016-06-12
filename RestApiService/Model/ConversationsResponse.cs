@@ -8,7 +8,7 @@ namespace RestApiService.Model
 {
     public class ConversationsResponse
     {
-        public long Id { get; set; }
+        public long? Id { get; set; }
         public string Name { get; set; }
         public IList<UserDTO> Users { get; set; }
     }

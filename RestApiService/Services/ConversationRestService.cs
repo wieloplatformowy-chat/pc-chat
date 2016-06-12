@@ -16,7 +16,7 @@ namespace RestApiService.Services
             Client = client;
         }
 
-        public async Task<ConversationsResponse> GetConversationWithUser(long userId)
+        public async Task<ConversationsResponse> GetConversationWithUser(long? userId)
         {
             var response = await Client.CallGet<ConversationsResponse>($"/conversations/{userId}");
             return response;

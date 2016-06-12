@@ -31,10 +31,10 @@ namespace Czat.Views
 
         private IList<UserDTO> friendList;
         private List<ContactListContactData> contacts;
-        public ContactList(UserRestService userService, ContactListRestService contactListService)
+        public ContactList()
         {
-            UserService = userService;
-            ContactListService = contactListService;
+            UserService = IoC.Resolve<UserRestService>();
+            ContactListService = IoC.Resolve<ContactListRestService>();
             contacts = new List<ContactListContactData>();
             InitializeComponent();
             FilContactListData();
@@ -51,23 +51,23 @@ namespace Czat.Views
             for (int i = 0; i < friendList.Count; i++)
             {
                 ContactListContactData contact = new ContactListContactData { ID = friendList[i].Id, Name = friendList[i].Name, IsOnline = true, IsPerson = true, Avatar = null };
-                ContactUserControl contactControl = new ContactUserControl(contact, ContactListService);
+                ContactUserControl contactControl = new ContactUserControl(contact, currentUser, ContactListService);
                 contacts.Add(contact);
                 ListContainer.Children.Add(contactControl);
             }
-            HeaderUserControl groupsHeader = new HeaderUserControl(new ContactListHeaderData { Title = "Groupy" });
+            HeaderUserControl groupsHeader = new HeaderUserControl(new ContactListHeaderData { Title = "Grupy" });
             ListContainer.Children.Add(groupsHeader);
         }
 
         private void AddNewFriendButton_Click(object sender, RoutedEventArgs e)
         { 
-            IoC.Resolve<FriendSearch>().Show();
+            new FriendSearch(this).Show();
         }
 
         public void AddNewContact(ContactListContactData contact)
         {
             contacts.Add(contact);
-            ContactUserControl contactControl = new ContactUserControl(contact, ContactListService);
+            ContactUserControl contactControl = new ContactUserControl(contact, currentUser, ContactListService);
             ListContainer.Children.Insert(contacts.Count, contactControl);
         }
 

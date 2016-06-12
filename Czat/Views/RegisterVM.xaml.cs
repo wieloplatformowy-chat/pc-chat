@@ -13,9 +13,9 @@ namespace Czat.Views
     {
         public UserRestService UserService { get; }
 
-        public RegisterVM(UserRestService userService)
+        public RegisterVM()
         {
-            UserService = userService;
+            UserService = IoC.Resolve<UserRestService>();
             InitializeComponent();
         }
 
@@ -24,7 +24,7 @@ namespace Czat.Views
         /// </summary>
         private void LoginOn_Click(object sender, RoutedEventArgs e)
         {
-            IoC.Resolve<LoginVM>().Show();
+            new LoginVM().Show();
             Close();
         }
 
@@ -64,7 +64,7 @@ namespace Czat.Views
             MessageBox.Show("Zarejestrowano!");
 
             // Show login window
-            IoC.Resolve<LoginVM>().Show();
+            new LoginVM().Show();
             Close();
         }
     }
