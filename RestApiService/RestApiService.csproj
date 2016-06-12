@@ -52,6 +52,7 @@
     <Compile Include="Model\LoginParam.cs" />
     <Compile Include="Model\GeneralStringResponse.cs" />
     <Compile Include="Model\MessageModel.cs" />
+    <Compile Include="Model\OnlineResponse.cs" />
     <Compile Include="Model\SearchUserParam.cs" />
     <Compile Include="Model\LoginResponse.cs" />
     <Compile Include="Model\RegisterParam.cs" />

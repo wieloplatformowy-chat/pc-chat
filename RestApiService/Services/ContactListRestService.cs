@@ -33,9 +33,9 @@ namespace RestApiService.Services
             return response;
         }
 
-        public async Task<bool> IsUserOnline(long? id)
+        public async Task<OnlineResponse> IsUserOnline(long? id)
         {
-            var response = await Client.CallGet<bool>($"/friends/online/{id}");
+            var response = await Client.CallGet<OnlineResponse>($"/friends/online/{id}");
             return response;
         }
     }

@@ -43,7 +43,7 @@ namespace Czat.Views
         private async void FilContactListData()
         {
             UserDTO currentUserDTO = await UserService.WhoAmI();
-            currentUser = new ContactListContactData { ID = currentUserDTO.Id, Name = currentUserDTO.Name, IsOnline = true, IsPerson = true, Email = currentUserDTO.Email };
+            currentUser = new ContactListContactData { Id = currentUserDTO.Id, Name = currentUserDTO.Name, IsOnline = true, IsPerson = true, Email = currentUserDTO.Email };
             CurrentUserName.Text = currentUser.Name;
             string hash = GravatarHelper.HashEmailForGravatar(currentUser.Email);
             Avatar.ImageSource = GravatarHelper.GetGravatarImage(string.Format("http://www.gravatar.com/avatar/{0}?size=80", hash));
@@ -53,7 +53,8 @@ namespace Czat.Views
             friendList = await ContactListService.GetFriendList();
             for (int i = 0; i < friendList.Count; i++)
             {
-                ContactListContactData contact = new ContactListContactData { ID = friendList[i].Id, Name = friendList[i].Name, IsOnline = true, IsPerson = true, Email = currentUserDTO.Email };
+                OnlineResponse onlineResponse = await ContactListService.IsUserOnline(friendList[i].Id);
+                ContactListContactData contact = new ContactListContactData { Id = friendList[i].Id, Name = friendList[i].Name, IsOnline = onlineResponse.Online, IsPerson = true, Email = currentUserDTO.Email };
                 ContactUserControl contactControl = new ContactUserControl(contact, currentUser, ContactListService);
                 contacts.Add(contact);
                 ListContainer.Children.Add(contactControl);

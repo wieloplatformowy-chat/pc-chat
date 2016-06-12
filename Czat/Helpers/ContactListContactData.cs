@@ -9,7 +9,7 @@ namespace Czat.Helpers
 {
     public class ContactListContactData
     {
-        public long? ID { get; set; }
+        public long? Id { get; set; }
         public string Name { get; set; }
         public bool IsOnline { get; set; }
         public bool IsPerson { get; set; }

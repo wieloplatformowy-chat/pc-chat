@@ -36,12 +36,22 @@ namespace Czat.Helpers
             CurrentUser = me;
             this.DataContext = ContactData;
             string hash = GravatarHelper.HashEmailForGravatar(contactData.Email);
-            Avatar.ImageSource = GravatarHelper.GetGravatarImage(string.Format("http://www.gravatar.com/avatar/{0}?size=80", hash));
+            BitmapImage avatar = GravatarHelper.GetGravatarImage(string.Format("http://www.gravatar.com/avatar/{0}?size=80", hash));
+            if (contactData.IsOnline)
+            {
+                Avatar.ImageSource = avatar;
+                OnlineIcon.Opacity = 1;
+            }
+            else
+            {
+                Avatar.ImageSource = new FormatConvertedBitmap(avatar, PixelFormats.Gray32Float, null, 0);
+                OnlineIcon.Opacity = 0;
+            }
         }
 
         private async void RemoveFriend_Click(object sender, RoutedEventArgs e)
         {
-            await ContactListService.RemoveFriend(ContactData.ID);
+            await ContactListService.RemoveFriend(ContactData.Id);
             foreach (Window window in Application.Current.Windows)
             {
                 if (window.GetType() == typeof(ContactList))
@@ -58,7 +68,7 @@ namespace Czat.Helpers
             if (!IsConversationWindowVisible || !conversationWindow.IsVisible)
             {
                 IsConversationWindowVisible = true;
-                conversationWindow = new MainWindow(CurrentUser.ID, ContactData.ID);
+                conversationWindow = new MainWindow(CurrentUser.Id, ContactData.Id);
                 conversationWindow.Show();
             }
             else
