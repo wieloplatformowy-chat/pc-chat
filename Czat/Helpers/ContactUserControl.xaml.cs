@@ -35,6 +35,8 @@ namespace Czat.Helpers
             ContactData = contactData;
             CurrentUser = me;
             this.DataContext = ContactData;
+            string hash = GravatarHelper.HashEmailForGravatar(contactData.Email);
+            Avatar.ImageSource = GravatarHelper.GetGravatarImage(string.Format("http://www.gravatar.com/avatar/{0}?size=80", hash));
         }
 
         private async void RemoveFriend_Click(object sender, RoutedEventArgs e)

@@ -37,5 +37,11 @@ namespace RestApiService.Services
             };
             var response = await Client.CallApiPostJson<GeneralStringResponse>(@"/messages/send", param);
         }
+
+        public async Task<IList<long?>> GeUnreadMessages()
+        {
+            var response = await Client.CallGet<IList<long?>>($"/messages/unread");
+            return response;
+        }
     }
 }

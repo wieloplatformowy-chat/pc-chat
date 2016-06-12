@@ -32,5 +32,11 @@ namespace RestApiService.Services
             var response = await Client.CallApiDeleteJson<GeneralStringResponse>($"/friends/delete/{id}", new { ID = id });
             return response;
         }
+
+        public async Task<bool> IsUserOnline(long? id)
+        {
+            var response = await Client.CallGet<bool>($"/friends/online/{id}");
+            return response;
+        }
     }
 }

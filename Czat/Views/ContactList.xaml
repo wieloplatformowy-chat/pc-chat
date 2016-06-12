@@ -27,11 +27,7 @@
                 <Grid Width="72" HorizontalAlignment="Left">
                     <Ellipse Width="56" Height="56" >
                         <Ellipse.Fill>
-                            <ImageBrush>
-                                <ImageBrush.ImageSource>
-                                    <ImageSource>/Czat;component/Resources/img/Teemo_Square.png</ImageSource>
-                                </ImageBrush.ImageSource>
-                            </ImageBrush>
+                            <ImageBrush x:Name="Avatar" />
                         </Ellipse.Fill>
                     </Ellipse>
                     <Ellipse Width="16" Height="16" Fill="#FF23F523" Margin="46,56,10,16"/>

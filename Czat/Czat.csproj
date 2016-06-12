@@ -83,6 +83,7 @@
     <Compile Include="Helpers\ContactUserControl.xaml.cs">
       <DependentUpon>ContactUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\GravatarHelper.cs" />
     <Compile Include="Helpers\HeaderUserControl.xaml.cs">
       <DependentUpon>HeaderUserControl.xaml</DependentUpon>
     </Compile>

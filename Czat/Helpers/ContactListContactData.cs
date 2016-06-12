@@ -13,6 +13,6 @@ namespace Czat.Helpers
         public string Name { get; set; }
         public bool IsOnline { get; set; }
         public bool IsPerson { get; set; }
-        public Image Avatar { get; set; }
+        public string Email { get; set; }
     }
 }

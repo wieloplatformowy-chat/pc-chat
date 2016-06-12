@@ -15,18 +15,15 @@
         <Grid Width="72" HorizontalAlignment="Left">
                 <Ellipse Width="40" Height="40" >
                     <Ellipse.Fill>
-                        <ImageBrush>
-                            <ImageBrush.ImageSource>
-                                <ImageSource>/Czat;component/Resources/img/Teemo_Square.png</ImageSource>
-                            </ImageBrush.ImageSource>
-                        </ImageBrush>
+                        <ImageBrush x:Name="Avatar" />
                     </Ellipse.Fill>
                 </Ellipse>
-                <Ellipse Width="12" Height="12" Fill="#FF23F523" Margin="44,36,16,8"/>
+                <Ellipse x:Name="OnlineIcon" Width="12" Height="12" Fill="#FF23F523" Margin="44,36,16,8"/>
             </Grid>
             <TextBlock Width="199" Margin="22,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="Black" FontWeight="Bold" Text ="{Binding Name}"/>
+            <materialDesign:PackIcon x:Name="UnreadMessageIcon" Kind="MessageAlert" Margin="230,21,0,0" />
             <materialDesign:PopupBox Margin="250,0,0,0" StaysOpen="False" Foreground="#DD000000">
-                <StackPanel>
+            <StackPanel>
                     <Button Click="RemoveFriend_Click"  Content="Usuń"/>
                 </StackPanel>
             </materialDesign:PopupBox>
