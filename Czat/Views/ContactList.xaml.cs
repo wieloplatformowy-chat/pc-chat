@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using RestApiService;
+using System.Timers;
 using RestApiService.Services;
 using RestApiService.Model;
 using Czat.Helpers;
@@ -25,21 +26,56 @@ namespace Czat.Views
     {
         public UserRestService UserService { get; }
         public ContactListRestService ContactListService { get; }
-
-        private ContactListContactData currentUser;
+        public MessageRestService MessageService { get; }
         public ContactListContactData CurrentUser { get { return currentUser; } }
 
         private IList<UserDTO> friendList;
         private List<ContactListContactData> contacts;
+        private List<ContactUserControl> contactsControlls;
+        private ContactListContactData currentUser;
+        private Timer timer;
+
         public ContactList()
         {
             UserService = IoC.Resolve<UserRestService>();
             ContactListService = IoC.Resolve<ContactListRestService>();
+            MessageService = IoC.Resolve<MessageRestService>();
             contacts = new List<ContactListContactData>();
+            contactsControlls = new List<ContactUserControl>();
             InitializeComponent();
             FilContactListData();
+            SetTimer();
         }
-     
+
+        private void SetTimer()
+        {
+            timer = new Timer(5000);
+            timer.Elapsed += new ElapsedEventHandler(AskServerForChanges);
+            timer.Enabled = true;
+        }
+
+        private async void AskServerForChanges(object sender, ElapsedEventArgs e)
+        {
+            for (int i = 0; i < contactsControlls.Count; i++)
+            {
+                OnlineResponse onlineResponse = await ContactListService.IsUserOnline(contactsControlls[i].ContactData.Id);
+                this.Dispatcher.Invoke((Action)(() =>
+                {
+                    contactsControlls[i].UpdateAvatar(onlineResponse.Online);
+                }));
+            }
+
+            IList<long?> unreadMessagesSenders = await MessageService.GeUnreadMessages();
+
+            for (int i = 0; i < contactsControlls.Count; i++)
+            {
+                this.Dispatcher.Invoke((Action)(() =>
+                {
+                    contactsControlls[i].SetUnreadMessageIcon(unreadMessagesSenders);
+                }));
+            }
+        }
+
         private async void FilContactListData()
         {
             UserDTO currentUserDTO = await UserService.WhoAmI();
@@ -51,11 +87,14 @@ namespace Czat.Views
             HeaderUserControl contactsHeader = new HeaderUserControl(new ContactListHeaderData { Title = "Kontakty" });
             ListContainer.Children.Add(contactsHeader);
             friendList = await ContactListService.GetFriendList();
+            IList<long?> unreadMessagesSenders = await MessageService.GeUnreadMessages();
             for (int i = 0; i < friendList.Count; i++)
             {
                 OnlineResponse onlineResponse = await ContactListService.IsUserOnline(friendList[i].Id);
                 ContactListContactData contact = new ContactListContactData { Id = friendList[i].Id, Name = friendList[i].Name, IsOnline = onlineResponse.Online, IsPerson = true, Email = currentUserDTO.Email };
-                ContactUserControl contactControl = new ContactUserControl(contact, currentUser, ContactListService);
+                ContactUserControl contactControl = new ContactUserControl(contact, currentUser);
+                contactControl.SetUnreadMessageIcon(unreadMessagesSenders);
+                contactsControlls.Add(contactControl);
                 contacts.Add(contact);
                 ListContainer.Children.Add(contactControl);
             }
@@ -71,7 +110,7 @@ namespace Czat.Views
         public void AddNewContact(ContactListContactData contact)
         {
             contacts.Add(contact);
-            ContactUserControl contactControl = new ContactUserControl(contact, currentUser, ContactListService);
+            ContactUserControl contactControl = new ContactUserControl(contact, currentUser);
             ListContainer.Children.Insert(contacts.Count, contactControl);
         }
 
