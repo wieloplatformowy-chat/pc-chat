@@ -85,6 +85,8 @@ namespace Czat.Helpers
                     if (messages[messages.Count - 1].UserId == ContactData.Id)
                     {
                         UnreadMessageIcon.Opacity = 1;
+                        if (IsConversationWindowVisible)
+                            conversationWindow.UpdateConversation();
                         return;
                     }
                 }
@@ -112,6 +114,11 @@ namespace Czat.Helpers
                 IsConversationWindowVisible = true;
                 conversationWindow = new MainWindow(currentUser.Id, ContactData.Id);
                 ConversationWindow.Show();
+                UnreadMessageIcon.Opacity = 0;
+            }
+            else
+            {
+                conversationWindow.Activate();
                 UnreadMessageIcon.Opacity = 0;
             }
         }

@@ -23,6 +23,7 @@ namespace Czat.Views
         /// <summary>
         /// Time in seconds after which messages of the same sender are written separately
         /// </summary>
+
         private const double MergeInterval = 15;
 
         private DateTime _currentTime;
@@ -41,6 +42,8 @@ namespace Czat.Views
 
         private ConversationsResponse conversationResponse;
         private IList<MessageModel> messages;
+        private IList<MessageModel> messagesToUpdate;
+        private long? lastRecivedMsg;
 
         public MainWindow(long? currentUser, long? friend)
         {
@@ -79,11 +82,28 @@ namespace Czat.Views
             messages = await MessageService.Get20LastMessages(conversationResponse.Id);
 
             foreach (var message in messages)
-            {
-                AddMessageToReconstructConversation(message.Message, message.UserId, message.Date);
-            }
+                AddMessageToReconstructConversation(message.Message, message.UserId, message.Date, message.Id);
         }
 
+        public async void UpdateConversation()
+        {
+            messagesToUpdate.Clear();
+            messages = await MessageService.Get20LastMessages(conversationResponse.Id);
+
+            for (int i = messages.Count - 1; i > 0; i--)
+            {
+                if (messages[i].UserId == myFriend)
+                {
+                    if (messages[i].Id > lastRecivedMsg)
+                        messagesToUpdate.Add(messages[i]);
+                    else
+                        return;
+                }
+            }
+
+            foreach (var message in messagesToUpdate)
+                AddMessageToReconstructConversation(message.Message, message.UserId, message.Date, message.Id);
+        }
         private void OnKeyDownHandler(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Return)
@@ -102,7 +122,7 @@ namespace Czat.Views
             if (string.IsNullOrWhiteSpace(TextOfMsg.Text))
                 return;
 
-            AddMessage(TextOfMsg.Text, me);
+            AddMessage(TextOfMsg.Text, me, DateTime.Now);
             await MessageService.SendMessage(conversationResponse.Id, TextOfMsg.Text);
             TextOfMsg.Text = null;
         }
@@ -246,45 +266,14 @@ namespace Czat.Views
             Close();
         }
 
-        private void AddMessageToReconstructConversation(string message, long? senderId, long? sendTime)
+        private void AddMessageToReconstructConversation(string message, long? senderId, long? sendTime, long? messageId)
         {
             DateTime start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             DateTime lastMsgDate = start.AddMilliseconds((double)sendTime).ToLocalTime();
 
-            if (lastReconstructedMsgTime == null)
-                lastReconstructedMsgTime = lastMsgDate;
+            AddMessage(message, senderId, lastMsgDate);
 
-            currentTime = lastReconstructedMsgTime;
-            currentSender = senderId;
-
-            bool areTheSameSenders = false;
-            bool isNewMessage = true;
-
-            if (currentSender == previousSender)
-                areTheSameSenders = true;
-
-            timeRange = currentTime - lastReconstructedMsgTime;
-
-            // Checks if new or merged message
-            if (timeRange.TotalSeconds <= MergeInterval && areTheSameSenders)
-                isNewMessage = false;
-
-            var msgParagraph = GetMessageParagraph(isNewMessage, currentSender);
-            var dateParagraph = GetDateTimeParagraph(isNewMessage, currentSender);
-
-            if (isNewMessage)
-            {
-                document.Blocks.Add(messageParagraph);
-                document.Blocks.Add(dateTimeParagraph);
-                dateTimeParagraph.Inlines.Add(new Run(currentTime.ToString("HH:mm")));
-            }
-            else
-                message = "\n" + message;
-
-            messageParagraph.Inlines.Add(new Bold(new Run(message)));
-
-            lastReconstructedMsgTime = currentTime;
-            previousSender = currentSender;
+            lastRecivedMsg = messageId;
         }
     }
 }
