@@ -43,6 +43,7 @@ namespace Czat.Views
         private List<MessageModel> messagesToUpdate;
         private long? lastRecivedMsg;
         private Dictionary<long?, BitmapImage> avatars;
+        private string imagesDirectoryPath;
 
         public MainWindow(ContactListContactData currentUser, ContactListContactData friend)
         {
@@ -50,10 +51,13 @@ namespace Czat.Views
             MessageService = IoC.Resolve<MessageRestService>();
             InitializeComponent();
             InitializeDictionary();
-            System.IO.Directory.SetCurrentDirectory(@"..\..\");
             GetConversationAndMessages(currentUser, friend);
             messagesToUpdate = new List<MessageModel>();
             avatars = new Dictionary<long?, BitmapImage>();
+
+            string location = System.Reflection.Assembly.GetEntryAssembly().Location;
+            string executableDirectory = System.IO.Path.GetDirectoryName(location);
+            imagesDirectoryPath = executableDirectory.Replace(@"\bin\Debug", @"\Resources\img\");
         }
 
         private void InitializeDictionary()
@@ -220,7 +224,7 @@ namespace Czat.Views
             {
                 if (_emoteDictionary.ContainsKey(element))
                 {
-                    var img = CreateImage(_emoteDictionary[element]);
+                    Image img = CreateImage(_emoteDictionary[element]);
                     messageControl.AppendMessage(img);
                 }
                 else
@@ -228,11 +232,11 @@ namespace Czat.Views
             }
         }
 
-        private static Image CreateImage(string uri)
+        private Image CreateImage(string uri)
         {
             var bitmap = new BitmapImage();
             bitmap.BeginInit();
-            bitmap.UriSource = new Uri(Environment.CurrentDirectory + @"\Resources\img\" + uri); // TODO change to embedded resource
+            bitmap.UriSource = new Uri(imagesDirectoryPath + uri);
             bitmap.EndInit();
             return new Image
             {
@@ -257,12 +261,12 @@ namespace Czat.Views
             }
         }
 
-/// <summary>
-/// Opens popup window with emoticons
-/// </summary>
-/// <param name="sender"></param>
-/// <param name="e"></param>
-private void ChooseEmote_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Opens popup window with emoticons
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ChooseEmote_Click(object sender, RoutedEventArgs e)
         {
             EmotePopup.IsOpen = !EmotePopup.IsOpen;
         }
