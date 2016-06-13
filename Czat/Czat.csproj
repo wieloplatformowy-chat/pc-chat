@@ -80,11 +80,11 @@
     <Compile Include="Helpers\ColorsHelper.cs" />
     <Compile Include="Helpers\ContactListContactData.cs" />
     <Compile Include="Helpers\ContactListHeaderData.cs" />
-    <Compile Include="Helpers\ContactUserControl.xaml.cs">
+    <Compile Include="Controls\ContactUserControl.xaml.cs">
       <DependentUpon>ContactUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\GravatarHelper.cs" />
-    <Compile Include="Helpers\HeaderUserControl.xaml.cs">
+    <Compile Include="Controls\HeaderUserControl.xaml.cs">
       <DependentUpon>HeaderUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="IoC.cs" />
@@ -98,11 +98,14 @@
       <DependentUpon>RegisterVM.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\MessageRow.xaml">
-    <Page Include="Helpers\ContactUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Helpers\HeaderUserControl.xaml">
+    <Page Include="Controls\ContactUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\HeaderUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

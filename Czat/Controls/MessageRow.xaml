@@ -7,7 +7,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="200" d:DesignWidth="400">
     <DockPanel Width="Auto" HorizontalAlignment="{Binding Path=HorizontalRowAlignment}" Margin="8, 0, 8, 8">
-        <Image x:Name="AvatarImage" Source="{Binding Path=AvatarSource}" Margin="8" DockPanel.Dock="{Binding Path=HorizontalAvatarAlignment}" VerticalAlignment="Top" Width="50" />
+        <Ellipse Width="40" Height="40" Margin="5,-1,0,5" DockPanel.Dock="{Binding Path=HorizontalAvatarAlignment}" VerticalAlignment="Top">
+            <Ellipse.Fill>
+                <ImageBrush x:Name="AvatarImage" ImageSource="{Binding Path=AvatarSource}" />
+            </Ellipse.Fill>
+        </Ellipse>
         <StackPanel>
             <materialDesign:Card UniformCornerRadius="8" Margin="4" Padding="8,4" Background="{Binding Path=MessageBackground}">
                 <TextBlock x:Name="MessagesTextBlock" TextWrapping="WrapWithOverflow" Foreground="{Binding Path=MessageForeground}" Text="{Binding Path=Message}" />

@@ -9,9 +9,8 @@ using RestApiService.Model;
 using System.Text.RegularExpressions;
 using Czat.Controls;
 using RestApiService;
-using RestApiService.Model;
 using RestApiService.Services;
-using System.Collections.Generic;
+using Czat.Helpers;
 
 namespace Czat.Views
 {
@@ -28,13 +27,12 @@ namespace Czat.Views
 
         private DateTime _currentTime;
         private DateTime _previousTime;
-		private DateTime _lastReconstructedMsgTime;
         private TimeSpan _timeRange;
         private MessageRow _lastMessageRow;
-        private long? _me;
-		private long? _myFriend;
-        private long? _currentSender;
-        private long? _previousSender;
+        private ContactListContactData _me;
+		private ContactListContactData _myFriend;
+        private ContactListContactData _currentSender;
+        private ContactListContactData _previousSender;
         private Dictionary<string, string> _emoteDictionary;
 
         public ConversationRestService ConversationService { get; }
@@ -42,16 +40,20 @@ namespace Czat.Views
 
         private ConversationsResponse conversationResponse;
         private IList<MessageModel> messages;
-        private IList<MessageModel> messagesToUpdate;
+        private List<MessageModel> messagesToUpdate;
         private long? lastRecivedMsg;
+        private Dictionary<long?, BitmapImage> avatars;
 
-        public MainWindow(long? currentUser, long? friend)
+        public MainWindow(ContactListContactData currentUser, ContactListContactData friend)
         {
             ConversationService = IoC.Resolve<ConversationRestService>();
             MessageService = IoC.Resolve<MessageRestService>();
             InitializeComponent();
             InitializeDictionary();
             System.IO.Directory.SetCurrentDirectory(@"..\..\");
+            GetConversationAndMessages(currentUser, friend);
+            messagesToUpdate = new List<MessageModel>();
+            avatars = new Dictionary<long?, BitmapImage>();
         }
 
         private void InitializeDictionary()
@@ -68,21 +70,23 @@ namespace Czat.Views
                 {":O", "EmoteWonder.png"},
                 {">:(", "EmoteAngry.png"}
             };
-            GetConversationAndMessages(currentUser, friend);
-            document = new FlowDocument();
-            MsgView.Document = document;
         }
 
-        private async void GetConversationAndMessages(long? currentUser, long? friend)
+        private async void GetConversationAndMessages(ContactListContactData currentUser, ContactListContactData friend)
         {
-            me = currentUser;
-            myFriend = friend;
+            _me = currentUser;
+            _myFriend = friend;
          
-            conversationResponse = await ConversationService.GetConversationWithUser(friend);
+            conversationResponse = await ConversationService.GetConversationWithUser(friend.Id);
             messages = await MessageService.Get20LastMessages(conversationResponse.Id);
 
             foreach (var message in messages)
-                AddMessageToReconstructConversation(message.Message, message.UserId, message.Date, message.Id);
+            {
+                if (_me.Id == message.UserId)
+                    AddMessageToReconstructConversation(message.Message, _me, message.Date, message.Id);
+                else
+                    AddMessageToReconstructConversation(message.Message, _myFriend, message.Date, message.Id);
+            }
         }
 
         public async void UpdateConversation()
@@ -92,7 +96,7 @@ namespace Czat.Views
 
             for (int i = messages.Count - 1; i > 0; i--)
             {
-                if (messages[i].UserId == myFriend)
+                if (messages[i].UserId == _myFriend.Id)
                 {
                     if (messages[i].Id > lastRecivedMsg)
                         messagesToUpdate.Add(messages[i]);
@@ -101,8 +105,13 @@ namespace Czat.Views
                 }
             }
 
-            foreach (var message in messagesToUpdate)
-                AddMessageToReconstructConversation(message.Message, message.UserId, message.Date, message.Id);
+            foreach (var message in messages)
+            {
+                if (_me.Id == message.UserId)
+                    AddMessageToReconstructConversation(message.Message, _me, message.Date, message.Id);
+                else
+                    AddMessageToReconstructConversation(message.Message, _myFriend, message.Date, message.Id);
+            }
         }
         private void OnKeyDownHandler(object sender, KeyEventArgs e)
         {
@@ -122,7 +131,7 @@ namespace Czat.Views
             if (string.IsNullOrWhiteSpace(TextOfMsg.Text))
                 return;
 
-            AddMessage(TextOfMsg.Text, me, DateTime.Now);
+            AddMessage(TextOfMsg.Text, _me, DateTime.Now);
             await MessageService.SendMessage(conversationResponse.Id, TextOfMsg.Text);
             TextOfMsg.Text = null;
         }
@@ -131,18 +140,18 @@ namespace Czat.Views
         /// Adds new message
         /// </summary>
         /// <param name="message">Contents of message</param>
-        /// <param name="senderId">Id of current message sender</param>
-        private void AddMessage(string message, long? senderId)
+        /// <param name="sender">Id of current message sender</param>
+        private void AddMessage(string message, ContactListContactData sender, DateTime sendTime)
         {
             MessageRow messageRow;
 
-            _currentTime = DateTime.Now;
-            _currentSender.Id = senderId;
+            _currentTime = sendTime;
+            _currentSender = sender;
 
             bool areTheSameSenders = false;
             bool isNewMessage = true;
 
-            if (_currentSender.Id == _previousSender.Id)
+            if (_currentSender == _previousSender)
                 areTheSameSenders = true;
 
             _timeRange = _currentTime - _previousTime;
@@ -153,9 +162,9 @@ namespace Czat.Views
 
             if (isNewMessage)
             {
-                messageRow = new MessageRow(senderId == _me.Id) {
+                messageRow = new MessageRow(sender == _me) {
                     AdditionalInfo = _currentTime.ToString("HH:mm"),
-                    AvatarSource = CreateImage(_emoteDictionary[":D"]).Source
+                    AvatarSource = GetAvatar(sender)
                 };
                 ChatPanel.Children.Add(messageRow);
                 _lastMessageRow = messageRow;
@@ -167,7 +176,7 @@ namespace Czat.Views
             }
 
             AddFormattedMessage(messageRow, message);
-            ScrollContentToBottom(senderId == _me.Id);
+            ScrollContentToBottom(sender == _me);
 
             _previousTime = _currentTime;
             _previousSender = _currentSender;
@@ -233,12 +242,27 @@ namespace Czat.Views
             };
         }
 
-        /// <summary>
-        /// Opens popup window with emoticons
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ChooseEmote_Click(object sender, RoutedEventArgs e)
+        private BitmapImage GetAvatar(ContactListContactData contact)
+        {
+            if (avatars.ContainsKey(contact.Id))
+            {
+                return avatars[contact.Id];
+            }
+            else
+            {
+                string hash = GravatarHelper.HashEmailForGravatar(contact.Email);
+                BitmapImage avatar = GravatarHelper.GetGravatarImage(string.Format("http://www.gravatar.com/avatar/{0}?size=40", hash));
+                avatars.Add(contact.Id, avatar);
+                return avatar;
+            }
+        }
+
+/// <summary>
+/// Opens popup window with emoticons
+/// </summary>
+/// <param name="sender"></param>
+/// <param name="e"></param>
+private void ChooseEmote_Click(object sender, RoutedEventArgs e)
         {
             EmotePopup.IsOpen = !EmotePopup.IsOpen;
         }
@@ -266,12 +290,12 @@ namespace Czat.Views
             Close();
         }
 
-        private void AddMessageToReconstructConversation(string message, long? senderId, long? sendTime, long? messageId)
+        private void AddMessageToReconstructConversation(string message, ContactListContactData sender, long? sendTime, long? messageId)
         {
             DateTime start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             DateTime lastMsgDate = start.AddMilliseconds((double)sendTime).ToLocalTime();
 
-            AddMessage(message, senderId, lastMsgDate);
+            AddMessage(message, sender, lastMsgDate);
 
             lastRecivedMsg = messageId;
         }
