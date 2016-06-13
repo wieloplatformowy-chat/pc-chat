@@ -23,14 +23,15 @@ namespace Czat.Views
         /// <summary>
         /// Time in seconds after which messages of the same sender are written separately
         /// </summary>
-
         private const double MergeInterval = 15;
 
         private DateTime _currentTime;
         private DateTime _previousTime;
+		private DateTime _lastReconstructedMsgTime;
         private TimeSpan _timeRange;
         private MessageRow _lastMessageRow;
         private long? _me;
+		private long? _myFriend;
         private long? _currentSender;
         private long? _previousSender;
         private Dictionary<string, string> _emoteDictionary;
@@ -79,7 +80,7 @@ namespace Czat.Views
 
             foreach (var message in messages)
             {
-                AddMessage(message.Message, message.Id);
+                AddMessageToReconstructConversation(message.Message, message.UserId, message.Date);
             }
         }
 
@@ -243,6 +244,47 @@ namespace Czat.Views
         private void ExitItem_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void AddMessageToReconstructConversation(string message, long? senderId, long? sendTime)
+        {
+            DateTime start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            DateTime lastMsgDate = start.AddMilliseconds((double)sendTime).ToLocalTime();
+
+            if (lastReconstructedMsgTime == null)
+                lastReconstructedMsgTime = lastMsgDate;
+
+            currentTime = lastReconstructedMsgTime;
+            currentSender = senderId;
+
+            bool areTheSameSenders = false;
+            bool isNewMessage = true;
+
+            if (currentSender == previousSender)
+                areTheSameSenders = true;
+
+            timeRange = currentTime - lastReconstructedMsgTime;
+
+            // Checks if new or merged message
+            if (timeRange.TotalSeconds <= MergeInterval && areTheSameSenders)
+                isNewMessage = false;
+
+            var msgParagraph = GetMessageParagraph(isNewMessage, currentSender);
+            var dateParagraph = GetDateTimeParagraph(isNewMessage, currentSender);
+
+            if (isNewMessage)
+            {
+                document.Blocks.Add(messageParagraph);
+                document.Blocks.Add(dateTimeParagraph);
+                dateTimeParagraph.Inlines.Add(new Run(currentTime.ToString("HH:mm")));
+            }
+            else
+                message = "\n" + message;
+
+            messageParagraph.Inlines.Add(new Bold(new Run(message)));
+
+            lastReconstructedMsgTime = currentTime;
+            previousSender = currentSender;
         }
     }
 }
