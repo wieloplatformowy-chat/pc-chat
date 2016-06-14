@@ -40,7 +40,8 @@ namespace Czat
                 Component.For<UserRestService>().LifestyleSingleton(), 
                 Component.For<ContactListRestService>().LifestyleSingleton(),
                 Component.For<ConversationRestService>().LifestyleSingleton(),
-                Component.For<MessageRestService>().LifestyleSingleton()
+                Component.For<MessageRestService>().LifestyleSingleton(),
+                Component.For<GroupRestService>().LifestyleSingleton()
                 );
         }
     }

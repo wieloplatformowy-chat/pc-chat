@@ -14,12 +14,12 @@ namespace RestApiServiceTests
     {
         public UserRestService UserService { get; }
 
-        public ContactListRestService ContactListService { get; }
+        public GroupRestService ContactListService { get; }
 
         public ContactListServiceTest()
         {
             UserService = new UserRestService(Client);
-            ContactListService = new ContactListRestService(Client);
+            ContactListService = new GroupRestService(Client);
         }
 
         [Test]

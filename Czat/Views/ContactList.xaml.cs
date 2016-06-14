@@ -107,6 +107,11 @@ namespace Czat.Views
             new FriendSearch(this).Show();
         }
 
+        private void CreateNewGroupButton_Click(object sender, RoutedEventArgs e)
+        {
+            new CreateGroupVM(contacts).Show();
+        }
+
         public void AddNewContact(ContactListContactData contact)
         {
             contacts.Add(contact);

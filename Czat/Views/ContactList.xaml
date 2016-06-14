@@ -44,7 +44,7 @@
                                  HorizontalAlignment="Right" VerticalAlignment="Bottom"
                                  Margin="0,0,32,32" Background="#FF009688" Foreground="White" BorderBrush="#FF009688">
             <StackPanel>
-                <Button ToolTip="Utwórz nową konwersację." >
+                <Button ToolTip="Utwórz nową konwersację." Click="CreateNewGroupButton_Click" >
                     <Button.Background>
                         <SolidColorBrush Color="{StaticResource GreenPrimary500}" />
                     </Button.Background>

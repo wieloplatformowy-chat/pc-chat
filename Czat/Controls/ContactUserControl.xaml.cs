@@ -113,6 +113,7 @@ namespace Czat.Helpers
             {
                 IsConversationWindowVisible = true;
                 conversationWindow = new MainWindow(currentUser, ContactData);
+                conversationWindow.Title = ContactData.Name;
                 ConversationWindow.Show();
                 UnreadMessageIcon.Opacity = 0;
             }
