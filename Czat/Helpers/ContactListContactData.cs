@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RestApiService.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,5 +15,6 @@ namespace Czat.Helpers
         public bool IsOnline { get; set; }
         public bool IsPerson { get; set; }
         public string Email { get; set; }
+        public IList<UserDTO> Users { get; set; }
     }
 }

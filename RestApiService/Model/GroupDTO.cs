@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RestApiService.Model
 {
-    public class GroupsModel
+    public class GroupDTO
     {
         public long? Id { get; set; }
         public string Name { get; set; }

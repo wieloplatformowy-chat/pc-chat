@@ -49,10 +49,13 @@
     <Compile Include="Model\ApiError.cs" />
     <Compile Include="ApiClient.cs" />
     <Compile Include="Model\ConversationsResponse.cs" />
+    <Compile Include="Model\GroupDTO.cs" />
+    <Compile Include="Model\InviteParam.cs" />
     <Compile Include="Model\LoginParam.cs" />
     <Compile Include="Model\GeneralStringResponse.cs" />
     <Compile Include="Model\MessageModel.cs" />
     <Compile Include="Model\OnlineResponse.cs" />
+    <Compile Include="Model\RenameParam.cs" />
     <Compile Include="Model\SearchUserParam.cs" />
     <Compile Include="Model\LoginResponse.cs" />
     <Compile Include="Model\RegisterParam.cs" />

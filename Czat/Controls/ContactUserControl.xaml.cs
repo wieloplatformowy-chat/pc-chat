@@ -61,7 +61,14 @@ namespace Czat.Helpers
 
         private void SetAvatar()
         {
-            if (online)
+            if (!ContactData.IsPerson)
+            {
+                string hash = GravatarHelper.HashEmailForGravatar(ContactData.Name);
+                Avatar.ImageSource = avatar;
+                OnlineIcon.Opacity = 0;
+                return;
+            }
+            if (online || !ContactData.IsPerson)
             {
                 string hash = GravatarHelper.HashEmailForGravatar(ContactData.Email);
                 Avatar.ImageSource = avatar;
@@ -76,18 +83,21 @@ namespace Czat.Helpers
 
         public async void SetUnreadMessageIcon(IList<long?> unreadMessagesSenders)
         {
-            ConversationsResponse conversationResponse = await ConversationService.GetConversationWithUser(ContactData.Id);
-            for (int j = unreadMessagesSenders.Count - 1; j >= 0; j--)
-            {               
-                if (unreadMessagesSenders[j] == conversationResponse.Id)
+            if (ContactData.IsPerson) //nie wiadomo czemu nie dziala dla grup
+            {
+                ConversationsResponse conversationResponse = await ConversationService.GetConversationWithUser(ContactData.Id);
+                for (int j = unreadMessagesSenders.Count - 1; j >= 0; j--)
                 {
-                    IList<MessageModel> messages = await MessageService.Get20LastMessages(conversationResponse.Id);
-                    if (messages[messages.Count - 1].UserId == ContactData.Id)
+                    if (unreadMessagesSenders[j] == conversationResponse.Id)
                     {
-                        UnreadMessageIcon.Opacity = 1;
-                        if (IsConversationWindowVisible)
-                            conversationWindow.UpdateConversation();
-                        return;
+                        IList<MessageModel> messages = await MessageService.Get20LastMessages(conversationResponse.Id);
+                        if (messages[messages.Count - 1].UserId == ContactData.Id)
+                        {
+                            UnreadMessageIcon.Opacity = 1;
+                            if (IsConversationWindowVisible)
+                                conversationWindow.UpdateConversation();
+                            return;
+                        }
                     }
                 }
             }

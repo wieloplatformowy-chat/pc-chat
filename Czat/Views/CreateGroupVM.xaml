@@ -8,7 +8,7 @@
         Title="Tworzenie nowej grupy" Height="400" Width="250" WindowStyle="SingleBorderWindow" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         <StackPanel VerticalAlignment="Top" Height="320">
-            <Grid VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="60" Background="#FF009688">
+            <Grid VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="60" Background="#783293">
                 <TextBlock Text="Wybierz znajomych do konwesacji grupowej" VerticalAlignment="Center" HorizontalAlignment="Center"
                        FontSize="18" Foreground="White" TextWrapping="Wrap" Height="50" />
             </Grid>
@@ -22,6 +22,9 @@
                 </StackPanel>
             </Grid>
         </StackPanel>
-        <Button x:Name="CreateButton" Content="Stwórz" Margin="0,0,0,10" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="80" Height="30" Style="{StaticResource MaterialDesignSecondaryButton}" Click="CreateButton_Click"/>
+        <Grid Height="50" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="#783293">
+            <TextBox x:Name="GroupNameInput" Width="120" Height="25" Margin="10,0,0,12.5" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
+            <Button x:Name="CreateButton" Content="Stwórz" Margin="0,0,10,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="80" Height="30" Style="{StaticResource MaterialDesignPrimaryButton}" Click="CreateButton_Click"/>
+        </Grid>
     </Grid>
 </Window>

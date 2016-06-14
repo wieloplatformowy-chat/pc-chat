@@ -22,7 +22,7 @@ namespace RestApiService.Services
             return response;
         }
 
-        public async Task<GeneralStringResponse> InviteUserToGroup(long? groupId, IList<long?> usersIds)
+        public async Task<GeneralStringResponse> InviteUserToGroup(long? groupId, List<long?> usersIds)
         {
             InviteParam param = new InviteParam
             {
@@ -33,9 +33,9 @@ namespace RestApiService.Services
             return response;
         }
 
-        public async Task<IList<GroupResponse>> GetGroups()
+        public async Task<IList<GroupDTO>> GetGroups()
         {
-            var response = await Client.CallGet<IList<GroupResponse>>($"/groups/my");
+            var response = await Client.CallGet<IList<GroupDTO>>($"/groups/my");
             return response;
         }
 

@@ -28,10 +28,14 @@ namespace Czat.Views
         public ContactListRestService ContactListService { get; }
         public MessageRestService MessageService { get; }
         public ContactListContactData CurrentUser { get { return currentUser; } }
+        public GroupRestService GroupService { get; }
 
         private IList<UserDTO> friendList;
+        private IList<GroupDTO> groupList;
         private List<ContactListContactData> contacts;
         private List<ContactUserControl> contactsControlls;
+        private List<ContactListContactData> groups;
+        private List<ContactUserControl> groupsControlls;
         private ContactListContactData currentUser;
         private Timer timer;
 
@@ -40,8 +44,11 @@ namespace Czat.Views
             UserService = IoC.Resolve<UserRestService>();
             ContactListService = IoC.Resolve<ContactListRestService>();
             MessageService = IoC.Resolve<MessageRestService>();
+            GroupService = IoC.Resolve<GroupRestService>();
             contacts = new List<ContactListContactData>();
+            groups = new List<ContactListContactData>();
             contactsControlls = new List<ContactUserControl>();
+            groupsControlls = new List<ContactUserControl>();
             InitializeComponent();
             FilContactListData();
             SetTimer();
@@ -86,20 +93,34 @@ namespace Czat.Views
 
             HeaderUserControl contactsHeader = new HeaderUserControl(new ContactListHeaderData { Title = "Kontakty" });
             ListContainer.Children.Add(contactsHeader);
-            friendList = await ContactListService.GetFriendList();
+
             IList<long?> unreadMessagesSenders = await MessageService.GeUnreadMessages();
+
+            friendList = await ContactListService.GetFriendList();
             for (int i = 0; i < friendList.Count; i++)
             {
                 OnlineResponse onlineResponse = await ContactListService.IsUserOnline(friendList[i].Id);
-                ContactListContactData contact = new ContactListContactData { Id = friendList[i].Id, Name = friendList[i].Name, IsOnline = onlineResponse.Online, IsPerson = true, Email = currentUserDTO.Email };
+                ContactListContactData contact = new ContactListContactData { Id = friendList[i].Id, Name = friendList[i].Name, IsOnline = onlineResponse.Online, IsPerson = true, Email = currentUserDTO.Email, Users = null };
                 ContactUserControl contactControl = new ContactUserControl(contact, currentUser);
                 contactControl.SetUnreadMessageIcon(unreadMessagesSenders);
                 contactsControlls.Add(contactControl);
                 contacts.Add(contact);
                 ListContainer.Children.Add(contactControl);
             }
+
             HeaderUserControl groupsHeader = new HeaderUserControl(new ContactListHeaderData { Title = "Grupy" });
             ListContainer.Children.Add(groupsHeader);
+
+            groupList = await GroupService.GetGroups();
+            for (int i = 0; i < groupList.Count; i++)
+            {
+                ContactListContactData contact = new ContactListContactData { Id = groupList[i].Id, Name = groupList[i].Name, IsOnline = true, IsPerson = false, Email = null, Users = groupList[i].Users };
+                ContactUserControl groupControl = new ContactUserControl(contact, currentUser);
+                groupControl.SetUnreadMessageIcon(unreadMessagesSenders);
+                groupsControlls.Add(groupControl);
+                groups.Add(contact);
+                ListContainer.Children.Add(groupControl);
+            }
         }
 
         private void AddNewFriendButton_Click(object sender, RoutedEventArgs e)
@@ -109,7 +130,7 @@ namespace Czat.Views
 
         private void CreateNewGroupButton_Click(object sender, RoutedEventArgs e)
         {
-            new CreateGroupVM(contacts).Show();
+            new CreateGroupVM(contacts, this).Show();
         }
 
         public void AddNewContact(ContactListContactData contact)
@@ -117,6 +138,13 @@ namespace Czat.Views
             contacts.Add(contact);
             ContactUserControl contactControl = new ContactUserControl(contact, currentUser);
             ListContainer.Children.Insert(contacts.Count, contactControl);
+        }
+
+        public void AddNewGroup(ContactListContactData contact)
+        {
+            groups.Add(contact);
+            ContactUserControl contactControl = new ContactUserControl(contact, currentUser);
+            ListContainer.Children.Add(contactControl);
         }
 
         public void RemoveContact(ContactListContactData contact)
