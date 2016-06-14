@@ -18,7 +18,7 @@ namespace Czat
         {
             InicializeIoC();
 
-            LoginVM loginVm = IoC.Resolve<LoginVM>();
+            LoginVM loginVm = new LoginVM();
             loginVm.Show();
         }
 
@@ -28,7 +28,6 @@ namespace Czat
             // add ability for resolving IEnumerable<IService>
             container.Kernel.Resolver.AddSubResolver(new CollectionResolver(container.Kernel));
             RegisterServices(container);
-            RegisterViews(container);
             IoC.Initialize(container);
         }
 
@@ -38,17 +37,11 @@ namespace Czat
                 Component.For<ApiClient>()
                     .DependsOn(Dependency.OnValue("apiUrl", ConfigurationManager.AppSettings["ApiBaseUrl"]))
                     .LifestyleSingleton(),
-                Component.For<UserRestService>().LifestyleSingleton()
-                );
-        }
-
-        private static void RegisterViews(WindsorContainer container)
-        {
-            container.Register(
-                Classes
-                    .FromAssemblyInThisApplication()
-                    .BasedOn(typeof(Window))
-                    .LifestyleTransient()
+                Component.For<UserRestService>().LifestyleSingleton(), 
+                Component.For<ContactListRestService>().LifestyleSingleton(),
+                Component.For<ConversationRestService>().LifestyleSingleton(),
+                Component.For<MessageRestService>().LifestyleSingleton(),
+                Component.For<GroupRestService>().LifestyleSingleton()
                 );
         }
     }

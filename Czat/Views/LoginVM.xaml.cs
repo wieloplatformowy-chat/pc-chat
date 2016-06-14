@@ -12,9 +12,9 @@ namespace Czat.Views
     {
         public UserRestService UserService { get; }
 
-        public LoginVM(UserRestService userService)
+        public LoginVM()
         {
-            UserService = userService;
+            UserService = IoC.Resolve<UserRestService>();
             InitializeComponent();
         }
 
@@ -36,7 +36,7 @@ namespace Czat.Views
                 return;
             }
 
-            IoC.Resolve<MainWindow>().Show();
+            new ContactList().Show();
             Close();
         }
 
@@ -45,7 +45,7 @@ namespace Czat.Views
         /// </summary>
         private void Register_Click(object sender, RoutedEventArgs e)
         {
-            IoC.Resolve<RegisterVM>().Show();
+            new RegisterVM().Show();
             Close();
         }
 
