@@ -28,7 +28,7 @@
         </ScrollViewer>
         <TextBox x:Name="TextOfMsg" Grid.Row="2" Grid.Column="0" VerticalContentAlignment="Center" KeyDown="OnKeyDownHandler" Background="{StaticResource DarkerBackground}" BorderThickness="0" Padding="5,0"/>
         <Button x:Name="ChooseEmote" Grid.Row="2" Grid.Column="1" Background="{x:Null}" Height="40" Width="40" Click="ChooseEmote_Click" Panel.ZIndex="1" Padding="0" BorderBrush="{x:Null}" BorderThickness="0">
-            <Image Source="/Resources/img/ic_insert_emoticon_2x.png" />
+            <Image Source="pack://siteoforigin:,,,/Resources/img/ic_insert_emoticon_2x.png" />
         </Button>
         <Button x:Name="SendMsg" Grid.Row="2" Grid.Column="2" Content="Wyślij" Click="SendMsg_Click" Height="40" VerticalAlignment="Bottom" Style="{StaticResource MaterialDesignSecondaryButton}" FontSize="20" />
         <Canvas Height="40" Width="40" Grid.Row="2" Grid.Column="1" Panel.ZIndex="0">
