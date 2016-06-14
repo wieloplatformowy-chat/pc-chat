@@ -24,8 +24,16 @@
         </Grid.ColumnDefinitions>
 
         <TextBox Name="Login" materialDesign:HintAssist.Hint="Nazwa użytkownika" FontSize="16"
-                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" />
-
+                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" >
+            <TextBox.Text>
+                <Binding Path="LoginValidation" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <ExceptionValidationRule />
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>     
+        
         <PasswordBox Name="Password" Grid.Row="4" Grid.Column="1"
                      Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
                      materialDesign:HintAssist.Hint="Hasło" FontSize="16" Grid.ColumnSpan="2" />
@@ -36,7 +44,7 @@
                        FontSize="36" Foreground="#ffffff" />
         </Grid>
         <CheckBox x:Name="RememberMeCheckbox" Content="Zapamiętaj mnie" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="6" VerticalAlignment="Center"/>
-        <Button x:Name="LoginButton" Content="Zaloguj się" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,5,0" Grid.Row="7" VerticalAlignment="Center" Width="114" Height="43" Style="{StaticResource MaterialDesignSecondaryButton}" Click="LoginOn_Click"/>
+        <Button x:Name="LoginButton" Content="Zaloguj się" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,5,0" Grid.Row="7" VerticalAlignment="Center" Width="114" Height="43" Style="{StaticResource MaterialDesignSecondaryButton}" Click="LoginOn_Click" IsDefault="True"/>
         <Button x:Name="RegisterButton" Content="Rejestracja" Grid.Column="2" HorizontalAlignment="Left" Margin="5,0,0,0" Grid.Row="7" VerticalAlignment="Center" Width="114" Height="43" Style="{StaticResource MaterialDesignDefaultButton}" Click="Register_Click"/>
     </Grid>
 </Window>

@@ -107,6 +107,8 @@
       <DependentUpon>HeaderUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="IoC.cs" />
+    <Compile Include="Validation\LoginValidation.cs" />
+    <Compile Include="Validation\PasswordValidation.cs" />
     <Compile Include="Views\ContactList.xaml.cs">
       <DependentUpon>ContactList.xaml</DependentUpon>
     </Compile>
@@ -224,10 +226,10 @@
       <Project>{90b53209-c60c-4655-b28d-a1b3e1044ba3}</Project>
       <Name>MaterialDesignColors.Wpf</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MaterialDesignThemes.Wpf\MaterialDesignThemes.Wpf.csproj">
-      <Project>{f079fb0a-a8ed-4216-b6a5-345756751a04}</Project>
-      <Name>MaterialDesignThemes.Wpf</Name>
-    </ProjectReference>
+	<ProjectReference Include="..\MaterialDesignThemes.Wpf\MaterialDesignThemes.Wpf.csproj"> 
+      <Project>{f079fb0a-a8ed-4216-b6a5-345756751a04}</Project> 
+      <Name>MaterialDesignThemes.Wpf</Name> 
+    </ProjectReference> 
     <ProjectReference Include="..\RestApiService\RestApiService.csproj">
       <Project>{7c3112dc-443a-4709-a652-4cb42dd7a2ce}</Project>
       <Name>RestApiService</Name>
