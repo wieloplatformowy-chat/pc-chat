@@ -1,14 +1,14 @@
 ﻿using System.Globalization;
 using System.Windows.Controls;
 
-namespace MaterialDesignColors.WpfExample
+namespace Czat.Validation
 {
-    public class Login_Validation :ValidationRule
+    public class PasswordValidation : ValidationRule
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
             return string.IsNullOrWhiteSpace((value ?? "").ToString())
-                ? new ValidationResult(false, "Zły login.")
+                ? new ValidationResult(false, "Złe hasło.")
                 : ValidationResult.ValidResult;
         }
     }

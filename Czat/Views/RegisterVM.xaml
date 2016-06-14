@@ -24,19 +24,19 @@
             <ColumnDefinition Width="10" />
         </Grid.ColumnDefinitions>
 
-        <TextBox Name="Login" materialDesign:TextFieldAssist.Hint="Nazwa użytkownika" FontSize="16"
+        <TextBox Name="Login" materialDesign:HintAssist.Hint="Nazwa użytkownika" FontSize="16"
                  Style="{StaticResource MaterialDesignFloatingHintTextBox}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" />
 
-        <TextBox Name="EMail" materialDesign:TextFieldAssist.Hint="E-Mail" FontSize="16"
+        <TextBox Name="EMail" materialDesign:HintAssist.Hint="E-Mail" FontSize="16"
                  Style="{StaticResource MaterialDesignFloatingHintTextBox}" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="4" />
 
         <PasswordBox Name="Password" Grid.Row="6" Grid.Column="1"
                      Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
-                     materialDesign:TextFieldAssist.Hint="Hasło" FontSize="16" Grid.ColumnSpan="2" />
+                     materialDesign:HintAssist.Hint="Hasło" FontSize="16" Grid.ColumnSpan="2" />
 
         <PasswordBox Name="RepeatPassword" Grid.Row="8" Grid.Column="1"
                      Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
-                     materialDesign:TextFieldAssist.Hint="Powtórz Hasło" FontSize="16" Grid.ColumnSpan="2" />        
+                     materialDesign:HintAssist.Hint="Powtórz Hasło" FontSize="16" Grid.ColumnSpan="2" />        
 
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#9c27b0" Grid.Row="0"
               Grid.ColumnSpan="4" Grid.Column="0">
