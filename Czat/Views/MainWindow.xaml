@@ -36,47 +36,47 @@
                 <UniformGrid Background="{StaticResource SecondaryBrush}">
                     <Button x:Name="EmoteSmile" Foreground="Transparent" Padding="0" BorderThickness="0" Width="30" Height="30" VerticalAlignment="Center" Content=":)" Click="Emote_Click" >
                         <Button.Background>
-                            <ImageBrush ImageSource="/Czat;component/Resources/img/EmoteSmile.png"/>
+                            <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/img/EmoteSmile.png"/>
                         </Button.Background>
                     </Button>
                     <Button x:Name="EmoteWinkSmile" Foreground="Transparent" Padding="0" BorderThickness="0" Width="30" Height="30" VerticalAlignment="Center" Content=";)" Click="Emote_Click" >
                         <Button.Background>
-                            <ImageBrush ImageSource="/Czat;component/Resources/img/EmoteWinkSmile.png"/>
+                            <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/img/EmoteWinkSmile.png"/>
                         </Button.Background>
                     </Button>
                     <Button x:Name="EmoteGrin" Foreground="Transparent" Padding="0" BorderThickness="0" Width="30" Height="30" VerticalAlignment="Center" Content=":D" Click="Emote_Click" >
                         <Button.Background>
-                            <ImageBrush ImageSource="/Czat;component/Resources/img/EmoteGrin.png"/>
+                            <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/img/EmoteGrin.png"/>
                         </Button.Background>
                     </Button>
                     <Button x:Name="EmoteSerious" Foreground="Transparent" Padding="0" BorderThickness="0" Width="30" Height="30" VerticalAlignment="Center" Content=":|" Click="Emote_Click" >
                         <Button.Background>
-                            <ImageBrush ImageSource="/Czat;component/Resources/img/EmoteSerious.png"/>
+                            <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/img/EmoteSerious.png"/>
                         </Button.Background>
                     </Button>
                     <Button x:Name="EmoteUnsure" Foreground="Transparent" Padding="0" BorderThickness="0" Width="30" Height="30" VerticalAlignment="Center" Content=":/" Click="Emote_Click" >
                         <Button.Background>
-                            <ImageBrush ImageSource="/Czat;component/Resources/img/EmoteUnsure.png"/>
+                            <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/img/EmoteUnsure.png"/>
                         </Button.Background>
                     </Button>
                     <Button x:Name="EmoteSad" Foreground="Transparent" Padding="0" BorderThickness="0" Width="30" Height="30" VerticalAlignment="Center" Content=":(" Click="Emote_Click" >
                         <Button.Background>
-                            <ImageBrush ImageSource="/Czat;component/Resources/img/EmoteSad.png"/>
+                            <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/img/EmoteSad.png"/>
                         </Button.Background>
                     </Button>
                     <Button x:Name="EmoteWonder" Foreground="Transparent" Padding="0" BorderThickness="0" Width="30" Height="30" VerticalAlignment="Center" Content=":O" Click="Emote_Click" >
                         <Button.Background>
-                            <ImageBrush ImageSource="/Czat;component/Resources/img/EmoteWonder.png"/>
+                            <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/img/EmoteWonder.png"/>
                         </Button.Background>
                     </Button>
                     <Button x:Name="EmoteAngry" Foreground="Transparent" Padding="0" BorderThickness="0" Width="30" Height="30" VerticalAlignment="Center" Content=">:(" Click="Emote_Click" >
                         <Button.Background>
-                            <ImageBrush ImageSource="/Czat;component/Resources/img/EmoteAngry.png"/>
+                            <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/img/EmoteAngry.png"/>
                         </Button.Background>
                     </Button>
                     <Button x:Name="EmoteCry" Foreground="Transparent" Padding="0" BorderThickness="0" Width="30" Height="30" VerticalAlignment="Center" Content=":'(" Click="Emote_Click" >
                         <Button.Background>
-                            <ImageBrush ImageSource="/Czat;component/Resources/img/EmoteCry.png"/>
+                            <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/img/EmoteCry.png"/>
                         </Button.Background>
                     </Button>
                 </UniformGrid>

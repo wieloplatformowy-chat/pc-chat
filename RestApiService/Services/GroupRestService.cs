@@ -16,9 +16,9 @@ namespace RestApiService.Services
             Client = client;
         }
 
-        public async Task<long?> CreateNewGroup()
+        public async Task<IdResponse> CreateNewGroup()
         {
-            var response = await Client.CallGet<long?>($"/groups/create");
+            var response = await Client.CallGet<IdResponse>("/groups/create");
             return response;
         }
 
@@ -29,7 +29,7 @@ namespace RestApiService.Services
                 GroupId = groupId,
                 UserIds = usersIds
             };
-            var response = await Client.CallApiPostJson<GeneralStringResponse>($"/groups/invite", param);
+            var response = await Client.CallApiPostJson<GeneralStringResponse>("/groups/invite", param);
             return response;
         }
 

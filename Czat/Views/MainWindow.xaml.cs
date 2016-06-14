@@ -11,6 +11,8 @@ using Czat.Controls;
 using RestApiService;
 using RestApiService.Services;
 using Czat.Helpers;
+using System.IO;
+using System.Reflection;
 
 namespace Czat.Views
 {
@@ -38,12 +40,12 @@ namespace Czat.Views
         public ConversationRestService ConversationService { get; }
         public MessageRestService MessageService { get; }
 
-        private ConversationsResponse conversationResponse;
-        private IList<MessageModel> messages;
-        private List<MessageModel> messagesToUpdate;
-        private long? lastRecivedMsg;
-        private Dictionary<long?, BitmapImage> avatars;
-        private string imagesDirectoryPath;
+        private ConversationsResponse _conversationResponse;
+        private IList<MessageModel> _messages;
+        private readonly List<MessageModel> _messagesToUpdate;
+        private long? _lastReceivedMsg;
+        private readonly Dictionary<long?, BitmapImage> _avatars;
+        private readonly string _imagesDirectoryPath;
 
         public MainWindow(ContactListContactData currentUser, ContactListContactData friend)
         {
@@ -52,12 +54,11 @@ namespace Czat.Views
             InitializeComponent();
             InitializeDictionary();
             GetConversationAndMessages(currentUser, friend);
-            messagesToUpdate = new List<MessageModel>();
-            avatars = new Dictionary<long?, BitmapImage>();
+            _messagesToUpdate = new List<MessageModel>();
+            _avatars = new Dictionary<long?, BitmapImage>();
 
-            string location = System.Reflection.Assembly.GetEntryAssembly().Location;
-            string executableDirectory = System.IO.Path.GetDirectoryName(location);
-            imagesDirectoryPath = executableDirectory.Replace(@"\bin\Debug", @"\Resources\img\");
+            var location = Assembly.GetEntryAssembly().Location;
+            _imagesDirectoryPath = Path.GetDirectoryName(location) + @"\Resources\img\";
         }
 
         private void InitializeDictionary()
@@ -81,35 +82,37 @@ namespace Czat.Views
             _me = currentUser;
             _myFriend = friend;
          
-            conversationResponse = await ConversationService.GetConversationWithUser(friend.Id);
-            messages = await MessageService.Get20LastMessages(conversationResponse.Id);
+            _conversationResponse = await ConversationService.GetConversationWithUser(friend.Id);
+            _messages = await MessageService.Get20LastMessages(_conversationResponse.Id);
 
-            foreach (var message in messages)
+            foreach (var message in _messages)
             {
-                if (_me.Id == message.UserId)
-                    AddMessageToReconstructConversation(message.Message, _me, message.Date, message.Id);
-                else
-                    AddMessageToReconstructConversation(message.Message, _myFriend, message.Date, message.Id);
+                AddMessageToReconstructConversation(
+                    message.Message, 
+                    _me.Id == message.UserId ? _me : _myFriend,
+                    message.Date, 
+                    message.Id
+                );
             }
         }
 
         public async void UpdateConversation()
         {
-            messagesToUpdate.Clear();
-            messages = await MessageService.Get20LastMessages(conversationResponse.Id);
+            _messagesToUpdate.Clear();
+            _messages = await MessageService.Get20LastMessages(_conversationResponse.Id);
 
-            for (int i = messages.Count - 1; i > 0; i--)
+            for (int i = _messages.Count - 1; i > 0; i--)
             {
-                if (messages[i].UserId == _myFriend.Id)
+                if (_messages[i].UserId == _myFriend.Id)
                 {
-                    if (messages[i].Id > lastRecivedMsg)
-                        messagesToUpdate.Add(messages[i]);
+                    if (_messages[i].Id > _lastReceivedMsg)
+                        _messagesToUpdate.Add(_messages[i]);
                     else
                         return;
                 }
             }
 
-            foreach (var message in messages)
+            foreach (var message in _messages)
             {
                 if (_me.Id == message.UserId)
                     AddMessageToReconstructConversation(message.Message, _me, message.Date, message.Id);
@@ -136,7 +139,7 @@ namespace Czat.Views
                 return;
 
             AddMessage(TextOfMsg.Text, _me, DateTime.Now);
-            await MessageService.SendMessage(conversationResponse.Id, TextOfMsg.Text);
+            await MessageService.SendMessage(_conversationResponse.Id, TextOfMsg.Text);
             TextOfMsg.Text = null;
         }
 
@@ -236,7 +239,7 @@ namespace Czat.Views
         {
             var bitmap = new BitmapImage();
             bitmap.BeginInit();
-            bitmap.UriSource = new Uri(imagesDirectoryPath + uri);
+            bitmap.UriSource = new Uri(_imagesDirectoryPath + uri);
             bitmap.EndInit();
             return new Image
             {
@@ -248,15 +251,15 @@ namespace Czat.Views
 
         private BitmapImage GetAvatar(ContactListContactData contact)
         {
-            if (avatars.ContainsKey(contact.Id))
+            if (_avatars.ContainsKey(contact.Id))
             {
-                return avatars[contact.Id];
+                return _avatars[contact.Id];
             }
             else
             {
                 string hash = GravatarHelper.HashEmailForGravatar(contact.Email);
                 BitmapImage avatar = GravatarHelper.GetGravatarImage(string.Format("http://www.gravatar.com/avatar/{0}?size=40", hash));
-                avatars.Add(contact.Id, avatar);
+                _avatars.Add(contact.Id, avatar);
                 return avatar;
             }
         }
@@ -301,7 +304,7 @@ namespace Czat.Views
 
             AddMessage(message, sender, lastMsgDate);
 
-            lastRecivedMsg = messageId;
+            _lastReceivedMsg = messageId;
         }
     }
 }

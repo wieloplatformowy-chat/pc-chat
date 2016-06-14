@@ -234,24 +234,44 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\img\ic_insert_emoticon_2x.png" />
+    <None Include="Resources\img\ic_insert_emoticon_2x.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\img\EmoteSmile.png" />
-    <Resource Include="Resources\img\EmoteWinkSmile.png" />
-    <Resource Include="Resources\img\EmoteGrin.png" />
-    <Resource Include="Resources\img\EmoteSerious.png" />
-    <Resource Include="Resources\img\EmoteUnsure.png" />
-    <Resource Include="Resources\img\EmoteSad.png" />
+    <None Include="Resources\img\EmoteSmile.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\img\EmoteWinkSmile.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\img\EmoteGrin.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\img\EmoteSerious.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\img\EmoteUnsure.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\img\EmoteSad.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\img\EmoteCry.png" />
+    <None Include="Resources\img\EmoteCry.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\img\EmoteWonder.png" />
+    <None Include="Resources\img\EmoteWonder.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\img\EmoteAngry.png" />
+    <None Include="Resources\img\EmoteAngry.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

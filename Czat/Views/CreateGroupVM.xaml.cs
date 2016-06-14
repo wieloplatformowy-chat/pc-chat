@@ -53,31 +53,34 @@ namespace Czat.Views
         {
             try
             {
-                if (!string.IsNullOrWhiteSpace(GroupNameInput.Text))
-                {
-                    CreateButton.IsEnabled = false;
-                    groupId = await GroupService.CreateNewGroup();
-                    List<long?> addedUsers = new List<long?>();
-                    List<UserDTO> addedUsersDTO = new List<UserDTO>();
-                    for (int i = 0; i < contactsControlls.Count; i++)
-                    {
-                        if (contactsControlls[i].IsAdded)
-                        {
-                            addedUsers.Add(contactsControlls[i].ContactData.Id);
-                            addedUsersDTO.Add(new UserDTO() { Email = contactsControlls[i].ContactData.Email, Id = contactsControlls[i].ContactData.Id, Name = contactsControlls[i].ContactData.Name });
-                        }
-                    }
-                    await GroupService.InviteUserToGroup(groupId, addedUsers);
-                    contactListReference.AddNewGroup(new ContactListContactData() { Id = groupId, Name = GroupNameInput.Text, IsOnline = true, IsPerson = false, Email = null, Users = addedUsersDTO });
-                Window.GetWindow(this).Close();
+                if (string.IsNullOrWhiteSpace(GroupNameInput.Text)) return;
+
+                CreateButton.IsEnabled = false;
+                var response = await GroupService.CreateNewGroup();
+                groupId = response.Id;
+
+                var addedUsers = new List<long?>();
+                var addedUsersDTO = new List<UserDTO>();
+                foreach (ContactMiniUserControl listedUser in contactsControlls) {
+                    if (!listedUser.IsAdded)
+                        continue;
+
+                    addedUsers.Add(listedUser.ContactData.Id);
+                    addedUsersDTO.Add(new UserDTO {
+                        Email = listedUser.ContactData.Email,
+                        Id = listedUser.ContactData.Id,
+                        Name = listedUser.ContactData.Name
+                    });
                 }
+                await GroupService.InviteUserToGroup(groupId, addedUsers);
+                contactListReference.AddNewGroup(new ContactListContactData { Id = groupId, Name = GroupNameInput.Text, IsOnline = true, IsPerson = false, Email = null, Users = addedUsersDTO });
+                GetWindow(this)?.Close();
             }
             catch (ApiException apiException)
             {
                 CreateButton.IsEnabled = true;
                 // Get rid of MessageBox
                 MessageBox.Show(apiException.Message, "Wystąpił błąd");
-                return;
             }
         }
     }
