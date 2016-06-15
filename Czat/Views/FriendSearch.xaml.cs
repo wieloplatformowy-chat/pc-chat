@@ -54,6 +54,7 @@ namespace Czat.Views
                         await ContactListService.AddFriend(potentialFriendsList[i].Id);
                         ContactListContactData contact = new ContactListContactData { Id = potentialFriendsList[i].Id, Name = potentialFriendsList[i].Name, IsOnline = true, IsPerson = true, Email = potentialFriendsList[i].Email };
                         contactListReference.AddNewContact(contact);
+                        contactListReference.FriendList.Add(potentialFriendsList[i]);
                         Window.GetWindow(this).Close();
                         break;
                     }

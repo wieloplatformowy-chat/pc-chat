@@ -104,12 +104,8 @@ namespace Czat.Views
             {
                 if (_messages[i].UserId == _myFriend.Id)
                 {
-                    MessageBox.Show("weszlo 1");
                     if (_messages[i].Id > _lastReceivedMsg)
-                    {
                         _messagesToUpdate.Add(_messages[i]);
-                        MessageBox.Show("weszlo 2");
-                    }
                     else
                         break;
                 }
