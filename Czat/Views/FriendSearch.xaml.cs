@@ -33,6 +33,7 @@ namespace Czat.Views
             ContactListService = IoC.Resolve<ContactListRestService>();
             contactListReference = contactList;
             InitializeComponent();
+            FindButton.IsEnabled = true;
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -56,13 +57,19 @@ namespace Czat.Views
                         Window.GetWindow(this).Close();
                         break;
                     }
+                    else
+                    {
+                        FindButton.IsEnabled = true;
+                        MessageBox.Show("Nie ma takiego użytkownika!");
+                        break;
+                    }
                 }
             }
             catch (ApiException apiException)
             {
                 FindButton.IsEnabled = true;
                 // Get rid of MessageBox
-                MessageBox.Show(apiException.Message, "Wystąpił błąd");
+                MessageBox.Show(apiException.Message + " " + apiException.ErrorData, "Wystąpił błąd");
                 return;
             }
         }

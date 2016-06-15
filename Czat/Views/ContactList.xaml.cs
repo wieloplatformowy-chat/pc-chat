@@ -57,11 +57,11 @@ namespace Czat.Views
         private void SetTimer()
         {
             timer = new Timer(5000);
-            timer.Elapsed += new ElapsedEventHandler(AskServerForChanges);
+            timer.Elapsed += new ElapsedEventHandler(AskServerForUpdate);
             timer.Enabled = true;
         }
 
-        private async void AskServerForChanges(object sender, ElapsedEventArgs e)
+        private async void AskServerForUpdate(object sender, ElapsedEventArgs e)
         {
             for (int i = 0; i < contactsControlls.Count; i++)
             {
@@ -100,7 +100,7 @@ namespace Czat.Views
             for (int i = 0; i < friendList.Count; i++)
             {
                 OnlineResponse onlineResponse = await ContactListService.IsUserOnline(friendList[i].Id);
-                ContactListContactData contact = new ContactListContactData { Id = friendList[i].Id, Name = friendList[i].Name, IsOnline = onlineResponse.Online, IsPerson = true, Email = currentUserDTO.Email, Users = null };
+                ContactListContactData contact = new ContactListContactData { Id = friendList[i].Id, Name = friendList[i].Name, IsOnline = onlineResponse.Online, IsPerson = true, Email = friendList[i].Email, Users = null };
                 ContactUserControl contactControl = new ContactUserControl(contact, currentUser);
                 contactControl.SetUnreadMessageIcon(unreadMessagesSenders);
                 contactsControlls.Add(contactControl);
@@ -144,6 +144,7 @@ namespace Czat.Views
         {
             groups.Add(contact);
             ContactUserControl contactControl = new ContactUserControl(contact, currentUser);
+            contactsControlls.Add(contactControl);
             ListContainer.Children.Add(contactControl);
         }
 
