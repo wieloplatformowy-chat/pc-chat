@@ -6,6 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Czat.Views"
         mc:Ignorable="d"
+        Icon="pack://siteoforigin:,,,/Resources/img/chmurka.ico"
         Title="Lista kontaktów" Height="630" Width="330" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Window.Resources>
         <ResourceDictionary>

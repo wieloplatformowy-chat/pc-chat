@@ -8,7 +8,6 @@ using System.Windows.Controls.Primitives;
 using RestApiService.Model;
 using System.Text.RegularExpressions;
 using Czat.Controls;
-using RestApiService;
 using RestApiService.Services;
 using Czat.Helpers;
 using System.IO;

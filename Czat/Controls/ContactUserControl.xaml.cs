@@ -3,7 +3,10 @@ using RestApiService.Model;
 using RestApiService.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Media;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,8 +16,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Czat.Helpers
 {
@@ -29,6 +30,7 @@ namespace Czat.Helpers
         public MessageRestService MessageService { get; }
         public MainWindow ConversationWindow { get { return conversationWindow; } }
         public bool IsConversationWindowVisible { get; set; }
+        private readonly string _soundDirectoryPath;
 
         private bool online;
         private BitmapImage avatar;
@@ -48,6 +50,8 @@ namespace Czat.Helpers
             avatar = GravatarHelper.GetGravatarImage(string.Format("http://www.gravatar.com/avatar/{0}?size=80", hash));
             online = contactData.IsOnline;
             SetAvatar();
+            var location = Assembly.GetEntryAssembly().Location;
+            _soundDirectoryPath = Path.GetDirectoryName(location) + @"\Resources\sound\sound.wav";
         }
 
         public void UpdateAvatar(bool status)
@@ -96,6 +100,11 @@ namespace Czat.Helpers
                             UnreadMessageIcon.Opacity = 1;
                             if (IsConversationWindowVisible)
                                 conversationWindow.UpdateConversation();
+                            else
+                            {
+                                SoundPlayer player = new SoundPlayer(_soundDirectoryPath);
+                                player.Play();
+                            }
                             return;
                         }
                     }

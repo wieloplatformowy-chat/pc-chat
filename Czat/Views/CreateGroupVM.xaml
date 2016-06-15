@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Czat.Views"
         mc:Ignorable="d"
+        Icon="pack://siteoforigin:,,,/Resources/img/chmurka.ico"
         Title="Tworzenie nowej grupy" Height="400" Width="250" WindowStyle="SingleBorderWindow" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         <StackPanel VerticalAlignment="Top" Height="320">
