@@ -73,6 +73,7 @@ namespace Czat.Views
                     });
                 }
                 await GroupService.InviteUserToGroup(groupId, addedUsers);
+                await GroupService.ChangeConversationName(groupId, GroupNameInput.Text);
                 contactListReference.AddNewGroup(new ContactListContactData { Id = groupId, Name = GroupNameInput.Text, IsOnline = true, IsPerson = false, Email = null, Users = addedUsersDTO });
                 GetWindow(this)?.Close();
             }

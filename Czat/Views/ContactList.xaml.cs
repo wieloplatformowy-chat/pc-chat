@@ -46,6 +46,7 @@ namespace Czat.Views
             ContactListService = IoC.Resolve<ContactListRestService>();
             MessageService = IoC.Resolve<MessageRestService>();
             GroupService = IoC.Resolve<GroupRestService>();
+
             contacts = new List<ContactListContactData>();
             groups = new List<ContactListContactData>();
             contactsControlls = new List<ContactUserControl>();

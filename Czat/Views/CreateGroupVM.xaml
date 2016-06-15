@@ -14,13 +14,11 @@
                        FontSize="18" Foreground="White" TextWrapping="Wrap" Height="50" />
             </Grid>
             <Grid>
-                <StackPanel>
-                    <Grid>
-                        <ScrollViewer VerticalScrollBarVisibility="Hidden">
-                            <StackPanel x:Name="ListContainer" x:FieldModifier="public"></StackPanel>
-                        </ScrollViewer>
-                    </Grid>
-                </StackPanel>
+                <Grid Height="260" Width="240">
+                    <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                        <StackPanel x:Name="ListContainer" x:FieldModifier="public"></StackPanel>
+                    </ScrollViewer>
+                </Grid>
             </Grid>
         </StackPanel>
         <Grid Height="50" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="#783293">
