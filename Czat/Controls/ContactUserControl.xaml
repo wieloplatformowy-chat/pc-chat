@@ -20,7 +20,7 @@
                 </Ellipse>
                 <Ellipse x:Name="OnlineIcon" Width="12" Height="12" Fill="#FF23F523" Margin="44,36,16,8"/>
             </Grid>
-            <TextBlock Width="199" Margin="22,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="Black" FontWeight="Bold" Text ="{Binding Name}"/>
+            <TextBlock x:Name="NameLabel" Width="199" Margin="22,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="Black" FontWeight="Bold" Text ="{Binding Name}"/>
             <materialDesign:PackIcon x:Name="UnreadMessageIcon" Kind="MessageAlert" Margin="230,21,0,0" Opacity="0" />
             <materialDesign:PopupBox Margin="250,0,0,0" StaysOpen="False" Foreground="#DD000000">
             <StackPanel>
