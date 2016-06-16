@@ -12,6 +12,7 @@ using RestApiService.Services;
 using Czat.Helpers;
 using System.IO;
 using System.Reflection;
+using RestApiService;
 
 namespace Czat.Views
 {

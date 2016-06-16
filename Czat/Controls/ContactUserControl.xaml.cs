@@ -69,11 +69,6 @@ namespace Czat.Helpers
             NameLabel.Text = newName;
         }
 
-        public void UpdateName(string newName)
-        {
-            NameLabel.Text = newName;
-        }
-
         public void UpdateAvatar(bool status)
         {
             if (online != status)
@@ -127,26 +122,8 @@ namespace Czat.Helpers
                             {
                                 SoundPlayer player = new SoundPlayer(_soundDirectoryPath);
                                 player.Play();
-								UnreadMessageIcon.Opacity = 1;
-                            }
-                            return;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                for (int j = unreadMessagesSenders.Count - 1; j >= 0; j--)
-                {
-                    if (unreadMessagesSenders[j] == ContactData.Id)
-                    {
-                        IList<MessageModel> messages = await MessageService.Get20LastMessages(ContactData.Id);
-                        if (messages[messages.Count - 1].UserId != currentUser.Id)
-                        {
-                            if (IsConversationWindowVisible)
-                                conversationWindow.UpdateConversation();
-                            else
                                 UnreadMessageIcon.Opacity = 1;
+                            }
                             return;
                         }
                     }
