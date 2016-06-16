@@ -111,17 +111,17 @@ namespace Czat.Views
                         Name = listedUser.ContactData.Name
                     });
                     if (addedUsers.Count > 0)
-                        await GroupService.InviteUserToGroup(groupId, addedUsers);
+                        await GroupService.InviteUserToGroup(groupData.Id, addedUsers);
                 }
                 GetWindow(this)?.Close();
-            }
+        }
             catch (ApiException apiException)
             {
                 CreateButton.IsEnabled = true;
                 // Get rid of MessageBox
                 MessageBox.Show(apiException.Message, "Wystąpił błąd");
             }
-        }
+}
         private async void CreateButton_Click(object sender, RoutedEventArgs e)
         {
             try
