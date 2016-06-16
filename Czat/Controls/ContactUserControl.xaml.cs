@@ -147,6 +147,26 @@ namespace Czat.Helpers
                     }
                 }
             }
+            else
+            {
+                for (int j = unreadMessagesSenders.Count - 1; j >= 0; j--)
+                {
+                    if (unreadMessagesSenders[j] == ContactData.Id)
+                    {
+                        IList<MessageModel> messages = await MessageService.Get20LastMessages(ContactData.Id);
+                        MessageBox.Show("SA NOWE");
+                        if (messages[messages.Count - 1].UserId != currentUser.Id)
+                        {
+                            MessageBox.Show("OD KOGOS");
+                            if (IsConversationWindowVisible)
+                                conversationWindow.UpdateConversation();
+                            else
+                                UnreadMessageIcon.Opacity = 1;
+                            return;
+                        }
+                    }
+                }
+            }
         }
 
         private void EditGroup_Click(object sender, RoutedEventArgs e)

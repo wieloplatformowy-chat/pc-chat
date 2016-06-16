@@ -39,7 +39,7 @@ namespace Czat.Views
         public ConversationRestService ConversationService { get; }
         public MessageRestService MessageService { get; }
 
-        private ConversationsResponse _conversationResponse;
+        private long? _conversationId;
         private IList<MessageModel> _messages;
         private readonly List<MessageModel> _messagesToUpdate;
         private long? _lastReceivedMsg;
@@ -80,10 +80,18 @@ namespace Czat.Views
         {
             _me = currentUser;
             _myFriend = friend;
-         
-            _conversationResponse = await ConversationService.GetConversationWithUser(friend.Id);
-            _messages = await MessageService.Get20LastMessages(_conversationResponse.Id);
 
+            if (friend.IsPerson)
+            {
+                ConversationsResponse _conversationResponse = await ConversationService.GetConversationWithUser(friend.Id);
+                _conversationId = _conversationResponse.Id;
+            }
+            else
+            {
+                _conversationId = friend.Id;
+            }
+                 
+            _messages = await MessageService.Get20LastMessages(_conversationId);
             foreach (var message in _messages)
             {
                 AddMessageToReconstructConversation(
@@ -98,7 +106,7 @@ namespace Czat.Views
         public async void UpdateConversation()
         {
             _messagesToUpdate.Clear();
-            _messages = await MessageService.Get20LastMessages(_conversationResponse.Id);
+            _messages = await MessageService.Get20LastMessages(_conversationId);
 
             for (int i = _messages.Count - 1; i > 0; i--)
             {
@@ -138,7 +146,16 @@ namespace Czat.Views
                 return;
 
             AddMessage(TextOfMsg.Text, _me, DateTime.Now);
-            await MessageService.SendMessage(_conversationResponse.Id, TextOfMsg.Text);
+            try
+            {
+                await MessageService.SendMessage(_conversationId, TextOfMsg.Text);
+            }
+            catch (ApiException exp)
+            {
+                MessageBox.Show(exp.Message + " " + exp.StackTrace);
+                throw;
+            }
+
             TextOfMsg.Text = null;
         }
 

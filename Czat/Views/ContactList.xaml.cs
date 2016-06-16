@@ -66,7 +66,6 @@ namespace Czat.Views
         private async void AskServerForUpdate(object sender, ElapsedEventArgs e)
         {
             IList<long?> unreadMessagesSenders = await MessageService.GeUnreadMessages();
-
             //sprawdzenie czy sa nowi znajomi i odfiltrowanie ich z listy
             tempFriendList = await ContactListService.GetFriendList();
             if (tempFriendList.Count > FriendList.Count)
@@ -99,7 +98,7 @@ namespace Czat.Views
                 }));
             }
 
-            //aktualizacja nieodczytanych wiadomosci
+            //aktualizacja nieodczytanych wiadomosci prywatnych
             for (int i = 0; i < contacts.Count; i++)
             {
                 this.Dispatcher.Invoke((Action)(() =>
@@ -114,6 +113,15 @@ namespace Czat.Views
                 this.Dispatcher.Invoke((Action)(() =>
                 {
                     contactsControlls[i].UpdateAvatar(onlineResponse.Online);
+                }));
+            }
+
+            //aktualizacja nieodczytanych wiadomosci grupowych
+            for (int i = 0; i < groups.Count; i++)
+            {
+                this.Dispatcher.Invoke((Action)(() =>
+                {
+                    groupsControlls[i].SetUnreadMessageIcon(unreadMessagesSenders);
                 }));
             }
         }
