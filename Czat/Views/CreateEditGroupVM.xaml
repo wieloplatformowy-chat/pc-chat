@@ -1,0 +1,29 @@
+﻿<Window x:Class="Czat.Views.CreateEditGroupVM"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Czat.Views"
+        mc:Ignorable="d"
+        Icon="pack://siteoforigin:,,,/Resources/img/chmurka.ico"
+        Title="Tworzenie nowej grupy" Height="400" Width="250" WindowStyle="SingleBorderWindow" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <StackPanel VerticalAlignment="Top" Height="320">
+            <Grid VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="60" Background="#783293">
+                <TextBlock Text="Wybierz znajomych do konwersacji grupowej" VerticalAlignment="Center" HorizontalAlignment="Center"
+                       FontSize="18" Foreground="White" TextWrapping="Wrap" Height="50" />
+            </Grid>
+            <Grid>
+                <Grid Height="260" Width="240">
+                    <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                        <StackPanel x:Name="ListContainer" x:FieldModifier="public"></StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </Grid>
+        </StackPanel>
+        <Grid Height="50" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="#783293">
+            <TextBox x:Name="GroupNameInput" Width="120" Height="25" Margin="10,0,0,12.5" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
+            <Button x:Name="CreateButton" Content="Zatwierdź" Margin="0,0,10,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="80" Height="30" Style="{StaticResource MaterialDesignPrimaryButton}" />
+        </Grid>
+    </Grid>
+</Window>

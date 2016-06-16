@@ -1,0 +1,88 @@
+﻿<Window x:Class="Czat.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Okienko czatu" Height="600" Width="600" MinWidth="450" MinHeight="450"
+        Icon="pack://siteoforigin:,,,/Resources/img/chmurka.ico"
+        WindowStartupLocation="CenterScreen" Closed="Window_Closed">
+    <Grid Background="{StaticResource DarkerBackground}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="120"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+
+        <Grid Background="{StaticResource PrimaryBrush}" HorizontalAlignment="Stretch" Height="25" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Stretch">
+            <Button x:Name="FileButton" Content="Plik" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="60" Style="{StaticResource MaterialDesignPrimaryButton}" FontSize="12" />
+            <Button x:Name="PersonsButton" Content="Osoby" HorizontalAlignment="Left" Margin="60,0,0,0" VerticalAlignment="Top" Height="25" Width="70" Style="{StaticResource MaterialDesignPrimaryButton}" FontSize="12"/>
+        </Grid>
+        <Menu x:Name="Menu" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Height="50" Width="60" IsMainMenu="True" >
+            <MenuItem Header="_Plik" Background="{StaticResource PrimaryBrush}" Foreground="White" Height="25" Width="60" FontSize="12" Padding="20,0,0,0" >
+                <MenuItem x:Name="ExitItem" Header="_Zakończ" Foreground="Black" Height="15" Width="120" Padding="20,0,0,0" Click="ExitItem_Click"/>
+            </MenuItem>
+        </Menu>
+        <ScrollViewer x:Name="ChatScrollViewer" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Background="White" VerticalScrollBarVisibility="Auto">
+            <StackPanel x:Name="ChatPanel"/>
+        </ScrollViewer>
+        <TextBox x:Name="TextOfMsg" Grid.Row="2" Grid.Column="0" VerticalContentAlignment="Center" KeyDown="OnKeyDownHandler" Background="{StaticResource DarkerBackground}" BorderThickness="0" Padding="5,0"/>
+        <Button x:Name="ChooseEmote" Grid.Row="2" Grid.Column="1" Background="{x:Null}" Height="40" Width="40" Click="ChooseEmote_Click" Panel.ZIndex="1" Padding="0" BorderBrush="{x:Null}" BorderThickness="0">
+            <Image Source="pack://siteoforigin:,,,/Resources/img/ic_insert_emoticon_2x.png" />
+        </Button>
+        <Button x:Name="SendMsg" Grid.Row="2" Grid.Column="2" Content="Wyślij" Click="SendMsg_Click" Height="40" VerticalAlignment="Bottom" Style="{StaticResource MaterialDesignSecondaryButton}" FontSize="20" />
+        <Canvas Height="40" Width="40" Grid.Row="2" Grid.Column="1" Panel.ZIndex="0">
+            <Popup Name="EmotePopup" Width="150" Height="150" IsOpen="False" Placement="Top" StaysOpen="False">
+                <UniformGrid Background="{StaticResource SecondaryBrush}">
+                    <Button x:Name="EmoteSmile" Foreground="Transparent" Padding="0" BorderThickness="0" Width="30" Height="30" VerticalAlignment="Center" Content=":)" Click="Emote_Click" >
+                        <Button.Background>
+                            <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/img/EmoteSmile.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Button x:Name="EmoteWinkSmile" Foreground="Transparent" Padding="0" BorderThickness="0" Width="30" Height="30" VerticalAlignment="Center" Content=";)" Click="Emote_Click" >
+                        <Button.Background>
+                            <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/img/EmoteWinkSmile.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Button x:Name="EmoteGrin" Foreground="Transparent" Padding="0" BorderThickness="0" Width="30" Height="30" VerticalAlignment="Center" Content=":D" Click="Emote_Click" >
+                        <Button.Background>
+                            <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/img/EmoteGrin.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Button x:Name="EmoteSerious" Foreground="Transparent" Padding="0" BorderThickness="0" Width="30" Height="30" VerticalAlignment="Center" Content=":|" Click="Emote_Click" >
+                        <Button.Background>
+                            <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/img/EmoteSerious.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Button x:Name="EmoteUnsure" Foreground="Transparent" Padding="0" BorderThickness="0" Width="30" Height="30" VerticalAlignment="Center" Content=":/" Click="Emote_Click" >
+                        <Button.Background>
+                            <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/img/EmoteUnsure.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Button x:Name="EmoteSad" Foreground="Transparent" Padding="0" BorderThickness="0" Width="30" Height="30" VerticalAlignment="Center" Content=":(" Click="Emote_Click" >
+                        <Button.Background>
+                            <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/img/EmoteSad.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Button x:Name="EmoteWonder" Foreground="Transparent" Padding="0" BorderThickness="0" Width="30" Height="30" VerticalAlignment="Center" Content=":O" Click="Emote_Click" >
+                        <Button.Background>
+                            <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/img/EmoteWonder.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Button x:Name="EmoteAngry" Foreground="Transparent" Padding="0" BorderThickness="0" Width="30" Height="30" VerticalAlignment="Center" Content=">:(" Click="Emote_Click" >
+                        <Button.Background>
+                            <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/img/EmoteAngry.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Button x:Name="EmoteCry" Foreground="Transparent" Padding="0" BorderThickness="0" Width="30" Height="30" VerticalAlignment="Center" Content=":'(" Click="Emote_Click" >
+                        <Button.Background>
+                            <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/img/EmoteCry.png"/>
+                        </Button.Background>
+                    </Button>
+                </UniformGrid>
+            </Popup>
+        </Canvas>
+    </Grid>
+</Window>

@@ -1,0 +1,48 @@
+﻿<Window x:Class="Czat.Views.FriendSearch"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Czat.Views"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Icon="pack://siteoforigin:,,,/Resources/img/chmurka.ico"
+        Title="Znajdź swojego znajomego" Height="200" Width="250" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid Background="#FFffffff">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition />
+            <ColumnDefinition/>
+            <ColumnDefinition Width="10" />
+        </Grid.ColumnDefinitions>
+        
+        <Grid HorizontalAlignment="Stretch" Background="#FF009688" VerticalAlignment="Stretch" Grid.Row="0"
+              Grid.ColumnSpan="4" Grid.Column="0">
+            <TextBlock Text="Podaj nick znajomego" VerticalAlignment="Center" HorizontalAlignment="Center"
+                       FontSize="18" Foreground="White" />
+        </Grid>
+        
+        <TextBox Name="FriendName" materialDesign:HintAssist.Hint="Nazwa znajomego" FontSize="12"
+                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" Grid.Row="2" Grid.Column="1"
+                 Grid.ColumnSpan="2" Grid.RowSpan="2" CaretBrush="#FF727272" VerticalAlignment="Center" />
+
+        <Button x:Name="FindButton" Content="OK" Grid.Column="2" HorizontalAlignment="Right"  
+                Margin="0,0,0,0" Grid.Row="4" VerticalAlignment="Center" Width="60" Height="40" 
+                Style="{StaticResource MaterialDesignSecondaryButton}" 
+                Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF009688" FontWeight="Bold"
+                Click="FindButton_Click" />
+        
+        <Button x:Name="CancelButton" Content="ANULUJ" Grid.Column="2" HorizontalAlignment="Left" 
+                Margin="0,0,0,0" Grid.Row="4" VerticalAlignment="Center" Width="60" Height="40" 
+                Style="{StaticResource MaterialDesignDefaultButton}" 
+                Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Black" UseLayoutRounding="False" 
+                Padding="0,4" FontSize="13" Click="CancelButton_Click"/>
+    </Grid>
+</Window>
