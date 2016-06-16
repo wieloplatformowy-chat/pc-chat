@@ -23,6 +23,7 @@ namespace Czat.Views
         /// <summary>
         /// Time in seconds after which messages of the same sender are written separately
         /// </summary>
+        ///
 
         private const double MergeInterval = 15;
 
@@ -31,7 +32,7 @@ namespace Czat.Views
         private TimeSpan _timeRange;
         private MessageRow _lastMessageRow;
         private ContactListContactData _me;
-		private ContactListContactData _myFriend;
+        private ContactListContactData _myFriend;
         private ContactListContactData _currentSender;
         private ContactListContactData _previousSender;
         private Dictionary<string, string> _emoteDictionary;
@@ -91,14 +92,14 @@ namespace Czat.Views
             {
                 _conversationId = friend.Id;
             }
-                 
+
             _messages = await MessageService.Get20LastMessages(_conversationId);
             foreach (var message in _messages)
             {
                 AddMessageToReconstructConversation(
-                    message.Message, 
+                    message.Message,
                     _me.Id == message.UserId ? _me : _myFriend,
-                    message.Date, 
+                    message.Date,
                     message.Id
                 );
             }
@@ -181,7 +182,7 @@ namespace Czat.Views
             _timeRange = _currentTime - _previousTime;
 
             // Checks if new or merged message
-            if (_timeRange.TotalSeconds <= MergeInterval && areTheSameSenders) 
+            if (_timeRange.TotalSeconds <= MergeInterval && areTheSameSenders)
                 isNewMessage = false;
 
             if (isNewMessage)
@@ -226,12 +227,12 @@ namespace Czat.Views
         /// </summary>
         /// <param name="message">Content of the message</param>
         /// <returns>Slices of the message</returns>
-        private static IEnumerable<string> SplitMessageByEmoticons(string message) 
+        private static IEnumerable<string> SplitMessageByEmoticons(string message)
         {
             const string pattern = @"((?::|;|>:)\S+)"; // All texts starting with : or ; or >: up to whitespace
             return Regex.Split(message, pattern);
         }
-		
+
         /// <summary>
         /// Adds text of message or emoticon image to MessageControl
         /// </summary>
@@ -298,7 +299,7 @@ namespace Czat.Views
         /// <param name="e"></param>
         private void Emote_Click(object sender, RoutedEventArgs e)
         {
-            TextOfMsg.Text += ((ContentControl) sender).Content + " ";
+            TextOfMsg.Text += ((ContentControl)sender).Content + " ";
             EmotePopup.IsOpen = false;
             TextOfMsg.Focus();
             TextOfMsg.SelectionStart = TextOfMsg.Text.Length;

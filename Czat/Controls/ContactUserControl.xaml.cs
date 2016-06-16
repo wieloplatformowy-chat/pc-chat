@@ -69,6 +69,11 @@ namespace Czat.Helpers
             NameLabel.Text = newName;
         }
 
+        public void UpdateName(string newName)
+        {
+            NameLabel.Text = newName;
+        }
+
         public void UpdateAvatar(bool status)
         {
             if (online != status)

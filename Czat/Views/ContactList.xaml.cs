@@ -24,16 +24,19 @@ namespace Czat.Views
     /// </summary>
     public partial class ContactList : Window
     {
+        private static ContactList instance = null;
+        public static ContactList Instance { get { return instance; } }
+
         public UserRestService UserService { get; }
         public ContactListRestService ContactListService { get; }
         public MessageRestService MessageService { get; }
         public ContactListContactData CurrentUser { get { return currentUser; } }
         public GroupRestService GroupService { get; }
-
         public IList<UserDTO> FriendList;
+        public List<ContactListContactData> Contacts;
+
         private IList<UserDTO> tempFriendList;
         private IList<GroupDTO> groupList;
-        private List<ContactListContactData> contacts;
         private List<ContactUserControl> contactsControlls;
         private List<ContactListContactData> groups;
         private List<ContactUserControl> groupsControlls;
@@ -46,8 +49,9 @@ namespace Czat.Views
             ContactListService = IoC.Resolve<ContactListRestService>();
             MessageService = IoC.Resolve<MessageRestService>();
             GroupService = IoC.Resolve<GroupRestService>();
+            instance = this;
 
-            contacts = new List<ContactListContactData>();
+            Contacts = new List<ContactListContactData>();
             groups = new List<ContactListContactData>();
             contactsControlls = new List<ContactUserControl>();
             groupsControlls = new List<ContactUserControl>();
@@ -92,14 +96,14 @@ namespace Czat.Views
                         FriendList.Add(tempFriendList[i]);
                         contactControl.SetUnreadMessageIcon(unreadMessagesSenders);
                         contactsControlls.Add(contactControl);
-                        contacts.Add(contact);
-                        ListContainer.Children.Insert(contacts.Count, contactControl);
+                        Contacts.Add(contact);
+                        ListContainer.Children.Insert(Contacts.Count, contactControl);
                     }
                 }));
             }
 
             //aktualizacja nieodczytanych wiadomosci prywatnych
-            for (int i = 0; i < contacts.Count; i++)
+            for (int i = 0; i < Contacts.Count; i++)
             {
                 this.Dispatcher.Invoke((Action)(() =>
                 {
@@ -147,7 +151,7 @@ namespace Czat.Views
                 ContactUserControl contactControl = new ContactUserControl(contact, currentUser);
                 contactControl.SetUnreadMessageIcon(unreadMessagesSenders);
                 contactsControlls.Add(contactControl);
-                contacts.Add(contact);
+                Contacts.Add(contact);
                 ListContainer.Children.Add(contactControl);
             }
 
@@ -173,32 +177,44 @@ namespace Czat.Views
 
         private void CreateNewGroupButton_Click(object sender, RoutedEventArgs e)
         {
-            new CreateGroupVM(contacts, this).Show();
+            new CreateEditGroupVM(Contacts, this).Show();
         }
 
         public void AddNewContact(ContactListContactData contact)
         {
-            contacts.Add(contact);
+            Contacts.Add(contact);
             ContactUserControl contactControl = new ContactUserControl(contact, currentUser);
             contactsControlls.Add(contactControl);
-            ListContainer.Children.Insert(contacts.Count, contactControl);
+            ListContainer.Children.Insert(Contacts.Count, contactControl);
         }
 
         public void AddNewGroup(ContactListContactData contact)
         {
             groups.Add(contact);
             ContactUserControl contactControl = new ContactUserControl(contact, currentUser);
-            contactsControlls.Add(contactControl);
+            groupsControlls.Add(contactControl);
             ListContainer.Children.Add(contactControl);
         }
 
         public void RemoveContact(ContactListContactData contact)
         {
-            contacts.Remove(contact);
+            Contacts.Remove(contact);
             for (int i = 0; i < FriendList.Count; i++)
             {
                 if (contact.Id == FriendList[i].Id)
                     FriendList.Remove(FriendList[i]);
+            }
+        }
+
+        public void UpdateGroupName(ContactListContactData group, string newName)
+        {
+            foreach (ContactUserControl groupControl in groupsControlls)
+            {
+                if (group.Id == groupControl.ContactData.Id)
+                {
+                    groupControl.UpdateName(newName);
+                    return;
+                }
             }
         }
     }
