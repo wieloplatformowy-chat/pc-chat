@@ -33,6 +33,7 @@ namespace Czat.Views
             ContactListService = IoC.Resolve<ContactListRestService>();
             contactListReference = contactList;
             InitializeComponent();
+            FindButton.IsEnabled = true;
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -53,7 +54,14 @@ namespace Czat.Views
                         await ContactListService.AddFriend(potentialFriendsList[i].Id);
                         ContactListContactData contact = new ContactListContactData { Id = potentialFriendsList[i].Id, Name = potentialFriendsList[i].Name, IsOnline = true, IsPerson = true, Email = potentialFriendsList[i].Email };
                         contactListReference.AddNewContact(contact);
+                        contactListReference.FriendList.Add(potentialFriendsList[i]);
                         Window.GetWindow(this).Close();
+                        break;
+                    }
+                    else
+                    {
+                        FindButton.IsEnabled = true;
+                        MessageBox.Show("Nie ma takiego użytkownika!");
                         break;
                     }
                 }
@@ -62,7 +70,7 @@ namespace Czat.Views
             {
                 FindButton.IsEnabled = true;
                 // Get rid of MessageBox
-                MessageBox.Show(apiException.Message, "Wystąpił błąd");
+                MessageBox.Show(apiException.Message + " " + apiException.ErrorData, "Wystąpił błąd");
                 return;
             }
         }

@@ -24,15 +24,19 @@ namespace Czat.Views
     /// </summary>
     public partial class ContactList : Window
     {
+        private static ContactList instance = null;
+        public static ContactList Instance { get { return instance; } }
+
         public UserRestService UserService { get; }
         public ContactListRestService ContactListService { get; }
         public MessageRestService MessageService { get; }
         public ContactListContactData CurrentUser { get { return currentUser; } }
         public GroupRestService GroupService { get; }
+        public IList<UserDTO> FriendList;
+        public List<ContactListContactData> Contacts;
 
-        private IList<UserDTO> friendList;
+        private IList<UserDTO> tempFriendList;
         private IList<GroupDTO> groupList;
-        private List<ContactListContactData> contacts;
         private List<ContactUserControl> contactsControlls;
         private List<ContactListContactData> groups;
         private List<ContactUserControl> groupsControlls;
@@ -45,7 +49,9 @@ namespace Czat.Views
             ContactListService = IoC.Resolve<ContactListRestService>();
             MessageService = IoC.Resolve<MessageRestService>();
             GroupService = IoC.Resolve<GroupRestService>();
-            contacts = new List<ContactListContactData>();
+            instance = this;
+
+            Contacts = new List<ContactListContactData>();
             groups = new List<ContactListContactData>();
             contactsControlls = new List<ContactUserControl>();
             groupsControlls = new List<ContactUserControl>();
@@ -57,12 +63,54 @@ namespace Czat.Views
         private void SetTimer()
         {
             timer = new Timer(5000);
-            timer.Elapsed += new ElapsedEventHandler(AskServerForChanges);
+            timer.Elapsed += new ElapsedEventHandler(AskServerForUpdate);
             timer.Enabled = true;
         }
 
-        private async void AskServerForChanges(object sender, ElapsedEventArgs e)
+        private async void AskServerForUpdate(object sender, ElapsedEventArgs e)
         {
+            IList<long?> unreadMessagesSenders = await MessageService.GeUnreadMessages();
+            //sprawdzenie czy sa nowi znajomi i odfiltrowanie ich z listy
+            tempFriendList = await ContactListService.GetFriendList();
+            if (tempFriendList.Count > FriendList.Count)
+            {
+                List<UserDTO> newFriends = new List<UserDTO>();
+                for (int i = tempFriendList.Count - 1; i >= 0; i--)
+                {
+                    for (int j = 0; j < FriendList.Count; j++)
+                    {
+                        if (tempFriendList[i].Id == FriendList[j].Id)
+                        {
+                            tempFriendList.RemoveAt(i);
+                            break;
+                        }
+                    }
+                }
+                this.Dispatcher.Invoke((Action)(() =>
+                {
+                    //dodanie ludzi, ktorzy dodali nas do znajomych
+                    for (int i = 0; i < tempFriendList.Count; i++)
+                    {
+                        ContactListContactData contact = new ContactListContactData { Id = tempFriendList[i].Id, Name = tempFriendList[i].Name, IsOnline = true, IsPerson = true, Email = tempFriendList[i].Email, Users = null };
+                        ContactUserControl contactControl = new ContactUserControl(contact, currentUser);
+                        FriendList.Add(tempFriendList[i]);
+                        contactControl.SetUnreadMessageIcon(unreadMessagesSenders);
+                        contactsControlls.Add(contactControl);
+                        Contacts.Add(contact);
+                        ListContainer.Children.Insert(Contacts.Count, contactControl);
+                    }
+                }));
+            }
+
+            //aktualizacja nieodczytanych wiadomosci prywatnych
+            for (int i = 0; i < Contacts.Count; i++)
+            {
+                this.Dispatcher.Invoke((Action)(() =>
+                {
+                    contactsControlls[i].SetUnreadMessageIcon(unreadMessagesSenders);
+                }));
+            }
+
             for (int i = 0; i < contactsControlls.Count; i++)
             {
                 OnlineResponse onlineResponse = await ContactListService.IsUserOnline(contactsControlls[i].ContactData.Id);
@@ -72,13 +120,12 @@ namespace Czat.Views
                 }));
             }
 
-            IList<long?> unreadMessagesSenders = await MessageService.GeUnreadMessages();
-
-            for (int i = 0; i < contactsControlls.Count; i++)
+            //aktualizacja nieodczytanych wiadomosci grupowych
+            for (int i = 0; i < groups.Count; i++)
             {
                 this.Dispatcher.Invoke((Action)(() =>
                 {
-                    contactsControlls[i].SetUnreadMessageIcon(unreadMessagesSenders);
+                    groupsControlls[i].SetUnreadMessageIcon(unreadMessagesSenders);
                 }));
             }
         }
@@ -96,15 +143,15 @@ namespace Czat.Views
 
             IList<long?> unreadMessagesSenders = await MessageService.GeUnreadMessages();
 
-            friendList = await ContactListService.GetFriendList();
-            for (int i = 0; i < friendList.Count; i++)
+            FriendList = await ContactListService.GetFriendList();
+            for (int i = 0; i < FriendList.Count; i++)
             {
-                OnlineResponse onlineResponse = await ContactListService.IsUserOnline(friendList[i].Id);
-                ContactListContactData contact = new ContactListContactData { Id = friendList[i].Id, Name = friendList[i].Name, IsOnline = onlineResponse.Online, IsPerson = true, Email = currentUserDTO.Email, Users = null };
+                OnlineResponse onlineResponse = await ContactListService.IsUserOnline(FriendList[i].Id);
+                ContactListContactData contact = new ContactListContactData { Id = FriendList[i].Id, Name = FriendList[i].Name, IsOnline = onlineResponse.Online, IsPerson = true, Email = FriendList[i].Email, Users = null };
                 ContactUserControl contactControl = new ContactUserControl(contact, currentUser);
                 contactControl.SetUnreadMessageIcon(unreadMessagesSenders);
                 contactsControlls.Add(contactControl);
-                contacts.Add(contact);
+                Contacts.Add(contact);
                 ListContainer.Children.Add(contactControl);
             }
 
@@ -130,26 +177,45 @@ namespace Czat.Views
 
         private void CreateNewGroupButton_Click(object sender, RoutedEventArgs e)
         {
-            new CreateGroupVM(contacts, this).Show();
+            new CreateEditGroupVM(Contacts, this).Show();
         }
 
         public void AddNewContact(ContactListContactData contact)
         {
-            contacts.Add(contact);
+            Contacts.Add(contact);
             ContactUserControl contactControl = new ContactUserControl(contact, currentUser);
-            ListContainer.Children.Insert(contacts.Count, contactControl);
+            contactsControlls.Add(contactControl);
+            ListContainer.Children.Insert(Contacts.Count, contactControl);
         }
 
         public void AddNewGroup(ContactListContactData contact)
         {
             groups.Add(contact);
             ContactUserControl contactControl = new ContactUserControl(contact, currentUser);
+            groupsControlls.Add(contactControl);
             ListContainer.Children.Add(contactControl);
         }
 
         public void RemoveContact(ContactListContactData contact)
         {
-            contacts.Remove(contact);
+            Contacts.Remove(contact);
+            for (int i = 0; i < FriendList.Count; i++)
+            {
+                if (contact.Id == FriendList[i].Id)
+                    FriendList.Remove(FriendList[i]);
+            }
+        }
+
+        public void UpdateGroupName(ContactListContactData group, string newName)
+        {
+            foreach (ContactUserControl groupControl in groupsControlls)
+            {
+                if (group.Id == groupControl.ContactData.Id)
+                {
+                    groupControl.UpdateName(newName);
+                    return;
+                }
+            }
         }
     }
 }

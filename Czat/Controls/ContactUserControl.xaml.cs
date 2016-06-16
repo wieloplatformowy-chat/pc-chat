@@ -45,13 +45,28 @@ namespace Czat.Helpers
             MessageService = IoC.Resolve<MessageRestService>();
             ContactData = contactData;
             currentUser = me;
-            this.DataContext = ContactData;
+            NameLabel.Text = ContactData.Name;
             string hash = GravatarHelper.HashEmailForGravatar(ContactData.Email);
             avatar = GravatarHelper.GetGravatarImage(string.Format("http://www.gravatar.com/avatar/{0}?size=80", hash));
             online = contactData.IsOnline;
+            if (!contactData.IsPerson)
+            {
+                RemoveEditButton.Content = "Edytuj";
+                RemoveEditButton.Click += EditGroup_Click;
+            }
+            else
+            {
+                RemoveEditButton.Content = "Usuń";
+                RemoveEditButton.Click += RemoveFriend_Click;
+            }
             SetAvatar();
             var location = Assembly.GetEntryAssembly().Location;
             _soundDirectoryPath = Path.GetDirectoryName(location) + @"\Resources\sound\sound.wav";
+        }
+
+        public void UpdateName(string newName)
+        {
+            NameLabel.Text = newName;
         }
 
         public void UpdateAvatar(bool status)
@@ -67,21 +82,25 @@ namespace Czat.Helpers
         {
             if (!ContactData.IsPerson)
             {
-                string hash = GravatarHelper.HashEmailForGravatar(ContactData.Name);
                 Avatar.ImageSource = avatar;
                 OnlineIcon.Opacity = 0;
+                NameLabel.Opacity = 1;
                 return;
             }
             if (online || !ContactData.IsPerson)
             {
-                string hash = GravatarHelper.HashEmailForGravatar(ContactData.Email);
                 Avatar.ImageSource = avatar;
                 OnlineIcon.Opacity = 1;
+                NameLabel.Opacity = 1;
             }
             else
             {
-                Avatar.ImageSource = new FormatConvertedBitmap(avatar, PixelFormats.Gray32Float, null, 0);
-                OnlineIcon.Opacity = 0;
+                this.Dispatcher.InvokeAsync((Action)(() =>
+                {
+                    Avatar.ImageSource = new FormatConvertedBitmap(avatar, PixelFormats.Gray32Float, null, 0);
+                    OnlineIcon.Opacity = 0;
+                    NameLabel.Opacity = 0.5;
+                })).Task.Wait(100);
             }
         }
 
@@ -97,14 +116,32 @@ namespace Czat.Helpers
                         IList<MessageModel> messages = await MessageService.Get20LastMessages(conversationResponse.Id);
                         if (messages[messages.Count - 1].UserId == ContactData.Id)
                         {
-                            UnreadMessageIcon.Opacity = 1;
                             if (IsConversationWindowVisible)
                                 conversationWindow.UpdateConversation();
                             else
                             {
                                 SoundPlayer player = new SoundPlayer(_soundDirectoryPath);
                                 player.Play();
+                                UnreadMessageIcon.Opacity = 1;
                             }
+                            return;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for (int j = unreadMessagesSenders.Count - 1; j >= 0; j--)
+                {
+                    if (unreadMessagesSenders[j] == ContactData.Id)
+                    {
+                        IList<MessageModel> messages = await MessageService.Get20LastMessages(ContactData.Id);
+                        if (messages[messages.Count - 1].UserId != currentUser.Id)
+                        {
+                            if (IsConversationWindowVisible)
+                                conversationWindow.UpdateConversation();
+                            else
+                                UnreadMessageIcon.Opacity = 1;
                             return;
                         }
                     }
@@ -112,17 +149,15 @@ namespace Czat.Helpers
             }
         }
 
+        private void EditGroup_Click(object sender, RoutedEventArgs e)
+        {
+            new CreateEditGroupVM(ContactList.Instance.Contacts, ContactList.Instance, ContactData).Show();
+        }
+
         private async void RemoveFriend_Click(object sender, RoutedEventArgs e)
         {
             await ContactListService.RemoveFriend(ContactData.Id);
-            foreach (Window window in Application.Current.Windows)
-            {   
-                if (window.GetType() == typeof(ContactList))
-                {
-                    (window as ContactList).RemoveContact(ContactData);
-                    break;
-                }
-            }
+            ContactList.Instance.RemoveContact(ContactData);
             ((StackPanel)this.Parent).Children.Remove(this);
         }
 
@@ -131,7 +166,7 @@ namespace Czat.Helpers
             if (!IsConversationWindowVisible || !ConversationWindow.IsVisible)
             {
                 IsConversationWindowVisible = true;
-                conversationWindow = new MainWindow(currentUser, ContactData);
+                conversationWindow = new MainWindow(currentUser, ContactData, this);
                 conversationWindow.Title = ContactData.Name;
                 ConversationWindow.Show();
                 UnreadMessageIcon.Opacity = 0;

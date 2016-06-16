@@ -116,8 +116,8 @@
     <Compile Include="Views\ContactList.xaml.cs">
       <DependentUpon>ContactList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CreateGroupVM.xaml.cs">
-      <DependentUpon>CreateGroupVM.xaml</DependentUpon>
+    <Compile Include="Views\CreateEditGroupVM.xaml.cs">
+      <DependentUpon>CreateEditGroupVM.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FriendSearch.xaml.cs">
       <DependentUpon>FriendSearch.xaml</DependentUpon>
@@ -153,7 +153,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CreateGroupVM.xaml">
+    <Page Include="Views\CreateEditGroupVM.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

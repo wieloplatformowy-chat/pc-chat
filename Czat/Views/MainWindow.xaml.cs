@@ -12,6 +12,7 @@ using RestApiService.Services;
 using Czat.Helpers;
 using System.IO;
 using System.Reflection;
+using RestApiService;
 
 namespace Czat.Views
 {
@@ -23,6 +24,7 @@ namespace Czat.Views
         /// <summary>
         /// Time in seconds after which messages of the same sender are written separately
         /// </summary>
+        ///
 
         private const double MergeInterval = 15;
 
@@ -31,7 +33,7 @@ namespace Czat.Views
         private TimeSpan _timeRange;
         private MessageRow _lastMessageRow;
         private ContactListContactData _me;
-		private ContactListContactData _myFriend;
+        private ContactListContactData _myFriend;
         private ContactListContactData _currentSender;
         private ContactListContactData _previousSender;
         private Dictionary<string, string> _emoteDictionary;
@@ -39,14 +41,15 @@ namespace Czat.Views
         public ConversationRestService ConversationService { get; }
         public MessageRestService MessageService { get; }
 
-        private ConversationsResponse _conversationResponse;
+        private long? _conversationId;
         private IList<MessageModel> _messages;
         private readonly List<MessageModel> _messagesToUpdate;
         private long? _lastReceivedMsg;
         private readonly Dictionary<long?, BitmapImage> _avatars;
         private readonly string _imagesDirectoryPath;
+        private ContactUserControl _friendUserControl;
 
-        public MainWindow(ContactListContactData currentUser, ContactListContactData friend)
+        public MainWindow(ContactListContactData currentUser, ContactListContactData friend, ContactUserControl userControl)
         {
             ConversationService = IoC.Resolve<ConversationRestService>();
             MessageService = IoC.Resolve<MessageRestService>();
@@ -55,7 +58,7 @@ namespace Czat.Views
             GetConversationAndMessages(currentUser, friend);
             _messagesToUpdate = new List<MessageModel>();
             _avatars = new Dictionary<long?, BitmapImage>();
-
+            _friendUserControl = userControl;
             var location = Assembly.GetEntryAssembly().Location;
             _imagesDirectoryPath = Path.GetDirectoryName(location) + @"\Resources\img\";
         }
@@ -80,16 +83,24 @@ namespace Czat.Views
         {
             _me = currentUser;
             _myFriend = friend;
-         
-            _conversationResponse = await ConversationService.GetConversationWithUser(friend.Id);
-            _messages = await MessageService.Get20LastMessages(_conversationResponse.Id);
 
+            if (friend.IsPerson)
+            {
+                ConversationsResponse _conversationResponse = await ConversationService.GetConversationWithUser(friend.Id);
+                _conversationId = _conversationResponse.Id;
+            }
+            else
+            {
+                _conversationId = friend.Id;
+            }
+
+            _messages = await MessageService.Get20LastMessages(_conversationId);
             foreach (var message in _messages)
             {
                 AddMessageToReconstructConversation(
-                    message.Message, 
+                    message.Message,
                     _me.Id == message.UserId ? _me : _myFriend,
-                    message.Date, 
+                    message.Date,
                     message.Id
                 );
             }
@@ -98,7 +109,7 @@ namespace Czat.Views
         public async void UpdateConversation()
         {
             _messagesToUpdate.Clear();
-            _messages = await MessageService.Get20LastMessages(_conversationResponse.Id);
+            _messages = await MessageService.Get20LastMessages(_conversationId);
 
             for (int i = _messages.Count - 1; i > 0; i--)
             {
@@ -107,7 +118,7 @@ namespace Czat.Views
                     if (_messages[i].Id > _lastReceivedMsg)
                         _messagesToUpdate.Add(_messages[i]);
                     else
-                        return;
+                        break;
                 }
             }
 
@@ -138,7 +149,16 @@ namespace Czat.Views
                 return;
 
             AddMessage(TextOfMsg.Text, _me, DateTime.Now);
-            await MessageService.SendMessage(_conversationResponse.Id, TextOfMsg.Text);
+            try
+            {
+                await MessageService.SendMessage(_conversationId, TextOfMsg.Text);
+            }
+            catch (ApiException exp)
+            {
+                MessageBox.Show(exp.Message + " " + exp.StackTrace);
+                throw;
+            }
+
             TextOfMsg.Text = null;
         }
 
@@ -163,7 +183,7 @@ namespace Czat.Views
             _timeRange = _currentTime - _previousTime;
 
             // Checks if new or merged message
-            if (_timeRange.TotalSeconds <= MergeInterval && areTheSameSenders) 
+            if (_timeRange.TotalSeconds <= MergeInterval && areTheSameSenders)
                 isNewMessage = false;
 
             if (isNewMessage)
@@ -208,12 +228,12 @@ namespace Czat.Views
         /// </summary>
         /// <param name="message">Content of the message</param>
         /// <returns>Slices of the message</returns>
-        private static IEnumerable<string> SplitMessageByEmoticons(string message) 
+        private static IEnumerable<string> SplitMessageByEmoticons(string message)
         {
             const string pattern = @"((?::|;|>:)\S+)"; // All texts starting with : or ; or >: up to whitespace
             return Regex.Split(message, pattern);
         }
-		
+
         /// <summary>
         /// Adds text of message or emoticon image to MessageControl
         /// </summary>
@@ -280,7 +300,7 @@ namespace Czat.Views
         /// <param name="e"></param>
         private void Emote_Click(object sender, RoutedEventArgs e)
         {
-            TextOfMsg.Text += ((ContentControl) sender).Content + " ";
+            TextOfMsg.Text += ((ContentControl)sender).Content + " ";
             EmotePopup.IsOpen = false;
             TextOfMsg.Focus();
             TextOfMsg.SelectionStart = TextOfMsg.Text.Length;
@@ -294,6 +314,7 @@ namespace Czat.Views
         private void ExitItem_Click(object sender, RoutedEventArgs e)
         {
             Close();
+            _friendUserControl.IsConversationWindowVisible = false;
         }
 
         private void AddMessageToReconstructConversation(string message, ContactListContactData sender, long? sendTime, long? messageId)
@@ -304,6 +325,11 @@ namespace Czat.Views
             AddMessage(message, sender, lastMsgDate);
 
             _lastReceivedMsg = messageId;
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            _friendUserControl.IsConversationWindowVisible = false;
         }
     }
 }

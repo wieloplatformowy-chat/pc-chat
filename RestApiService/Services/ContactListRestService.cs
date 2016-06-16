@@ -29,7 +29,7 @@ namespace RestApiService.Services
 
         public async Task<GeneralStringResponse> RemoveFriend(long? id)
         {
-            var response = await Client.CallApiDeleteJson<GeneralStringResponse>($"/friends/delete/{id}", new { ID = id });
+            var response = await Client.CallApiDeleteJson<GeneralStringResponse>($"/friends/delete/{id}", new { Id = id });
             return response;
         }
 

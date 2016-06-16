@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Okienko czatu" Height="600" Width="600" MinWidth="450" MinHeight="450"
         Icon="pack://siteoforigin:,,,/Resources/img/chmurka.ico"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen" Closed="Window_Closed">
     <Grid Background="{StaticResource DarkerBackground}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
