@@ -154,10 +154,8 @@ namespace Czat.Helpers
                     if (unreadMessagesSenders[j] == ContactData.Id)
                     {
                         IList<MessageModel> messages = await MessageService.Get20LastMessages(ContactData.Id);
-                        MessageBox.Show("SA NOWE");
                         if (messages[messages.Count - 1].UserId != currentUser.Id)
                         {
-                            MessageBox.Show("OD KOGOS");
                             if (IsConversationWindowVisible)
                                 conversationWindow.UpdateConversation();
                             else

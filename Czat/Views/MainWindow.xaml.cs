@@ -45,8 +45,9 @@ namespace Czat.Views
         private long? _lastReceivedMsg;
         private readonly Dictionary<long?, BitmapImage> _avatars;
         private readonly string _imagesDirectoryPath;
+        private ContactUserControl _friendUserControl;
 
-        public MainWindow(ContactListContactData currentUser, ContactListContactData friend)
+        public MainWindow(ContactListContactData currentUser, ContactListContactData friend, ContactUserControl userControl)
         {
             ConversationService = IoC.Resolve<ConversationRestService>();
             MessageService = IoC.Resolve<MessageRestService>();
@@ -55,7 +56,7 @@ namespace Czat.Views
             GetConversationAndMessages(currentUser, friend);
             _messagesToUpdate = new List<MessageModel>();
             _avatars = new Dictionary<long?, BitmapImage>();
-
+            _friendUserControl = userControl;
             var location = Assembly.GetEntryAssembly().Location;
             _imagesDirectoryPath = Path.GetDirectoryName(location) + @"\Resources\img\";
         }
@@ -311,6 +312,7 @@ namespace Czat.Views
         private void ExitItem_Click(object sender, RoutedEventArgs e)
         {
             Close();
+            _friendUserControl.IsConversationWindowVisible = false;
         }
 
         private void AddMessageToReconstructConversation(string message, ContactListContactData sender, long? sendTime, long? messageId)
@@ -321,6 +323,11 @@ namespace Czat.Views
             AddMessage(message, sender, lastMsgDate);
 
             _lastReceivedMsg = messageId;
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            _friendUserControl.IsConversationWindowVisible = false;
         }
     }
 }
